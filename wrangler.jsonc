@@ -1,0 +1,39 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "chessroot",
+  "main": "worker.ts",
+  "compatibility_date": "2026-05-27",
+  "assets": {
+    "directory": "dist/chess-app/browser",
+    "binding": "ASSETS",
+  },
+  "compatibility_flags": ["nodejs_compat"],
+  "env": {
+    "development": {
+      "name": "chessroot-dev",
+      "vars": {
+        "ENVIRONMENT": "development",
+      },
+    },
+    "production": {
+      "vars": {
+        "ENVIRONMENT": "production",
+      },
+    },
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true,
+    },
+    "traces": {
+      "enabled": true,
+      "persist": true,
+      "head_sampling_rate": 1,
+    },
+  },
+}

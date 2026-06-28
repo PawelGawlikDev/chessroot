@@ -1,0 +1,55 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "composite": true,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "types": ["node"],
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@model": ["src/app/model"],
+      "@model/*": ["src/app/model/*"],
+      "@services": ["src/app/services"],
+      "@services/*": ["src/app/services/*"],
+      "@utils": ["src/app/utils"],
+      "@utils/*": ["src/app/utils/*"],
+      "@achievements": ["src/app/achievements"],
+      "@achievements/*": ["src/app/achievements/*"],
+      "@enums": ["src/app/enums"],
+      "@enums/*": ["src/app/enums/*"],
+      "@state": ["src/app/state"],
+      "@state/*": ["src/app/state/*"],
+      "@components": ["src/app/components"],
+      "@components/*": ["src/app/components/*"],
+      "@pipes": ["src/app/pipes"],
+      "@pipes/*": ["src/app/pipes/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "files": ["playwright.config.ts"],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+.achievements__category {
+  margin-bottom: var(--cr-stack-lg);
+}
+.achievements__category-title {
+  font-size: var(--cr-label-caps-size);
+  font-weight: var(--cr-label-caps-weight);
+  line-height: var(--cr-label-caps-line);
+  letter-spacing: var(--cr-label-caps-letter);
+  text-transform: uppercase;
+  color: var(--cr-on-surface-variant);
+  margin-bottom: var(--cr-stack-md);
+  padding-bottom: var(--cr-stack-sm);
+  border-bottom: 1px solid var(--cr-outline-variant);
+}
+@media (max-width: 37.5rem) {
+  .achievements__category-title {
+    font-size: var(--cr-label-caps-size);
+  }
+}
+.achievements__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(17.5rem, 100%), 1fr));
+  gap: 0.75rem;
+  align-items: start;
+}

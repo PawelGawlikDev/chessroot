@@ -1,0 +1,116 @@
+.filter-form {
+  display: flex;
+  flex-direction: column;
+
+  &__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  &__username {
+    flex: 1 1 14rem;
+    min-width: 10rem;
+  }
+
+  &__platform {
+    flex: 0 1 10rem;
+    min-width: 7rem;
+  }
+
+  &__color {
+    flex: 0 1 8rem;
+    min-width: 6rem;
+  }
+
+  &__accordion {
+    margin-top: 0.25rem;
+  }
+
+  .mat-expansion-panel {
+    --mat-expansion-header-collapsed-state-height: 2.25rem;
+    --mat-expansion-header-expanded-state-height: 2.25rem;
+    --mat-expansion-container-shape: var(--cr-rounded-md);
+    border: 1px solid var(--cr-outline-variant);
+    box-shadow: none;
+    background: none;
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0 0.75rem;
+  }
+
+  .mat-expansion-panel-body {
+    padding: 0 0.75rem 0.75rem;
+  }
+
+  &__panel-title {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cr-on-surface-variant);
+  }
+
+  &__panel-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    color: var(--cr-on-surface-variant);
+  }
+
+  &__expand-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    margin-left: auto;
+    color: var(--cr-on-surface-variant);
+    transition: transform 0.2s;
+  }
+
+  &__filters-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    .mat-mdc-form-field {
+      flex: 1 1 10rem;
+      min-width: 7rem;
+    }
+  }
+
+  &__time {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__time-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--cr-on-surface-variant);
+  }
+
+  &__checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+  }
+}
+
+.mat-mdc-form-field.mat-mdc-form-field {
+  font-size: 0.85rem;
+}

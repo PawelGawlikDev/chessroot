@@ -1,0 +1,53 @@
+<div class="fetch-panel">
+  <div class="fetch-panel__header">
+    <div class="fetch-panel__title-group">
+      @if (headerIcon(); as icon) {
+        <mat-icon class="fetch-panel__title-icon">{{ icon }}</mat-icon>
+      }
+      <h2 class="fetch-panel__title">{{ title() }}</h2>
+    </div>
+
+    <button class="fetch-panel__btn" (click)="fetch.emit()" [disabled]="isButtonDisabled()">
+      @if (isLoading()) {
+        <mat-spinner diameter="16" />
+      } @else {
+        <mat-icon>{{ buttonIcon() }}</mat-icon>
+      }
+      <span>{{ buttonLabel() }}</span>
+    </button>
+  </div>
+
+  <cr-user-data-form
+    [(username)]="username"
+    [showColorFilter]="showColorFilter()"
+  ></cr-user-data-form>
+
+  <ng-content></ng-content>
+
+  @if (isLoading()) {
+    <div class="fetch-panel__progress">
+      @if (!$isExplorerPage()) {
+        <div class="fetch-panel__progress-track">
+          <div class="fetch-panel__progress-fill" [style.width.%]="progress()"></div>
+        </div>
+        <div class="fetch-panel__progress-stats">
+          <span class="fetch-panel__progress-pct">{{ progress() }}%</span>
+          <span class="fetch-panel__progress-count"
+            >{{ gamesAnalyzed() }} / {{ totalGames() || gameCount() }} games</span
+          >
+          @if (extraStat()) {
+            <span class="fetch-panel__progress-extra">{{ extraStat() }}</span>
+          }
+        </div>
+      } @else {
+        <div class="fetch-panel__progress-stats">
+          <span>Fetched {{ gamesAnalyzed() }} games</span>
+        </div>
+      }
+    </div>
+  }
+
+  @if (summary(); as summaryText) {
+    <div class="fetch-panel__summary" [innerHTML]="summaryText"></div>
+  }
+</div>

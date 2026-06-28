@@ -1,0 +1,63 @@
+<div class="tools">
+  <cr-game-fetch-panel
+    title="Chess Insights"
+    headerIcon="analytics"
+    buttonLabel="Analyze Games"
+    buttonIcon="analytics"
+    [(username)]="$username"
+    [isLoading]="$isLoading()"
+    [isButtonDisabled]="$isButtonDisabled()"
+    [progress]="$progress()"
+    [gameCount]="$gameCount()"
+    [gamesAnalyzed]="$gamesAnalyzed()"
+    [totalGames]="$totalGames()"
+    (fetch)="fetchGames()"
+  />
+
+  @if ($insights(); as insights) {
+    <div class="insights">
+      <cr-insights-summary
+        [totalGames]="insights.totalGames"
+        [winRate]="$winRate()"
+        [wins]="insights.wins"
+        [losses]="insights.losses"
+        [draws]="insights.draws"
+      />
+
+      <div class="insights__grid">
+        <cr-insights-donut
+          [totalGames]="insights.totalGames"
+          [wins]="insights.wins"
+          [losses]="insights.losses"
+          [draws]="insights.draws"
+          [whiteWins]="insights.winsAsWhite"
+          [whiteLosses]="insights.lossesAsWhite"
+          [whiteDraws]="insights.drawsAsWhite"
+          [whiteGames]="insights.whiteGames"
+          [blackWins]="insights.winsAsBlack"
+          [blackLosses]="insights.lossesAsBlack"
+          [blackDraws]="insights.drawsAsBlack"
+          [blackGames]="insights.blackGames"
+        />
+
+        <cr-bar-chart
+          title="Time Control"
+          [rows]="$timeControlStats()"
+          barColor="linear-gradient(90deg, #4caf50, #66bb6a)"
+        />
+
+        <cr-bar-chart
+          title="Most Played Openings"
+          [rows]="$topOpenings()"
+          barColor="linear-gradient(90deg, #1565c0, #42a5f5)"
+        />
+
+        <cr-bar-chart
+          title="Top Opponents"
+          [rows]="$topOpponentsList()"
+          barColor="linear-gradient(90deg, #e65100, #ff9800)"
+        />
+      </div>
+    </div>
+  }
+</div>

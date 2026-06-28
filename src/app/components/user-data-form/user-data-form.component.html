@@ -1,0 +1,78 @@
+<form [formGroup]="userDataForm" class="filter-form">
+  <div class="filter-form__fields">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-form__username">
+      <mat-label>Username</mat-label>
+      <input formControlName="username" matInput placeholder="lichess username" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-form__platform">
+      <mat-label>Platform</mat-label>
+      <mat-select formControlName="platform">
+        @for (opt of platformOptions; track opt) {
+          <mat-option [value]="opt">{{ opt === 'lichess' ? 'Lichess' : 'Chess.com' }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (showColorFilter()) {
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-form__color">
+        <mat-label>Color</mat-label>
+        <mat-select formControlName="playerColor">
+          @for (opt of colorOptions; track opt) {
+            <mat-option [value]="opt">{{ opt === 'white' ? 'White' : 'Black' }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+  </div>
+
+  <mat-accordion class="filter-form__accordion">
+    <mat-expansion-panel
+      hideToggle
+      (opened)="$filtersOpen.set(true)"
+      (closed)="$filtersOpen.set(false)"
+    >
+      <mat-expansion-panel-header class="filter-form__panel-header">
+        <mat-panel-title class="filter-form__panel-title">
+          <mat-icon class="filter-form__panel-icon">tune</mat-icon>
+          <span>Filters</span>
+          <mat-icon class="filter-form__expand-icon">{{
+            $filtersOpen() ? 'expand_less' : 'expand_more'
+          }}</mat-icon>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="filter-form__filters-body">
+        <div class="filter-form__row">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>From</mat-label>
+            <input formControlName="fromDate" matInput [matDatepicker]="fromPicker" />
+            <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>To</mat-label>
+            <input formControlName="toDate" matInput [matDatepicker]="toPicker" />
+            <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="filter-form__time">
+          <span class="filter-form__time-label">Time Controls</span>
+          <div class="filter-form__checks">
+            @for (tc of timeControlFilters; track tc.key) {
+              <mat-checkbox
+                [checked]="$timeControls()[tc.key]"
+                (change)="onTimeControlChange(tc.key, $event.checked)"
+              >
+                {{ tc.label }}
+              </mat-checkbox>
+            }
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</form>

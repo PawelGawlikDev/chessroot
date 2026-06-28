@@ -1,0 +1,106 @@
+<div class="explorer">
+  <cr-game-fetch-panel
+    title="Opening Explorer"
+    headerIcon="explore"
+    buttonLabel="Fetch Games"
+    buttonIcon="download"
+    [(username)]="$username"
+    [isLoading]="$isLoading()"
+    [isButtonDisabled]="$isButtonDisabled()"
+    [progress]="$progress()"
+    [gameCount]="$gameCount()"
+    [gamesAnalyzed]="$gamesAnalyzed()"
+    [totalGames]="$totalGames()"
+    [showColorFilter]="true"
+    (fetch)="fetchGames()"
+  ></cr-game-fetch-panel>
+
+  <div class="explorer__layout">
+    <div class="explorer__row">
+      <div class="explorer__nav-col">
+        <div class="explorer__opening-name">{{ $bookMoves().openingName }}</div>
+        <div class="board-toolbar">
+          <button class="board-toolbar__btn" (click)="flipBoard()">
+            @if ($orientation() === 'white') {
+              Flip to Black
+            } @else {
+              Flip to White
+            }
+          </button>
+        </div>
+        <cr-move-navigation
+          [plys]="$plys()"
+          [currentIndex]="$currentIndex()"
+          (goForward)="onGoForward()"
+          (goBack)="onGoBack()"
+          (reset)="onReset()"
+          (navigate)="onNavigateTo($event)"
+        />
+      </div>
+
+      <div class="explorer__board-col">
+        <cr-chess-board
+          [fen]="$fen()"
+          [orientation]="$orientation()"
+          [turnColor]="$turnColor()"
+          [lastMove]="$lastMove()"
+          [arrows]="$arrows()"
+          [interactive]="true"
+          (movePlayed)="onBoardMove($event)"
+        />
+      </div>
+
+      <div class="explorer__panel">
+        <div class="tabs">
+          <button
+            class="tabs__btn"
+            [class.tabs__btn--active]="$activeTab() === 'moves'"
+            (click)="switchTab('moves')"
+          >
+            My Moves
+          </button>
+          <button
+            class="tabs__btn"
+            [class.tabs__btn--active]="$activeTab() === 'book'"
+            (click)="switchTab('book')"
+          >
+            Best Moves
+          </button>
+        </div>
+
+        <div class="tabs__content">
+          @if ($activeTab() === 'moves') {
+            @if ($loaded()) {
+              <cr-moves-table
+                [moves]="$mergedMoves()"
+                [highlightSan]="$highlightedMove()?.san ?? null"
+                (playMove)="onTableMove($event)"
+                (highlight)="onHighlightMove($event)"
+              />
+            } @else {
+              <div class="explorer__empty">
+                No moves to show. Please select a source from the User tab and enter the details.
+              </div>
+            }
+          }
+          @if ($activeTab() === 'book') {
+            @if ($bookMoves().fetch === 'pending') {
+              <div class="explorer__loading">Loading book moves...</div>
+            } @else if ($bookMoves().fetch === 'failed') {
+              <div class="explorer__loading">Failed to fetch book moves.</div>
+            } @else if ($bookMoves().fetch === 'success') {
+              <cr-moves-table
+                [moves]="$bookMovesList()"
+                [showAsPercentage]="true"
+                [showSettings]="true"
+                (playMove)="onTableMove($event)"
+                (highlight)="onHighlightMove($event)"
+                (settingsClick)="openBookSettings()"
+              />
+            }
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

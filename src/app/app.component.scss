@@ -1,0 +1,100 @@
+.app__main {
+  padding: var(--cr-stack-md);
+}
+
+.app__spacer {
+  flex: 1 1 auto;
+}
+
+.app__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+
+  @media (max-width: 48rem) {
+    font-size: 0;
+    gap: 0;
+    width: 2.75rem;
+    min-width: 2.75rem;
+    justify-content: center;
+    padding: 0;
+    margin-right: 0;
+
+    .mat-icon {
+      margin: 0 !important;
+    }
+  }
+}
+
+.app__nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+  }
+
+  &-link--active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 48rem) {
+    a {
+      width: 2.75rem;
+      min-width: 2.75rem;
+      justify-content: center;
+      padding: 0;
+
+      .mat-icon {
+        margin: 0 !important;
+      }
+    }
+
+    .nav__label {
+      display: none !important;
+    }
+  }
+}
+
+.app__theme-btn,
+.app__more-btn {
+  min-width: 2.75rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .mat-icon {
+    margin: 0 !important;
+  }
+}
+
+.app__login-btn,
+.app__user-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+
+  @media (max-width: 48rem) {
+    width: 2.75rem;
+    min-width: 2.75rem;
+    justify-content: center;
+    padding: 0;
+
+    .mat-icon {
+      margin: 0 !important;
+    }
+
+    .nav__label {
+      display: none !important;
+    }
+  }
+}

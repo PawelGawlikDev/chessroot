@@ -1,0 +1,32 @@
+name: Deploy Dev
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: yarn
+      - run: yarn install --immutable
+      - name: Write deploy metadata
+        run: |-
+          cat > src/assets/deploy.json <<'EOF'
+          {
+            "environment": "development",
+            "commit": "${{ github.sha }}",
+            "ref": "${{ github.ref_name }}",
+            "deployedAt": "${{ github.event.repository.updated_at }}"
+          }
+          EOF
+      - run: yarn build
+      - uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env development
+      - name: Log deployed commit
+        run: echo "Deployed commit ${{ github.sha }} (${{ github.event.head_commit.message }}) to development"

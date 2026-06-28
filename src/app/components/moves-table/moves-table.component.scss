@@ -1,0 +1,102 @@
+.moves-table {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+}
+.moves-table__header {
+  display: flex;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--cr-outline-variant);
+  font-weight: 700;
+  color: var(--cr-on-surface-variant);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+.moves-table__row {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--cr-outline-variant);
+  transition: background 0.15s;
+}
+.moves-table__row:hover,
+.moves-table__row--highlight {
+  background: var(--cr-surface-container-high);
+}
+.moves-table__col-move {
+  width: 4rem;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+.moves-table__col-games {
+  width: 4rem;
+  text-align: right;
+  color: var(--cr-on-surface-variant);
+  margin-right: 0.75rem;
+}
+.moves-table__col-results {
+  flex: 1;
+}
+.moves-table__col-settings {
+  width: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.moves-table__settings-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: var(--cr-rounded);
+  color: var(--cr-on-surface-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    color 0.15s,
+    background 0.15s;
+  line-height: 0;
+
+  &:hover {
+    color: var(--cr-on-surface);
+    background: var(--cr-surface-container);
+  }
+}
+.progress-bar {
+  display: flex;
+  height: 1.25rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  background: var(--cr-surface-container);
+}
+.progress-bar__segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #fff;
+  transition: width 0.2s;
+  min-width: 0;
+  white-space: nowrap;
+}
+.progress-bar__segment--white {
+  background: #f0d9b5;
+  color: #333;
+}
+.progress-bar__segment--draw {
+  background: #aaa;
+  color: #fff;
+}
+.progress-bar__segment--black {
+  background: #646463;
+  color: #fff;
+}
+.info-message {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--cr-on-surface-variant);
+}

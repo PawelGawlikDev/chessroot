@@ -1,0 +1,63 @@
+<mat-toolbar color="primary">
+  <button mat-button routerLink="/" class="app__brand">
+    <mat-icon>chess</mat-icon>
+    ChessRoot
+  </button>
+
+  <nav class="app__nav">
+    <a mat-button routerLink="/explorer" routerLinkActive="app__nav-link--active">
+      <mat-icon>explore</mat-icon>
+      <span class="nav__label">Explorer</span>
+    </a>
+    <a mat-button routerLink="/tools" routerLinkActive="app__nav-link--active">
+      <mat-icon>bar_chart</mat-icon>
+      <span class="nav__label">Insights</span>
+    </a>
+    <a mat-button routerLink="/achievements" routerLinkActive="app__nav-link--active">
+      <mat-icon>emoji_events</mat-icon>
+      <span class="nav__label">Achievements</span>
+    </a>
+  </nav>
+
+  <span class="app__spacer"></span>
+
+  @if (auth.isLoggedIn()) {
+    <button mat-button [matMenuTriggerFor]="userMenu" class="app__user-btn">
+      <mat-icon>account_circle</mat-icon>
+      <span class="nav__label">{{ auth.getUsername() }}</span>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item (click)="auth.logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </mat-menu>
+  } @else {
+    <button mat-button (click)="auth.login()" class="app__login-btn">
+      <mat-icon>login</mat-icon>
+      <span class="nav__label">Log in</span>
+    </button>
+  }
+
+  <button mat-button (click)="toggleTheme()" class="app__theme-btn">
+    <mat-icon>{{ $isDarkTheme() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+
+  <button mat-button [matMenuTriggerFor]="moreMenu" class="app__more-btn">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #moreMenu="matMenu">
+    <button mat-menu-item (click)="openAcknowledgements()">
+      <mat-icon>favorite</mat-icon>
+      Acknowledgements
+    </button>
+    <button mat-menu-item (click)="openContact()">
+      <mat-icon>mail</mat-icon>
+      Contact
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<main class="app__main">
+  <router-outlet />
+</main>

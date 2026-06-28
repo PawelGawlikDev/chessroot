@@ -1,0 +1,70 @@
+<div
+  class="achievement-card"
+  [class.achievement-card--has-trophies]="achievement().trophyCount > 0"
+  [class.achievement-card--no-trophies]="achievement().trophyCount === 0"
+  [class.achievement-card--expanded]="isExpanded()"
+  role="button"
+  [attr.tabindex]="achievement().trophyCount > 0 ? 0 : -1"
+  [attr.aria-expanded]="isExpanded()"
+  [attr.aria-label]="
+    achievement().metadata.title +
+    (achievement().trophyCount > 0
+      ? ', ' + achievement().trophyCount + ' trophies earned'
+      : ', no trophies yet')
+  "
+  (click)="toggle.emit(achievement().key)"
+  (keydown)="onKeydown($event)"
+>
+  <div class="achievement-card__header">
+    <div class="achievement-card__info">
+      <span class="achievement-card__title">{{ achievement().metadata.title }}</span>
+      @if (achievement().metadata.desc) {
+        <span class="achievement-card__desc">{{ achievement().metadata.desc }}</span>
+      }
+    </div>
+    <div class="achievement-card__trophies">
+      @if (achievement().trophyCount > 0) {
+        <span class="achievement-card__trophy-count">{{ achievement().trophyCount }}</span>
+        <cr-trophy-collection
+          [count]="achievement().trophyCount > 5 ? 5 : achievement().trophyCount"
+        />
+        @if (achievement().trophyCount > 5) {
+          <span class="achievement-card__more-trophies">+{{ achievement().trophyCount - 5 }}</span>
+        }
+        <span class="achievement-card__expand-icon">{{ isExpanded() ? '▲' : '▼' }}</span>
+      } @else {
+        <span class="achievement-card__no-trophies-badge">0</span>
+      }
+    </div>
+  </div>
+
+  @if (isExpanded() && achievement().trophyCount > 0) {
+    <div class="achievement-card__details">
+      <p class="achievement-card__trophy-count-text">
+        {{ achievement().trophyCount }}
+        {{ achievement().trophyCount === 1 ? 'game' : 'games' }} achieved
+      </p>
+      <ul class="trophy-list">
+        @for (trophy of achievement().trophies; track trophy.gameId) {
+          <li class="trophy-list__item">
+            <a
+              [href]="trophy.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="trophy-list__link"
+            >
+              <span class="trophy-list__opponent">
+                @if (trophy.opponentTitle) {
+                  <span class="trophy-list__title">{{ trophy.opponentTitle }}</span>
+                }
+                {{ trophy.opponent }}
+              </span>
+              <span class="trophy-list__date">{{ trophy.date }}</span>
+              <span class="trophy-list__view">View Game →</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

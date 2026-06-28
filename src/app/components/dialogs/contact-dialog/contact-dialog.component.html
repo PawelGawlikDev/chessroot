@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Contact</h2>
+
+<mat-dialog-content>
+  <p class="contact__intro">
+    Have feedback, suggestions, or just want to play a game? Reach out to me on any of these
+    platforms:
+  </p>
+
+  <mat-nav-list class="contact__list">
+    @for (item of contacts; track item.platform) {
+      <a mat-list-item [href]="item.url" target="_blank" rel="noopener noreferrer">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.platform }}</span>
+        <span matListItemLine>{{ item.username }}</span>
+      </a>
+    }
+  </mat-nav-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Done</button>
+</mat-dialog-actions>

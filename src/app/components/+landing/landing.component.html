@@ -1,0 +1,79 @@
+<div class="landing">
+  <section class="hero">
+    <div class="hero__content">
+      <h1 class="hero__title">
+        ChessRoot
+        <img src="/icon.svg" alt="ChessRoot logo" class="hero__logo" />
+      </h1>
+      <p class="hero__subtitle">
+        Discover hidden achievements in your chess games. Analyze your play, track rare milestones,
+        and explore deep insights about your chess journey.
+      </p>
+      <div class="hero__actions">
+        <a mat-stroked-button color="primary" routerLink="/explorer">
+          <mat-icon>explore</mat-icon>
+          Explorer
+        </a>
+
+        <a mat-stroked-button color="primary" routerLink="/tools">
+          <mat-icon>bar_chart</mat-icon>
+          Insights
+        </a>
+        <a mat-stroked-button color="primary" routerLink="/achievements">
+          <mat-icon>emoji_events</mat-icon>
+          Achievements
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <mat-card class="feature-card">
+      <mat-icon class="feature-card__icon">explore</mat-icon>
+      <h3 class="feature-card__title">Opening Explorer</h3>
+      <p class="feature-card__desc">
+        Explore your personal opening repertoire on an interactive board. Browse your games move by
+        move, see statistics for each position, and compare your play to master-level opening books.
+      </p>
+      <a mat-button color="primary" routerLink="/explorer">Explore &rarr;</a>
+    </mat-card>
+    <mat-card class="feature-card">
+      <mat-icon class="feature-card__icon">emoji_events</mat-icon>
+      <h3 class="feature-card__title">Achievements</h3>
+      <p class="feature-card__desc">
+        Scan thousands of games for 50+ rare ChessRoot &mdash; from smothered mates to pawn
+        checkmates, castle forks, and alphabet openings.
+      </p>
+      <a mat-button color="primary" routerLink="/achievements">Explore Achievements &rarr;</a>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <mat-icon class="feature-card__icon">bar_chart</mat-icon>
+      <h3 class="feature-card__title">Insights</h3>
+      <p class="feature-card__desc">
+        Visualize your most played openings, win rates by color and time control, top opponents, and
+        other stats &mdash; just like Lichess insights.
+      </p>
+      <a mat-button color="primary" routerLink="/tools">View Insights &rarr;</a>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <mat-icon class="feature-card__icon">login</mat-icon>
+      <h3 class="feature-card__title">Lichess Login</h3>
+      <p class="feature-card__desc">
+        Log in with your Lichess account for faster game downloads and higher API rate limits. Your
+        token stays safely in your browser.
+      </p>
+      @if (auth.isLoggedIn()) {
+        <span class="feature-card__logged-in">
+          <mat-icon>check_circle</mat-icon>
+          <strong>{{ auth.getUsername() }}</strong>
+        </span>
+      } @else {
+        <button mat-button color="primary" (click)="auth.login()">
+          Log in with Lichess &rarr;
+        </button>
+      }
+    </mat-card>
+  </section>
+</div>

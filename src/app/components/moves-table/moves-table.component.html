@@ -1,0 +1,73 @@
+@if (moves().length === 0) {
+  <div class="info-message">No moves found in this position.</div>
+} @else {
+  <div class="moves-table">
+    <div class="moves-table__header">
+      <span class="moves-table__col-move">Move</span>
+      <span class="moves-table__col-games">Games</span>
+      <span class="moves-table__col-results">Results</span>
+      @if (showSettings()) {
+        <span class="moves-table__col-settings">
+          <button
+            class="moves-table__settings-btn"
+            (click)="$event.stopPropagation(); settingsClick.emit()"
+            aria-label="Opening book settings"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+              />
+            </svg>
+          </button>
+        </span>
+      }
+    </div>
+    @for (move of moves(); track move.san; let i = $index) {
+      <div
+        class="moves-table__row"
+        [class.moves-table__row--highlight]="move.san === highlightSan()"
+        (click)="playMove.emit(move)"
+        (mouseenter)="highlight.emit(move)"
+        (mouseleave)="highlight.emit(null)"
+      >
+        <span class="moves-table__col-move">{{ move.san }}</span>
+        <span class="moves-table__col-games">{{ simplify(move.moveCount) }}</span>
+        <span class="moves-table__col-results">
+          <span class="progress-bar">
+            <span
+              class="progress-bar__segment progress-bar__segment--white"
+              [style.width.%]="pct(move.details.whiteWins, move.details.count)"
+              [attr.title]="'White wins: ' + move.details.whiteWins"
+            >
+              {{ label(move.details.whiteWins, move.details.count) }}
+            </span>
+            <span
+              class="progress-bar__segment progress-bar__segment--draw"
+              [style.width.%]="pct(move.details.draws, move.details.count)"
+              [attr.title]="'Draws: ' + move.details.draws"
+            >
+              {{ label(move.details.draws, move.details.count) }}
+            </span>
+            <span
+              class="progress-bar__segment progress-bar__segment--black"
+              [style.width.%]="pct(move.details.blackWins, move.details.count)"
+              [attr.title]="'Black wins: ' + move.details.blackWins"
+            >
+              {{ label(move.details.blackWins, move.details.count) }}
+            </span>
+          </span>
+        </span>
+      </div>
+    }
+  </div>
+}

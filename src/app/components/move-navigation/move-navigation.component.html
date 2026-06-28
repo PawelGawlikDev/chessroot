@@ -1,0 +1,26 @@
+<div class="nav">
+  <button class="nav__btn" (click)="goBack.emit()" [disabled]="!$canGoBack()">◀</button>
+  <button class="nav__btn" (click)="goForward.emit()" [disabled]="!$canGoForward()">▶</button>
+  <button class="nav__btn nav__btn--reset" (click)="reset.emit()" title="Reset to start">↺</button>
+</div>
+@if ($pgnList().length > 0) {
+  <div class="moves-list">
+    @for (entry of $pgnList(); track entry.moveNumber; let i = $index) {
+      <span class="moves-list__move-number">{{ entry.moveNumber }}.</span>
+      <span
+        class="moves-list__ply"
+        [class.moves-list__ply--active]="activePlyIndex(i * 2 + 1) === currentIndex()"
+        (click)="navigate.emit(i * 2 + 1)"
+        >{{ entry.whitePly }}</span
+      >
+      @if (entry.blackPly) {
+        <span
+          class="moves-list__ply"
+          [class.moves-list__ply--active]="activePlyIndex(i * 2 + 2) === currentIndex()"
+          (click)="navigate.emit(i * 2 + 2)"
+          >{{ entry.blackPly }}</span
+        >
+      }
+    }
+  </div>
+}

@@ -1,0 +1,148 @@
+@use '@angular/material' as mat;
+.fetch-panel {
+  @include mat.progress-spinner-overrides(
+    (
+      active-indicator-color: var(--cr-on-primary),
+    )
+  );
+  margin-bottom: var(--cr-stack-lg);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    gap: var(--cr-stack-md);
+  }
+
+  &__title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  &__title-icon {
+    color: var(--cr-primary);
+    font-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--cr-headline-sm-size);
+    font-weight: var(--cr-headline-sm-weight);
+    color: var(--cr-on-surface);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 1rem;
+    border: none;
+    border-radius: var(--cr-rounded-md);
+    font-family: var(--cr-font-family);
+    font-size: var(--cr-body-md-size);
+    font-weight: 600;
+    color: var(--cr-on-primary);
+    background: linear-gradient(135deg, var(--cr-primary) 0%, var(--cr-primary-container) 100%);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(74, 222, 128, 0.2);
+    transition:
+      opacity 0.2s,
+      transform 0.15s,
+      box-shadow 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover:not(:disabled) {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(74, 222, 128, 0.2);
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .mat-icon {
+      font-size: 1.1rem;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+
+  &__progress {
+    margin-top: 0.75rem;
+  }
+
+  &__progress-track {
+    width: 100%;
+    height: 0.375rem;
+    background: var(--cr-surface-container-high);
+    border-radius: var(--cr-rounded-full);
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cr-primary), var(--cr-primary-container));
+    border-radius: var(--cr-rounded-full);
+    transition: width 0.35s ease;
+  }
+
+  &__progress-stats {
+    display: flex;
+    gap: var(--cr-stack-md);
+    font-size: var(--cr-body-md-size);
+    color: var(--cr-on-surface-variant);
+    margin-top: 0.35rem;
+  }
+
+  &__progress-pct {
+    font-weight: 600;
+    color: var(--cr-primary);
+  }
+
+  &__summary {
+    margin-top: var(--cr-stack-md);
+    padding: var(--cr-stack-sm) var(--cr-stack-md);
+    border-radius: var(--cr-rounded);
+    color: var(--cr-on-surface);
+    font-size: var(--cr-body-md-size);
+  }
+}
+
+@media (max-width: 48rem) {
+  .fetch-panel {
+    &__header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+
+    &__btn {
+      justify-content: center;
+    }
+
+    &__progress-stats {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.8rem;
+    }
+  }
+}

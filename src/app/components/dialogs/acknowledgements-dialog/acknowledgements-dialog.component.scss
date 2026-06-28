@@ -1,0 +1,17 @@
+.ack__intro {
+  margin-bottom: 1rem;
+  color: var(--cr-on-surface-variant);
+  font-size: var(--cr-body-md-size);
+  line-height: 1.5;
+}
+
+.ack__list {
+  border: 1px solid var(--cr-chess-card-border);
+  border-radius: var(--cr-rounded-lg);
+  overflow: hidden;
+
+  a {
+    font-size: var(--cr-body-md-size);
+    font-family: var(--cr-font-family);
+  }
+}

@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Acknowledgements</h2>
+
+<mat-dialog-content>
+  <p class="ack__intro">
+    ChessRoot is built on the shoulders of these great open-source projects and APIs:
+  </p>
+
+  <mat-nav-list class="ack__list">
+    @for (item of acknowledgements; track item.name) {
+      <a mat-list-item [href]="item.url" target="_blank" rel="noopener noreferrer">
+        <span matListItemTitle>{{ item.name }}</span>
+      </a>
+    }
+  </mat-nav-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Done</button>
+</mat-dialog-actions>

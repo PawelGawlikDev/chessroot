@@ -1,0 +1,28 @@
+<mat-card class="insight-card">
+  <mat-card-header>
+    <mat-card-title>{{ title() }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="bar-chart">
+      @for (row of rows(); track row.label) {
+        <div class="bar-chart__row">
+          <span class="bar-chart__label" [class.bar-chart__label--long]="row.label.length > 12">{{
+            row.label
+          }}</span>
+          <div class="bar-chart__bar-container">
+            <div
+              class="bar-chart__bar"
+              [style.width.%]="row.barWidth"
+              [style.background]="barColor()"
+            >
+              <span class="bar-chart__bar-text">{{ row.count }}</span>
+            </div>
+          </div>
+          <span class="bar-chart__pct">
+            {{ row.wins }}W / {{ row.losses }}L / {{ row.draws }}D
+          </span>
+        </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

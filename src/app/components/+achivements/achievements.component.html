@@ -1,0 +1,28 @@
+<div class="achievements">
+  <cr-game-fetch-panel
+    title="Achievements"
+    headerIcon="emoji_events"
+    buttonLabel="Fetch & Analyze Games"
+    buttonIcon="emoji_events"
+    [(username)]="$username"
+    [isLoading]="$isLoading()"
+    [isButtonDisabled]="$isButtonDisabled()"
+    [progress]="$progress()"
+    [gameCount]="$gameCount()"
+    [gamesAnalyzed]="$gamesAnalyzed()"
+    [totalGames]="$totalGames()"
+    [extraStat]="$positionCount() + ' positions'"
+    [summary]="$summary()"
+    (fetch)="fetchGames()"
+  />
+
+  <div class="achievements__categories">
+    @for (category of $categories(); track category.category) {
+      <cr-achievement-category
+        [category]="category"
+        [expandedKeys]="$expandedAchievements()"
+        (toggle)="toggleAchievement($event)"
+      />
+    }
+  </div>
+</div>

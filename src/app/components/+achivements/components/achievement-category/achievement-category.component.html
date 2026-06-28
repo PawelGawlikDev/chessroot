@@ -1,0 +1,12 @@
+<div class="achievements__category">
+  <h2 class="achievements__category-title">{{ category().categoryTitle }}</h2>
+  <div class="achievements__grid">
+    @for (achievement of category().goals; track achievement.key) {
+      <cr-achievement-card
+        [achievement]="achievement"
+        [isExpanded]="expandedKeys().has(achievement.key)"
+        (toggle)="toggle.emit($event)"
+      />
+    }
+  </div>
+</div>

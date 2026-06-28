@@ -1,0 +1,30 @@
+.trophy-collection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 0.25rem;
+  margin: 0 auto;
+  overflow: hidden;
+
+  svg {
+    width: auto;
+    flex-shrink: 0;
+    height: 1.25rem;
+    margin: 0.125rem;
+  }
+
+  &--large {
+    svg {
+      height: 2.5rem;
+      margin: 0.125rem;
+    }
+  }
+
+  &__gold {
+    fill: var(--chess-trophy-gold);
+  }
+
+  &__dark {
+    fill: var(--chess-trophy-gold-dark);
+  }
+}

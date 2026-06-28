@@ -1,0 +1,102 @@
+// ─── Button Type Variants ───────────────────────────────────────────
+// Usage:
+//   <button mat-raised-button class="cr-btn--win">Win</button>
+//   <button mat-flat-button class="cr-btn--loss">Loss</button>
+//   <button mat-stroked-button class="cr-btn--draw">Draw</button>
+//
+// For standard Material color variants, use the built-in color input:
+//   <button mat-raised-button color="primary">Primary</button>
+//   <button mat-raised-button color="secondary">Secondary</button>
+//   <button mat-raised-button color="tertiary">Tertiary</button>
+//   <button mat-raised-button color="error">Error</button>
+
+@mixin button-variant($bg, $text, $hover-bg) {
+  --mdc-filled-button-container-color: #{$bg};
+  --mdc-filled-button-label-text-color: #{$text};
+  --mdc-protected-button-container-color: #{$bg};
+  --mdc-protected-button-label-text-color: #{$text};
+  --mdc-text-button-label-text-color: #{$bg};
+  --mdc-outlined-button-label-text-color: #{$bg};
+  --mdc-outlined-button-outline-color: #{$bg};
+  --mat-mdc-button-persistent-ripple-color: #{$bg};
+  --mat-mdc-button-ripple-color: #{rgba($bg, 0.1)};
+
+  &:hover:not([disabled]) {
+    --mdc-filled-button-container-color: #{$hover-bg};
+    --mdc-protected-button-container-color: #{$hover-bg};
+  }
+}
+
+// Win / Success
+.cr-btn--win,
+.cr-btn--success {
+  @include button-variant(var(--cr-win-green), #000000, #16a34a);
+}
+
+// Loss / Error variant
+.cr-btn--loss,
+.cr-btn--danger {
+  @include button-variant(var(--cr-loss-red), #ffffff, #dc2626);
+}
+
+// Draw / Neutral
+.cr-btn--draw,
+.cr-btn--neutral {
+  @include button-variant(var(--cr-draw-gray), #ffffff, #475569);
+}
+
+// Primary solid (overrides default Material primary for filled buttons)
+.cr-btn--primary-solid {
+  --mdc-filled-button-container-color: var(--cr-primary);
+  --mdc-filled-button-label-text-color: #0f172a;
+  --mdc-protected-button-container-color: var(--cr-primary);
+  --mdc-protected-button-label-text-color: #0f172a;
+
+  &:hover:not([disabled]) {
+    --mdc-filled-button-container-color: var(--cr-primary-fixed-dim);
+    --mdc-protected-button-container-color: var(--cr-primary-fixed-dim);
+  }
+}
+
+// Tertiary solid
+.cr-btn--tertiary-solid {
+  --mdc-filled-button-container-color: var(--cr-tertiary);
+  --mdc-filled-button-label-text-color: #0f172a;
+  --mdc-protected-button-container-color: var(--cr-tertiary);
+  --mdc-protected-button-label-text-color: #0f172a;
+
+  &:hover:not([disabled]) {
+    --mdc-filled-button-container-color: var(--cr-tertiary-fixed-dim);
+    --mdc-protected-button-container-color: var(--cr-tertiary-fixed-dim);
+  }
+}
+
+// Outlined variants with custom colors
+.cr-btn--outline-primary {
+  --mdc-outlined-button-outline-color: var(--cr-primary);
+  --mdc-outlined-button-label-text-color: var(--cr-primary);
+
+  &:hover:not([disabled]) {
+    --mdc-outlined-button-outline-color: var(--cr-primary-fixed-dim);
+    --mdc-outlined-button-label-text-color: var(--cr-primary-fixed-dim);
+  }
+}
+
+.cr-btn--outline-tertiary {
+  --mdc-outlined-button-outline-color: var(--cr-tertiary);
+  --mdc-outlined-button-label-text-color: var(--cr-tertiary);
+
+  &:hover:not([disabled]) {
+    --mdc-outlined-button-outline-color: var(--cr-tertiary-fixed-dim);
+    --mdc-outlined-button-label-text-color: var(--cr-tertiary-fixed-dim);
+  }
+}
+
+// Ghost / text variants
+.cr-btn--text-primary {
+  --mdc-text-button-label-text-color: var(--cr-primary);
+}
+
+.cr-btn--text-tertiary {
+  --mdc-text-button-label-text-color: var(--cr-tertiary);
+}

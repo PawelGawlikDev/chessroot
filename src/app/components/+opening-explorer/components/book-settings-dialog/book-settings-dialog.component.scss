@@ -1,0 +1,41 @@
+.settings-section {
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &__label {
+    display: block;
+    font-size: var(--cr-label-caps-size);
+    font-weight: var(--cr-label-caps-weight);
+    line-height: var(--cr-label-caps-line);
+    letter-spacing: var(--cr-label-caps-letter);
+    color: var(--cr-on-surface-variant);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  &__toggle-group {
+    display: flex;
+    gap: 0;
+    width: 100%;
+
+    .mat-button-toggle {
+      flex: 1;
+      font-family: var(--cr-font-family);
+      font-size: var(--cr-body-md-size);
+      font-weight: 500;
+    }
+  }
+}
+
+mat-chip-listbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+mat-dialog-content {
+  padding-top: 1rem;
+}

@@ -1,0 +1,37 @@
+<mat-card class="insight-card">
+  <mat-card-header>
+    <mat-card-title>Results</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="donut-chart">
+      <canvas #donutCanvas class="donut-chart__canvas"></canvas>
+      <div class="donut-chart__legend">
+        @for (seg of $segments(); track seg.label) {
+          <div class="donut-chart__legend-item">
+            <span class="donut-chart__dot" [style.background]="seg.color"></span>
+            <span class="donut-chart__label">{{ seg.label }}</span>
+            <span class="donut-chart__count">{{ seg.count }}</span>
+            <span class="donut-chart__pct">({{ seg.pct.toFixed(1) }}%)</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="color-stats">
+      <div class="color-stat">
+        <span class="color-stat__title">As White</span>
+        <span class="color-stat__rate">{{ $whiteWinRate() }}%</span>
+        <span class="color-stat__detail">
+          {{ whiteWins() }}W / {{ whiteLosses() }}L / {{ whiteDraws() }}D
+        </span>
+      </div>
+      <div class="color-stat">
+        <span class="color-stat__title">As Black</span>
+        <span class="color-stat__rate">{{ $blackWinRate() }}%</span>
+        <span class="color-stat__detail">
+          {{ blackWins() }}W / {{ blackLosses() }}L / {{ blackDraws() }}D
+        </span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

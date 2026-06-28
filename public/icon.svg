@@ -1,0 +1,19 @@
+<svg width="200" height="200" viewBox="30 25 140 150" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="knightGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ade80;stop-opacity:1"></stop>
+      <stop offset="100%" style="stop-color:#166534;stop-opacity:1"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Centered Technical Hexagon Border -->
+  <path d="M100 25 L170 65 L170 135 L100 175 L30 135 L30 65 Z" fill="none" stroke="#4ade80" stroke-width="4" stroke-linejoin="round"></path>
+
+  <!-- Centered Stylized Knight / Root Silhouette with Gradient -->
+  <path d="M85 60 C85 50 115 50 115 60 L115 85 L135 105 L115 105 L115 140 H85 V105 H65 L85 85 Z" fill="url(#knightGradient)"></path>
+
+  <!-- Centered Circuit/Root Line Accents -->
+  <path d="M100 140 V160" stroke="#4ade80" stroke-width="3" stroke-linecap="round"></path>
+  <path d="M75 135 V150" stroke="#4ade80" stroke-width="2" stroke-linecap="round"></path>
+  <path d="M125 135 V150" stroke="#4ade80" stroke-width="2" stroke-linecap="round"></path>
+</svg>

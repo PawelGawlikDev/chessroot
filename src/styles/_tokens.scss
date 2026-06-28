@@ -1,0 +1,181 @@
+@use 'functions' as *;
+
+// ─── Design Tokens ───────────────────────────────────────────────────
+
+// Colors (Material M3 roles)
+:root {
+  // Primary
+  --cr-primary: #6bfb9a;
+  --cr-on-primary: #003919;
+  --cr-primary-container: #4ade80;
+  --cr-on-primary-container: #005e2d;
+  --cr-inverse-primary: #006d36;
+  --cr-primary-fixed: #6dfe9c;
+  --cr-primary-fixed-dim: #4de082;
+  --cr-on-primary-fixed: #00210c;
+  --cr-on-primary-fixed-variant: #005227;
+
+  // Secondary
+  --cr-secondary: #b9c8de;
+  --cr-on-secondary: #233143;
+  --cr-secondary-container: #39485a;
+  --cr-on-secondary-container: #a7b6cc;
+  --cr-secondary-fixed: #d4e4fa;
+  --cr-secondary-fixed-dim: #b9c8de;
+  --cr-on-secondary-fixed: #0d1c2d;
+  --cr-on-secondary-fixed-variant: #39485a;
+
+  // Tertiary
+  --cr-tertiary: #ffd9c1;
+  --cr-on-tertiary: #4f2500;
+  --cr-tertiary-container: #ffb47e;
+  --cr-on-tertiary-container: #804000;
+  --cr-tertiary-fixed: #ffdcc5;
+  --cr-tertiary-fixed-dim: #ffb783;
+  --cr-on-tertiary-fixed: #301400;
+  --cr-on-tertiary-fixed-variant: #713700;
+
+  // Error
+  --cr-error: #ffb4ab;
+  --cr-on-error: #690005;
+  --cr-error-container: #93000a;
+  --cr-on-error-container: #ffdad6;
+
+  // Surface / Background
+  --cr-surface: #0b1326;
+  --cr-surface-dim: #0b1326;
+  --cr-surface-bright: #31394d;
+  --cr-surface-container-lowest: #060e20;
+  --cr-surface-container-low: #131b2e;
+  --cr-surface-container: #171f33;
+  --cr-surface-container-high: #222a3d;
+  --cr-surface-container-highest: #2d3449;
+  --cr-surface-variant: #2d3449;
+  --cr-on-surface: #dae2fd;
+  --cr-on-surface-variant: #bccabb;
+  --cr-inverse-surface: #dae2fd;
+  --cr-inverse-on-surface: #283044;
+  --cr-background: #0b1326;
+  --cr-on-background: #dae2fd;
+  --cr-outline: #869486;
+  --cr-outline-variant: #3d4a3e;
+  --cr-surface-tint: #4de082;
+
+  // Chess-specific
+  --cr-chess-container-start: #1e293b;
+  --cr-chess-container-end: #0f172a;
+  --cr-chess-card-bg: #1e293b;
+  --cr-chess-card-border: #334155;
+  --cr-surface-elevation-1: #1e293b;
+  --cr-surface-elevation-2: #334155;
+
+  // Result colors
+  --cr-win-green: #22c55e;
+  --cr-loss-red: #ef4444;
+  --cr-draw-gray: #64748b;
+
+  // ─── Override Material tokens ────────
+  --mat-sys-primary: var(--cr-primary);
+  --mat-sys-on-primary: var(--cr-on-primary);
+  --mat-sys-primary-container: var(--cr-primary-container);
+  --mat-sys-on-primary-container: var(--cr-on-primary-container);
+  --mat-sys-inverse-primary: var(--cr-inverse-primary);
+  --mat-sys-secondary: var(--cr-secondary);
+  --mat-sys-on-secondary: var(--cr-on-secondary);
+  --mat-sys-secondary-container: var(--cr-secondary-container);
+  --mat-sys-on-secondary-container: var(--cr-on-secondary-container);
+  --mat-sys-tertiary: var(--cr-tertiary);
+  --mat-sys-on-tertiary: var(--cr-on-tertiary);
+  --mat-sys-tertiary-container: var(--cr-tertiary-container);
+  --mat-sys-on-tertiary-container: var(--cr-on-tertiary-container);
+  --mat-sys-error: var(--cr-error);
+  --mat-sys-on-error: var(--cr-on-error);
+  --mat-sys-error-container: var(--cr-error-container);
+  --mat-sys-on-error-container: var(--cr-on-error-container);
+  --mat-sys-surface: var(--cr-surface);
+  --mat-sys-surface-dim: var(--cr-surface-dim);
+  --mat-sys-surface-bright: var(--cr-surface-bright);
+  --mat-sys-surface-container-lowest: var(--cr-surface-container-lowest);
+  --mat-sys-surface-container-low: var(--cr-surface-container-low);
+  --mat-sys-surface-container: var(--cr-surface-container);
+  --mat-sys-surface-container-high: var(--cr-surface-container-high);
+  --mat-sys-surface-container-highest: var(--cr-surface-container-highest);
+  --mat-sys-surface-variant: var(--cr-surface-variant);
+  --mat-sys-on-surface: var(--cr-on-surface);
+  --mat-sys-on-surface-variant: var(--cr-on-surface-variant);
+  --mat-sys-inverse-surface: var(--cr-inverse-surface);
+  --mat-sys-inverse-on-surface: var(--cr-inverse-on-surface);
+  --mat-sys-background: var(--cr-background);
+  --mat-sys-on-background: var(--cr-on-background);
+  --mat-sys-outline: var(--cr-outline);
+  --mat-sys-outline-variant: var(--cr-outline-variant);
+  --mat-sys-surface-tint: var(--cr-surface-tint);
+
+  // ─── Legacy chess token aliases ──────
+  --chess-container-start: var(--cr-chess-container-start);
+  --chess-container-end: var(--cr-chess-container-end);
+  --chess-card-bg: var(--cr-chess-card-bg);
+  --chess-card-border: var(--cr-chess-card-border);
+  --chess-trophy-gold: #f7b239;
+  --chess-trophy-gold-dark: #e09b2d;
+  --chess-card-success-start: var(--cr-primary);
+  --chess-card-success-end: var(--cr-primary-container);
+  --chess-card-success-expanded-start: var(--cr-on-primary);
+  --chess-card-success-expanded-end: var(--cr-primary-container);
+  --chess-card-empty-bg: var(--cr-surface-container-low);
+  --chess-card-empty-border: var(--cr-outline-variant);
+  --chess-category-text: var(--cr-on-surface);
+  --chess-category-border: var(--cr-primary);
+  --chess-text-title: var(--cr-on-surface);
+  --chess-text-desc: var(--cr-on-surface-variant);
+  --chess-text-badge: var(--cr-on-surface-variant);
+  --chess-focus: var(--cr-primary);
+  --chess-summary-start: var(--cr-surface-elevation-2);
+  --chess-summary-end: var(--cr-surface-container-low);
+
+  // ─── Typography tokens ───────────────
+  --cr-font-family: 'JetBrains Mono', monospace;
+  --cr-display-lg-size: #{cr-pixels-to-rem(48)};
+  --cr-display-lg-weight: 700;
+  --cr-display-lg-line: #{cr-pixels-to-rem(56)};
+  --cr-display-lg-letter: -0.02em;
+  --cr-display-lg-mobile-size: #{cr-pixels-to-rem(32)};
+  --cr-display-lg-mobile-weight: 700;
+  --cr-display-lg-mobile-line: #{cr-pixels-to-rem(40)};
+  --cr-display-lg-mobile-letter: -0.02em;
+  --cr-headline-md-size: #{cr-pixels-to-rem(24)};
+  --cr-headline-md-weight: 600;
+  --cr-headline-md-line: #{cr-pixels-to-rem(32)};
+  --cr-headline-sm-size: #{cr-pixels-to-rem(20)};
+  --cr-headline-sm-weight: 600;
+  --cr-headline-sm-line: #{cr-pixels-to-rem(28)};
+  --cr-body-lg-size: #{cr-pixels-to-rem(16)};
+  --cr-body-lg-weight: 400;
+  --cr-body-lg-line: #{cr-pixels-to-rem(24)};
+  --cr-body-md-size: #{cr-pixels-to-rem(14)};
+  --cr-body-md-weight: 400;
+  --cr-body-md-line: #{cr-pixels-to-rem(20)};
+  --cr-label-caps-size: #{cr-pixels-to-rem(12)};
+  --cr-label-caps-weight: 700;
+  --cr-label-caps-line: #{cr-pixels-to-rem(16)};
+  --cr-label-caps-letter: 0.1em;
+  --cr-code-sm-size: #{cr-pixels-to-rem(12)};
+  --cr-code-sm-weight: 500;
+  --cr-code-sm-line: #{cr-pixels-to-rem(16)};
+
+  // ─── Rounded tokens ──────────────────
+  --cr-rounded-sm: 0.125rem;
+  --cr-rounded: 0.25rem;
+  --cr-rounded-md: 0.375rem;
+  --cr-rounded-lg: 0.5rem;
+  --cr-rounded-xl: 0.75rem;
+  --cr-rounded-full: #{cr-pixels-to-rem(9999)};
+
+  // ─── Spacing tokens ──────────────────
+  --cr-container-max: #{cr-pixels-to-rem(1280)};
+  --cr-gutter: 1.5rem;
+  --cr-margin-mobile: 1rem;
+  --cr-stack-sm: 0.5rem;
+  --cr-stack-md: 1rem;
+  --cr-stack-lg: 2rem;
+}

@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>Best Moves Settings</h2>
+
+<mat-dialog-content>
+  <div class="settings-section">
+    <label class="settings-section__label">Opening Book</label>
+    <mat-button-toggle-group
+      [value]="config().bookType"
+      (change)="setBookType($event.value)"
+      class="settings-section__toggle-group"
+    >
+      <mat-button-toggle value="lichess">Lichess</mat-button-toggle>
+      <mat-button-toggle value="masters">Masters</mat-button-toggle>
+      <mat-button-toggle value="off">Off</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  @if (config().bookType === 'lichess') {
+    <div class="settings-section">
+      <label class="settings-section__label">Rating Filters</label>
+      <mat-chip-listbox multiple aria-label="Select ratings">
+        @for (rating of ratingOptions; track rating) {
+          <mat-chip-option
+            [selected]="config().ratings.includes(rating)"
+            (click)="toggleRating(rating)"
+          >
+            {{ rating }}
+          </mat-chip-option>
+        }
+      </mat-chip-listbox>
+    </div>
+
+    <div class="settings-section">
+      <label class="settings-section__label">Time Controls</label>
+      <mat-chip-listbox multiple aria-label="Select time controls">
+        @for (speed of speedOptions; track speed.key) {
+          <mat-chip-option
+            [selected]="config().speeds.includes(speed.key)"
+            (click)="toggleSpeed(speed.key)"
+          >
+            {{ speed.label }}
+          </mat-chip-option>
+        }
+      </mat-chip-listbox>
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

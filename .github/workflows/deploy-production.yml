@@ -1,0 +1,36 @@
+name: Deploy Production
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: yarn
+      - run: yarn install --immutable
+      - name: Write deploy metadata
+        run: |-
+          cat > src/assets/deploy.json <<'EOF'
+          {
+            "environment": "production",
+            "commit": "${{ github.sha }}",
+            "tag": "${{ github.ref_name }}",
+            "deployedAt": "${{ github.event.repository.updated_at }}"
+          }
+          EOF
+      - run: yarn build
+      - uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env production
+      - name: Log deployed commit
+        run: echo "Deployed commit ${{ github.sha }} (tag ${{ github.ref_name }}) to production"
