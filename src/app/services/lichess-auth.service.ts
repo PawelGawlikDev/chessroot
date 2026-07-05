@@ -9,6 +9,7 @@ const LICHESS_HOST = 'https://lichess.org';
 const CLIENT_ID = 'http://localhost:4200/';
 const STORAGE_KEY_TOKEN = 'lichessToken';
 const STORAGE_KEY_USERNAME = 'lichessUsername';
+const STORAGE_KEY_RETURN_URL = 'chessroot_return_url';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,9 @@ export class LichessAuthService {
           localStorage.setItem(STORAGE_KEY_TOKEN, token);
           this.fetchService.addLichessOauthToken(token);
           await this.fetchUsername(token);
-          this.router.navigate(['/']);
+          const returnUrl = sessionStorage.getItem(STORAGE_KEY_RETURN_URL) ?? '/';
+          sessionStorage.removeItem(STORAGE_KEY_RETURN_URL);
+          this.router.navigateByUrl(returnUrl);
         }
       }
     } catch {
@@ -61,11 +64,16 @@ export class LichessAuthService {
     }
   }
 
-  public async login(): Promise<void> {
+  public async login(returnUrl?: string): Promise<void> {
+    if (returnUrl) {
+      sessionStorage.setItem(STORAGE_KEY_RETURN_URL, returnUrl);
+    } else {
+      sessionStorage.setItem(STORAGE_KEY_RETURN_URL, this.router.url);
+    }
     await this.oauth.fetchAuthorizationCode();
   }
 
-  public async logout(): Promise<void> {
+  public async logout(returnUrl?: string): Promise<void> {
     const token = localStorage.getItem(STORAGE_KEY_TOKEN);
     if (token) {
       try {
@@ -83,7 +91,10 @@ export class LichessAuthService {
     localStorage.removeItem(STORAGE_KEY_TOKEN);
     localStorage.removeItem(STORAGE_KEY_USERNAME);
     this.fetchService.resetOauthToken();
-    window.location.href = '/';
+
+    const url = returnUrl ?? sessionStorage.getItem(STORAGE_KEY_RETURN_URL) ?? '/';
+    sessionStorage.removeItem(STORAGE_KEY_RETURN_URL);
+    window.location.href = url;
   }
 
   private async fetchUsername(token: string): Promise<void> {

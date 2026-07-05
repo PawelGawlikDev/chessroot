@@ -66,6 +66,13 @@
           >
             Best Moves
           </button>
+          <button
+            class="tabs__btn"
+            [class.tabs__btn--active]="$activeTab() === 'analysis'"
+            (click)="switchTab('analysis')"
+          >
+            Analysis
+          </button>
         </div>
 
         <div class="tabs__content">
@@ -98,6 +105,95 @@
                 (settingsClick)="openBookSettings()"
               />
             }
+          }
+          @if ($activeTab() === 'analysis') {
+            <div class="analysis-panel">
+              <div class="analysis-panel__toolbar">
+                <button
+                  class="analysis-panel__toggle"
+                  [class.analysis-panel__toggle--on]="$engineEnabled()"
+                  (click)="toggleEngine()"
+                >
+                  @if ($engineEnabled()) {
+                    Disable Engine
+                  } @else {
+                    Enable Engine
+                  }
+                </button>
+                @if ($engineEnabled()) {
+                  @if (!$engineReady()) {
+                    <span class="analysis-panel__spinner">Starting engine...</span>
+                  } @else if ($isAnalyzing()) {
+                    <span class="analysis-panel__spinner">Analyzing...</span>
+                  }
+                }
+              </div>
+
+              @if ($engineEnabled()) {
+                <div class="analysis-panel__depth">
+                  <label class="analysis-panel__depth-label">Depth</label>
+                  <select
+                    class="analysis-panel__depth-select"
+                    [value]="$analysisDepth()"
+                    (change)="onDepthChange($event)"
+                  >
+                    @for (d of DEPTH_OPTIONS; track d) {
+                      <option [value]="d">{{ d }}</option>
+                    }
+                  </select>
+                </div>
+
+                @let result = $analysisResult();
+                @if (result.evaluation) {
+                  <div class="analysis-panel__eval">
+                    <span class="analysis-panel__eval-label">Evaluation</span>
+                    <span class="analysis-panel__eval-value">
+                      {{ evalText(result) }}
+                    </span>
+                    <div class="analysis-panel__eval-bar">
+                      <div
+                        class="analysis-panel__eval-fill analysis-panel__eval-fill--white"
+                        [style.width.%]="evalFlexWhite(result)"
+                      ></div>
+                      <div
+                        class="analysis-panel__eval-fill analysis-panel__eval-fill--black"
+                        [style.width.%]="evalFlexBlack(result)"
+                      ></div>
+                    </div>
+                  </div>
+                }
+
+                @if (result.bestMove) {
+                  <div class="analysis-panel__best">
+                    <span class="analysis-panel__best-label">Best move</span>
+                    <span class="analysis-panel__best-value">{{ result.bestMove.san }}</span>
+                  </div>
+                }
+
+                @if (result.pv.length > 0) {
+                  <div class="analysis-panel__pv">
+                    <span class="analysis-panel__pv-label">Principal variation</span>
+                    <div class="analysis-panel__pv-moves">
+                      @for (uci of result.pv; track $index) {
+                        <span class="analysis-panel__pv-move">{{
+                          pvSan($fen(), result.pv, $index)
+                        }}</span>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @if (result.depth > 0) {
+                  <div class="analysis-panel__depth-info">Searched to depth {{ result.depth }}</div>
+                }
+
+                @if (!result.evaluation && !result.bestMove && !$isAnalyzing()) {
+                  <div class="analysis-panel__waiting">Waiting for analysis...</div>
+                }
+              } @else {
+                <div class="analysis-panel__off">The engine is off.</div>
+              }
+            </div>
           }
         </div>
       </div>

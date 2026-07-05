@@ -27,13 +27,13 @@
       <span class="nav__label">{{ auth.getUsername() }}</span>
     </button>
     <mat-menu #userMenu="matMenu">
-      <button mat-menu-item (click)="auth.logout()">
+      <button mat-menu-item (click)="auth.logout(router.url)">
         <mat-icon>logout</mat-icon>
         Logout
       </button>
     </mat-menu>
   } @else {
-    <button mat-button (click)="auth.login()" class="app__login-btn">
+    <button mat-button (click)="auth.login(router.url)" class="app__login-btn">
       <mat-icon>login</mat-icon>
       <span class="nav__label">Log in</span>
     </button>

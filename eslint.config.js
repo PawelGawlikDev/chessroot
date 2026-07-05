@@ -13,6 +13,7 @@ export default tseslint.config(
       '.yarn/**',
       'dist/**',
       'node_modules/**',
+      '**/stockfish/**',
       '.angular/**',
       '.pnp.cjs',
       '.pnp.loader.mjs',
