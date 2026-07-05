@@ -57,6 +57,22 @@ describe('LichessAuthService', () => {
     });
   });
 
+  describe('login', () => {
+    it('should initiate login process', async () => {
+      const spy = vi
+        .spyOn(service['oauth'], 'fetchAuthorizationCode')
+        .mockReturnValue(Promise.resolve());
+      await service.login();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should store returnUrl in sessionStorage if provided', () => {
+      const returnUrl = '/dashboard';
+      service.login(returnUrl);
+      expect(sessionStorage.getItem('chessroot_return_url')).toBe(returnUrl);
+    });
+  });
+
   describe('logout', () => {
     it('should clear localStorage items', () => {
       localStorage.setItem('lichessToken', 'test-token');

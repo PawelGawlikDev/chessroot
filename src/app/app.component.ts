@@ -1,5 +1,5 @@
 import { Component, signal, effect, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
@@ -26,6 +26,7 @@ import { ContactDialogComponent } from './components/dialogs/contact-dialog/cont
 export class ChessRoot {
   public $isDarkTheme = signal(true);
   public auth = inject(LichessAuthService);
+  public router = inject(Router);
   private iconRegistry = inject(MatIconRegistry);
   private dialog = inject(MatDialog);
 

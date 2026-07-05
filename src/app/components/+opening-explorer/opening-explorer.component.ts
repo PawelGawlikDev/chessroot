@@ -5,6 +5,7 @@ import {
   signal,
   computed,
   OnInit,
+  effect,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,6 +37,7 @@ import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
 import type { ExplorerMove, CompareInfo, OpeningBookConfig } from '@model/opening-explorer.model';
 import { Chess } from 'chess.js';
 import type { DrawShape } from 'chessground/draw';
+import { StockfishAnalysisService } from '@services/stockfish-analysis.service';
 
 @Component({
   selector: 'cr-opening-explorer',
@@ -63,6 +65,7 @@ export class OpeningExplorerComponent implements OnInit {
   private manager = inject(OpeningManagerService);
   private store = inject(Store);
   private dialog = inject(MatDialog);
+  private stockfish = inject(StockfishAnalysisService);
 
   public $username = signal('');
   private $platform = this.store.selectSignal(selectPlatform);
@@ -79,9 +82,27 @@ export class OpeningExplorerComponent implements OnInit {
   public $gamesAnalyzed = signal(0);
   public $totalGames = signal(0);
   public $loaded = signal(false);
-  public $activeTab = signal<'moves' | 'book'>('moves');
+  public $activeTab = signal<'moves' | 'book' | 'analysis'>('moves');
+
+  public $engineEnabled = this.stockfish.$enabled;
+  public $engineReady = this.stockfish.$ready;
+  public $isAnalyzing = this.stockfish.$isAnalyzing;
+  public $analysisResult = this.stockfish.$result;
+  public $analysisDepth = this.stockfish.$depth;
+  public readonly DEPTH_OPTIONS = [8, 12, 16, 18, 20, 24, 30];
   public $bookMoves = this.store.selectSignal(selectBookMoves);
   public $highlightedMove = signal<ExplorerMove | null>(null);
+
+  constructor() {
+    effect(() => {
+      const fen = this.$fen();
+      const ready = this.stockfish.$ready();
+      const engineOn = this.$engineEnabled();
+      if (this.$activeTab() === 'analysis' && fen && engineOn && ready) {
+        this.stockfish.analyzePosition(fen);
+      }
+    });
+  }
 
   public ngOnInit(): void {
     this.seo.setSeo(
@@ -340,8 +361,68 @@ export class OpeningExplorerComponent implements OnInit {
     this.$highlightedMove.set(move);
   }
 
-  public switchTab(tab: 'moves' | 'book'): void {
+  public switchTab(tab: 'moves' | 'book' | 'analysis'): void {
     this.$activeTab.set(tab);
+  }
+
+  public toggleEngine(): void {
+    this.stockfish.toggle();
+  }
+
+  public onDepthChange(event: Event): void {
+    const value = parseInt((event.target as HTMLSelectElement).value, 10);
+    this.stockfish.setDepth(value);
+    if (this.stockfish.$ready()) {
+      this.stockfish.analyzePosition(this.$fen());
+    }
+  }
+
+  public evalScore(result: { evaluation: { type: string; value: number } | null }): number {
+    if (!result.evaluation) return 0;
+    return result.evaluation.type === 'mate'
+      ? result.evaluation.value > 0
+        ? 999
+        : -999
+      : result.evaluation.value;
+  }
+
+  public evalText(result: { evaluation: { type: string; value: number } | null }): string {
+    if (!result.evaluation) return '';
+    if (result.evaluation.type === 'mate') {
+      return `M${Math.abs(result.evaluation.value)}`;
+    }
+    const cp = result.evaluation.value;
+    const sign = cp > 0 ? '+' : '';
+    return `${sign}${(cp / 100).toFixed(2)}`;
+  }
+
+  public evalFlexWhite(result: { evaluation: { type: string; value: number } | null }): number {
+    const score = this.evalScore(result);
+    const clamped = Math.max(-500, Math.min(500, score));
+    return 50 + (clamped / 500) * 50;
+  }
+
+  public evalFlexBlack(result: { evaluation: { type: string; value: number } | null }): number {
+    return 100 - this.evalFlexWhite(result);
+  }
+
+  public pvSan(fen: string, pv: string[], index: number): string {
+    try {
+      const chess = new Chess(fen);
+      let san = '';
+      for (let i = 0; i <= index && i < pv.length; i++) {
+        const uci = pv[i];
+        const m = chess.move({
+          from: uci.substring(0, 2),
+          to: uci.substring(2, 4),
+          promotion: uci.substring(4, 5),
+        });
+        if (i === index) san = m?.san ?? uci;
+      }
+      return san;
+    } catch {
+      return pv[index] ?? '';
+    }
   }
 
   public openBookSettings(): void {

@@ -9,4 +9,5 @@ export const routes: Routes = [
   { path: 'achievements', component: AchievementsComponent },
   { path: 'tools', component: ToolsComponent },
   { path: 'explorer', component: OpeningExplorerComponent },
+  { path: '**', redirectTo: '' },
 ];
