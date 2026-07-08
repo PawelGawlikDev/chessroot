@@ -1,0 +1,14 @@
+.mat-mdc-select {
+  --mat-select-enabled-trigger-text-color: var(--cr-on-surface);
+  --mat-select-enabled-arrow-color: var(--cr-on-surface-variant);
+  --mat-select-panel-background-color: var(--cr-surface-container-high);
+  --mat-select-trigger-text-size: var(--cr-body-lg-size);
+  font-family: var(--cr-font-family);
+}
+
+.mat-mdc-option {
+  --mat-option-label-text-font: var(--cr-font-family);
+  --mat-option-label-text-color: var(--cr-on-surface);
+  --mat-option-selected-state-label-text-color: var(--cr-primary);
+  font-family: var(--cr-font-family);
+}

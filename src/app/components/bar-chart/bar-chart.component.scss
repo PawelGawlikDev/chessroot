@@ -3,63 +3,69 @@
 .insight-card {
   padding: 1rem;
 }
+
 .bar-chart {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
   padding: 0.5rem 0;
-}
-.bar-chart__row {
-  display: grid;
-  grid-template-columns: cr-pixels-to-rem(90) 1fr cr-pixels-to-rem(110);
-  align-items: center;
-  gap: 0.5rem;
-}
-@media (max-width: 37.5rem) {
-  .bar-chart__row {
-    grid-template-columns: 1fr;
-    gap: 0.2rem;
+
+  &__row {
+    display: grid;
+    grid-template-columns: cr-pixels-to-rem(90) 1fr cr-pixels-to-rem(110);
+    align-items: center;
+    gap: 0.5rem;
+
+    @media (max-width: 37.5rem) {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
   }
-}
-.bar-chart__label {
-  font-size: 0.8rem;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.bar-chart__label--long {
-  font-size: 0.75rem;
-}
-.bar-chart__bar-container {
-  height: cr-pixels-to-rem(22);
-  background: var(--chess-card-empty-border);
-  border-radius: var(--cr-rounded);
-  overflow: hidden;
-}
-.bar-chart__bar {
-  height: 100%;
-  border-radius: var(--cr-rounded);
-  display: flex;
-  align-items: center;
-  padding-left: cr-pixels-to-rem(6);
-  transition: width 0.3s ease;
-  min-width: fit-content;
-}
-.bar-chart__bar-text {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: white;
-  white-space: nowrap;
-}
-.bar-chart__pct {
-  font-size: 0.75rem;
-  color: var(--chess-text-desc);
-  white-space: nowrap;
-  text-align: right;
-}
-@media (max-width: 37.5rem) {
-  .bar-chart__pct {
-    text-align: left;
+
+  &__label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &--long {
+      font-size: 0.75rem;
+    }
+  }
+
+  &__bar-container {
+    height: cr-pixels-to-rem(22);
+    background: var(--chess-card-empty-border);
+    border-radius: var(--cr-rounded);
+    overflow: hidden;
+  }
+
+  &__bar {
+    height: 100%;
+    border-radius: var(--cr-rounded);
+    display: flex;
+    align-items: center;
+    padding-left: cr-pixels-to-rem(6);
+    transition: width 0.3s ease;
+    min-width: fit-content;
+  }
+
+  &__bar-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+  }
+
+  &__pct {
+    font-size: 0.75rem;
+    color: var(--chess-text-desc);
+    white-space: nowrap;
+    text-align: right;
+
+    @media (max-width: 37.5rem) {
+      text-align: left;
+    }
   }
 }

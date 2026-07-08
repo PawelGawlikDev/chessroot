@@ -1,0 +1,40 @@
+.mat-mdc-card {
+  --mat-card-subtitle-text-color: var(--cr-on-surface-variant);
+  background: var(--cr-chess-card-bg);
+  border: 1px solid var(--cr-chess-card-border);
+  border-radius: var(--cr-rounded);
+  box-shadow: none;
+
+  &.mat-mdc-card {
+    box-shadow: none;
+  }
+}
+
+.mat-mdc-card-header {
+  padding: 0.75rem 0.75rem 0;
+}
+
+.mat-mdc-card-title {
+  font-family: var(--cr-font-family);
+  font-size: var(--cr-headline-sm-size);
+  font-weight: var(--cr-headline-sm-weight);
+  line-height: var(--cr-headline-sm-line);
+  color: var(--cr-on-surface);
+  padding: 0;
+
+  &::before {
+    display: none;
+  }
+}
+
+.mat-mdc-card-content {
+  font-family: var(--cr-font-family);
+  font-size: var(--cr-body-md-size);
+  line-height: var(--cr-body-md-line);
+  color: var(--cr-on-surface);
+  padding: 0.75rem;
+
+  &:last-child {
+    padding-bottom: 0.75rem;
+  }
+}

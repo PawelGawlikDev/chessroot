@@ -1,0 +1,31 @@
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: var(--cr-surface-container-low);
+  --mdc-filled-text-field-label-text-color: var(--cr-on-surface-variant);
+  --mdc-filled-text-field-input-text-color: var(--cr-on-surface);
+  --mdc-filled-text-field-input-text-font: var(--cr-font-family);
+  --mdc-filled-text-field-label-text-font: var(--cr-font-family);
+  --mdc-filled-text-field-active-indicator-color: var(--cr-outline-variant);
+  --mdc-filled-text-field-focus-active-indicator-color: var(--cr-primary);
+  --mdc-filled-text-field-hover-active-indicator-color: var(--cr-outline);
+  --mdc-filled-text-field-disabled-active-indicator-color: var(--cr-outline-variant);
+  --mdc-outlined-text-field-caret-color: var(--cr-primary);
+  --mdc-outlined-text-field-focus-outline-color: var(--cr-primary);
+  --mdc-outlined-text-field-hover-outline-color: var(--cr-outline);
+  --mdc-outlined-text-field-outline-color: var(--cr-outline-variant);
+  --mdc-outlined-text-field-input-text-color: var(--cr-on-surface);
+  --mdc-outlined-text-field-input-text-font: var(--cr-font-family);
+  --mdc-outlined-text-field-label-text-font: var(--cr-font-family);
+  --mdc-outlined-text-field-label-text-color: var(--cr-on-surface-variant);
+  --mat-form-field-container-height: 2.75rem;
+  --mat-form-field-container-vertical-padding: 0.5rem;
+  --mdc-outlined-text-field-label-text-size: var(--cr-body-lg-size);
+  --mdc-outlined-text-field-input-text-size: var(--cr-body-lg-size);
+  --mdc-outlined-text-field-outline-width: 1px;
+  --mdc-outlined-text-field-focus-outline-width: 2px;
+  --mdc-outlined-text-field-container-shape: var(--cr-rounded-md);
+
+  .mat-mdc-form-field-focus-overlay {
+    background: var(--cr-primary);
+    opacity: 0.04;
+  }
+}

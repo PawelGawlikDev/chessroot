@@ -1,0 +1,10 @@
+.mat-expansion-panel {
+  --mat-expansion-container-background-color: var(--cr-surface-container-low);
+  --mat-expansion-container-text-color: var(--cr-on-surface);
+  --mat-expansion-header-text-color: var(--cr-on-surface);
+  --mat-expansion-header-text-font: var(--cr-font-family);
+  --mat-expansion-actions-divider-color: var(--cr-outline-variant);
+  font-family: var(--cr-font-family);
+  border: 1px solid var(--cr-chess-card-border);
+  border-radius: var(--cr-rounded);
+}

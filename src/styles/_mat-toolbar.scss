@@ -1,0 +1,30 @@
+.mat-toolbar {
+  --mat-toolbar-container-background-color: var(--cr-surface-container);
+  --mat-toolbar-container-text-color: var(--cr-on-surface);
+  font-family: var(--cr-font-family);
+  border-bottom: 1px solid var(--cr-chess-card-border);
+}
+
+@media (max-width: 48rem) {
+  .mat-toolbar .mdc-button {
+    padding: 0 !important;
+  }
+
+  .mat-toolbar .mdc-button__label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .mat-toolbar .app__brand .mdc-button__label,
+  .mat-toolbar .app__nav .mdc-button__label,
+  .mat-toolbar .app__login-btn .mdc-button__label,
+  .mat-toolbar .app__user-btn .mdc-button__label {
+    display: none !important;
+  }
+
+  .mat-toolbar .mdc-button .mat-icon {
+    margin: 0 !important;
+  }
+}

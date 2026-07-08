@@ -1,6 +1,8 @@
-.insights__summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+.insights {
+  &__summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
 }
