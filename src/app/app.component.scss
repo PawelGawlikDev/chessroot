@@ -103,4 +103,11 @@
       }
     }
   }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    font-size: var(--cr-code-sm-size);
+    color: var(--mat-sys-secondary);
+  }
 }

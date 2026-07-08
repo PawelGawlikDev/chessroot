@@ -60,14 +60,6 @@ yarn e2e
 yarn e2e:debug
 ```
 
-## Storybook
-
-```bash
-yarn storybook
-```
-
-Component documentation and visual testing served at `http://localhost:6006/`.
-
 ## Code quality
 
 ```bash
@@ -98,6 +90,6 @@ Uses [standard-version](https://github.com/conventional-changelog/standard-versi
 - **State:** NgRx (store, effects, signals)
 - **Styling:** SCSS
 - **Testing:** Vitest, Playwright
-- **Documentation:** Storybook, Compodoc
+- **Documentation:** Compodoc
 - **Deployment:** Cloudflare Workers (Wrangler)
 - **CI:** Husky, Commitlint, Lint-staged

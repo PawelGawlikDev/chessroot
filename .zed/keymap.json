@@ -1,0 +1,11 @@
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      // Format entire document — similar to VS Code's Shift+Alt+F
+      "shift-alt-f": "editor::Format",
+      // Run ESLint fix on the currently open file
+      "cmd-shift-e": ["task::Spawn", { "task_name": "ESLint fix current file" }]
+    }
+  }
+]
