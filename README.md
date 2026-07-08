@@ -1,65 +1,103 @@
-# MyApp
+# Chess App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+A web-based chess application built with Angular 22. Features interactive game play, PGN import/export, move analysis, and Cloudflare Workers deployment.
+
+Built with [Chessground](https://github.com/ornicar/chessground) for the board UI, [chess.js](https://github.com/jhlywa/chess.js) for game logic, and [NgRx](https://ngrx.io) for state management.
+
+## Prerequisites
+
+- Node.js 20+
+- Yarn 4.17+
+- Angular CLI (`npm install -g @angular/cli`)
+
+## Setup
+
+```bash
+yarn install
+```
 
 ## Development server
 
-To start a local development server, run:
+```bash
+yarn start
+```
+
+Navigate to `http://localhost:4200/`. The application automatically reloads on source file changes.
+
+## Build
 
 ```bash
-ng serve
+yarn build
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Build artifacts are stored in `dist/`. Production builds are optimized by default.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Deploy
 
 ```bash
-ng generate component component-name
+# Production
+yarn deploy
+
+# Development
+yarn deploy:dev
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Deploys to Cloudflare Workers via Wrangler.
+
+## Tests
 
 ```bash
-ng generate --help
+# Unit tests (Vitest)
+yarn test
+
+# With coverage
+yarn test:coverage
+
+# End-to-end (Playwright)
+yarn e2e
+
+# E2E with debugger
+yarn e2e:debug
 ```
 
-## Building
-
-To build the project run:
+## Storybook
 
 ```bash
-ng build
+yarn storybook
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Component documentation and visual testing served at `http://localhost:6006/`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Code quality
 
 ```bash
-ng test
+# Lint
+yarn lint
+
+# Format
+yarn prettier
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Release
 
 ```bash
-ng e2e
+# Standard release (patch)
+yarn release
+
+# Major/minor
+yarn release:major
+yarn release:minor
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Uses [standard-version](https://github.com/conventional-changelog/standard-version) with conventional commits.
 
-## Additional Resources
+## Tech stack
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-To bump yarn run
-
-```
-yarn set version x.x.x --yarn-path
-```
+- **Framework:** Angular 22 (standalone components, signals)
+- **UI:** Chessground, Angular Material
+- **State:** NgRx (store, effects, signals)
+- **Styling:** SCSS
+- **Testing:** Vitest, Playwright
+- **Documentation:** Storybook, Compodoc
+- **Deployment:** Cloudflare Workers (Wrangler)
+- **CI:** Husky, Commitlint, Lint-staged

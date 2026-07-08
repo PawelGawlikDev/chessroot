@@ -31,5 +31,11 @@ export class ContactDialogComponent {
       url: 'https://www.reddit.com/user/NullPointerGambit',
       icon: 'forum',
     },
+    {
+      platform: 'GitHub',
+      username: 'PawelGawlikDev',
+      url: 'https://github.com/PawelGawlikDev/chessroot',
+      icon: 'code',
+    },
   ];
 }
