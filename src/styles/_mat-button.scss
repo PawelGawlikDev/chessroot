@@ -1,0 +1,18 @@
+.mat-mdc-button,
+.mat-mdc-stroked-button {
+  --mat-mdc-button-persistent-ripple-color: var(--cr-on-surface);
+  font-family: var(--cr-font-family);
+  border-radius: var(--cr-rounded-lg);
+
+  .mat-mdc-button-touch-target {
+    font-family: var(--cr-font-family);
+  }
+}
+
+.mat-mdc-button {
+  font-weight: 600;
+}
+
+.mat-mdc-stroked-button {
+  font-weight: 600;
+}

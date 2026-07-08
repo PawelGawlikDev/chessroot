@@ -124,10 +124,8 @@
     color: var(--cr-on-surface);
     font-size: var(--cr-body-md-size);
   }
-}
 
-@media (max-width: 48rem) {
-  .fetch-panel {
+  @media (max-width: 48rem) {
     &__header {
       flex-direction: column;
       align-items: stretch;

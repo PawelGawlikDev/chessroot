@@ -1,0 +1,23 @@
+.mat-mdc-menu-panel {
+  --mat-menu-container-color: var(--cr-surface-container-high);
+  --mat-menu-item-label-text-color: var(--cr-on-surface);
+  --mat-menu-item-label-text-font: var(--cr-font-family);
+  --mat-menu-item-label-text-size: var(--cr-body-md-size);
+  --mat-menu-item-label-text-weight: var(--cr-body-md-weight);
+  --mat-menu-item-label-text-line-height: var(--cr-body-md-line);
+  border: 1px solid var(--cr-chess-card-border);
+  border-radius: var(--cr-rounded);
+}
+
+.mat-mdc-menu-item {
+  font-family: var(--cr-font-family);
+  color: var(--cr-on-surface);
+
+  &:hover:not([disabled]) {
+    --mat-menu-item-hover-state-layer-color: var(--cr-surface);
+  }
+
+  .mat-icon {
+    color: var(--cr-on-surface-variant);
+  }
+}

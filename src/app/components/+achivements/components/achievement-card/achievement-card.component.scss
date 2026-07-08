@@ -7,175 +7,202 @@
   transition: all 0.2s ease;
   cursor: pointer;
   min-width: 0;
-}
-.achievement-card:hover {
-  border-color: var(--cr-outline);
-}
-.achievement-card:focus {
-  outline: 2px solid var(--cr-primary);
-  outline-offset: 2px;
-}
-.achievement-card--has-trophies {
-  border-color: var(--cr-primary);
-}
-.achievement-card--has-trophies:hover {
-  border-color: var(--cr-primary-fixed-dim);
-}
-.achievement-card--no-trophies .achievement-card__no-trophies-badge {
-  background: var(--cr-outline-variant);
-  color: var(--cr-on-surface-variant);
-}
-.achievement-card--expanded.achievement-card--has-trophies {
-  border-color: var(--cr-primary);
-}
-.achievement-card__header {
-  padding: 0.75rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-@media (max-width: 37.5rem) {
-  .achievement-card__header {
-    padding: 0.6rem;
+
+  &:hover {
+    border-color: var(--cr-outline);
+  }
+
+  &:focus {
+    outline: 2px solid var(--cr-primary);
+    outline-offset: 2px;
+  }
+
+  &--has-trophies {
+    border-color: var(--cr-primary);
+  }
+
+  &--has-trophies:hover {
+    border-color: var(--cr-primary-fixed-dim);
+  }
+
+  &--no-trophies .achievement-card__no-trophies-badge {
+    background: var(--cr-outline-variant);
+    color: var(--cr-on-surface-variant);
+  }
+
+  &--expanded.achievement-card--has-trophies {
+    border-color: var(--cr-primary);
+  }
+
+  &__header {
+    padding: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    @media (max-width: 37.5rem) {
+      padding: 0.6rem;
+    }
+  }
+
+  &__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--cr-on-surface);
+  }
+
+  &__desc {
+    font-size: var(--cr-body-md-size);
+    line-height: var(--cr-body-md-line);
+    color: var(--cr-on-surface-variant);
+  }
+
+  &__trophies {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  &__trophy-count {
+    font-size: var(--cr-headline-sm-size);
+    font-weight: var(--cr-headline-sm-weight);
+    color: var(--cr-primary);
+    min-width: 1.5rem;
+    text-align: center;
+  }
+
+  &__more-trophies {
+    font-size: 0.7rem;
+    font-weight: 700;
+    opacity: 0.8;
+    white-space: nowrap;
+    color: var(--cr-on-surface-variant);
+  }
+
+  &__expand-icon {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    color: var(--cr-on-surface-variant);
+  }
+
+  &__no-trophies-badge {
+    font-size: var(--cr-body-md-size);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--cr-rounded-full);
+    font-weight: 600;
+    opacity: 0.5;
+  }
+
+  &__details {
+    padding: 0 0.75rem 0.75rem;
+    border-top: 1px solid var(--cr-outline-variant);
+    animation: slideDown 0.2s ease;
+    max-height: 16.25rem;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cr-outline-variant) transparent;
+
+    &::-webkit-scrollbar {
+      width: cr-pixels-to-rem(6);
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--cr-outline-variant);
+      border-radius: var(--cr-rounded-sm);
+    }
+
+    @media (max-width: 37.5rem) {
+      max-height: 12.5rem;
+      padding: 0 0.6rem 0.6rem;
+    }
+  }
+
+  &__trophy-count-text {
+    margin: 0.75rem 0 0.5rem 0;
+    font-size: var(--cr-body-md-size);
+    font-weight: 600;
+    color: var(--cr-primary);
   }
 }
-.achievement-card__info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.achievement-card__title {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--cr-on-surface);
-}
-.achievement-card__desc {
-  font-size: var(--cr-body-md-size);
-  line-height: var(--cr-body-md-line);
-  color: var(--cr-on-surface-variant);
-}
-.achievement-card__trophies {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-shrink: 1;
-  min-width: 0;
-  overflow: hidden;
-}
-.achievement-card__trophy-count {
-  font-size: var(--cr-headline-sm-size);
-  font-weight: var(--cr-headline-sm-weight);
-  color: var(--cr-primary);
-  min-width: 1.5rem;
-  text-align: center;
-}
-.achievement-card__more-trophies {
-  font-size: 0.7rem;
-  font-weight: 700;
-  opacity: 0.8;
-  white-space: nowrap;
-  color: var(--cr-on-surface-variant);
-}
-.achievement-card__expand-icon {
-  font-size: 0.7rem;
-  opacity: 0.8;
-  color: var(--cr-on-surface-variant);
-}
-.achievement-card__no-trophies-badge {
-  font-size: var(--cr-body-md-size);
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--cr-rounded-full);
-  font-weight: 600;
-  opacity: 0.5;
-}
-.achievement-card__details {
-  padding: 0 0.75rem 0.75rem;
-  border-top: 1px solid var(--cr-outline-variant);
-  animation: slideDown 0.2s ease;
-  max-height: 16.25rem;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--cr-outline-variant) transparent;
-}
-.achievement-card__details::-webkit-scrollbar {
-  width: cr-pixels-to-rem(6);
-}
-.achievement-card__details::-webkit-scrollbar-track {
-  background: transparent;
-}
-.achievement-card__details::-webkit-scrollbar-thumb {
-  background: var(--cr-outline-variant);
-  border-radius: var(--cr-rounded-sm);
-}
-@media (max-width: 37.5rem) {
-  .achievement-card__details {
-    max-height: 12.5rem;
-    padding: 0 0.6rem 0.6rem;
-  }
-}
-.achievement-card__trophy-count-text {
-  margin: 0.75rem 0 0.5rem 0;
-  font-size: var(--cr-body-md-size);
-  font-weight: 600;
-  color: var(--cr-primary);
-}
+
 .trophy-list {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-.trophy-list__item {
-  margin-bottom: 0.5rem;
-}
-.trophy-list__item:last-child {
-  margin-bottom: 0;
-}
-.trophy-list__link {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem;
-  background: var(--cr-surface-container);
-  border: 1px solid var(--cr-outline-variant);
-  border-radius: var(--cr-rounded-sm);
-  text-decoration: none;
-  color: var(--cr-on-surface);
-  font-size: var(--cr-body-md-size);
-  transition: background 0.2s ease;
-}
-.trophy-list__link:hover {
-  background: var(--cr-surface-container-high);
-}
-@media (max-width: 37.5rem) {
-  .trophy-list__link {
-    flex-wrap: wrap;
+
+  &__item {
+    margin-bottom: 0.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem;
+    background: var(--cr-surface-container);
+    border: 1px solid var(--cr-outline-variant);
+    border-radius: var(--cr-rounded-sm);
+    text-decoration: none;
+    color: var(--cr-on-surface);
+    font-size: var(--cr-body-md-size);
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: var(--cr-surface-container-high);
+    }
+
+    @media (max-width: 37.5rem) {
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      font-size: var(--cr-code-sm-size);
+    }
+  }
+
+  &__opponent {
+    display: flex;
+    align-items: center;
     gap: 0.25rem;
+    flex: 1;
+    font-weight: 500;
+    min-width: 0;
+  }
+
+  &__title {
     font-size: var(--cr-code-sm-size);
+    opacity: 0.9;
+  }
+
+  &__date {
+    font-size: var(--cr-code-sm-size);
+    color: var(--cr-on-surface-variant);
+  }
+
+  &__view {
+    font-weight: 500;
+    font-size: var(--cr-code-sm-size);
+    color: var(--cr-primary);
   }
 }
-.trophy-list__opponent {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  flex: 1;
-  font-weight: 500;
-  min-width: 0;
-}
-.trophy-list__title {
-  font-size: var(--cr-code-sm-size);
-  opacity: 0.9;
-}
-.trophy-list__date {
-  font-size: var(--cr-code-sm-size);
-  color: var(--cr-on-surface-variant);
-}
-.trophy-list__view {
-  font-weight: 500;
-  font-size: var(--cr-code-sm-size);
-  color: var(--cr-primary);
-}
+
 @keyframes slideDown {
   from {
     opacity: 0;

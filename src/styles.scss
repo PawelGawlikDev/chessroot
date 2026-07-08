@@ -1,7 +1,16 @@
 @use '@angular/material' as mat;
 @use 'styles/functions';
 @use 'styles/tokens';
-@use 'styles/material-overrides';
+@use 'styles/mat-button';
+@use 'styles/mat-card';
+@use 'styles/mat-toolbar';
+@use 'styles/mat-menu';
+@use 'styles/mat-form-field';
+@use 'styles/mat-dialog';
+@use 'styles/mat-chip';
+@use 'styles/mat-select';
+@use 'styles/mat-checkbox';
+@use 'styles/mat-expansion-panel';
 @use 'styles/button-variants';
 
 @font-face {
@@ -283,32 +292,6 @@ body {
 
 .cr-fade-in {
   animation: cr-fade-in 0.3s ease-out;
-}
-
-// ─── Mobile toolbar overrides ──────────────────────────────────────
-
-@media (max-width: 48rem) {
-  .mat-toolbar .mdc-button {
-    padding: 0 !important;
-  }
-
-  .mat-toolbar .mdc-button__label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .mat-toolbar .app__brand .mdc-button__label,
-  .mat-toolbar .app__nav .mdc-button__label,
-  .mat-toolbar .app__login-btn .mdc-button__label,
-  .mat-toolbar .app__user-btn .mdc-button__label {
-    display: none !important;
-  }
-
-  .mat-toolbar .mdc-button .mat-icon {
-    margin: 0 !important;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

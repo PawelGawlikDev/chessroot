@@ -1,0 +1,19 @@
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-color: var(--cr-surface-container-high);
+  --mdc-dialog-supporting-text-color: var(--cr-on-surface-variant);
+  --mdc-dialog-supporting-text-font: var(--cr-font-family);
+  --mdc-dialog-headline-font: var(--cr-font-family);
+  --mdc-dialog-headline-color: var(--cr-on-surface);
+  border: 1px solid var(--cr-chess-card-border);
+  border-radius: var(--cr-rounded-xl);
+}
+
+.mat-mdc-dialog-title {
+  font-family: var(--cr-font-family);
+  color: var(--cr-on-surface);
+}
+
+.mat-mdc-dialog-content {
+  font-family: var(--cr-font-family);
+  color: var(--cr-on-surface-variant);
+}

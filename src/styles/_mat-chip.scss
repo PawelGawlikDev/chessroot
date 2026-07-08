@@ -1,0 +1,8 @@
+.mat-mdc-chip {
+  --mdc-chip-label-text-font: var(--cr-font-family);
+  --mdc-chip-label-text-color: var(--cr-on-surface);
+  --mdc-chip-elevated-container-color: var(--cr-surface-container);
+  --mdc-chip-flat-container-color: var(--cr-surface-container);
+  --mdc-chip-outline-color: var(--cr-outline-variant);
+  font-family: var(--cr-font-family);
+}
