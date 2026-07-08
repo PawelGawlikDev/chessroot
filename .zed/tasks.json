@@ -1,0 +1,7 @@
+[
+  {
+    "label": "ESLint fix current file",
+    "command": "yarn eslint --fix \"$ZED_FILE\"",
+    "tags": ["eslint", "fix"]
+  }
+]

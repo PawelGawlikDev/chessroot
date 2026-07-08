@@ -23,7 +23,6 @@
 - [ ] Lint passes (`yarn lint`)
 - [ ] Build passes (`yarn build`)
 - [ ] Tests added for new functionality
-- [ ] Storybook updated if applicable
 
 ## Related issues
 

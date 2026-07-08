@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LichessAuthService } from '@services/lichess-auth.service';
 import { AcknowledgementsDialogComponent } from './components/dialogs/acknowledgements-dialog/acknowledgements-dialog.component';
 import { ContactDialogComponent } from './components/dialogs/contact-dialog/contact-dialog.component';
+import pkg from '../../package.json';
 
 @Component({
   selector: 'cr-root',
@@ -29,6 +30,8 @@ export class ChessRoot {
   public router = inject(Router);
   private iconRegistry = inject(MatIconRegistry);
   private dialog = inject(MatDialog);
+
+  public version = pkg.version;
 
   constructor() {
     this.iconRegistry.setDefaultFontSetClass('material-symbols-outlined');

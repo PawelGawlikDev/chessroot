@@ -1,6 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from 'eslint-plugin-storybook';
-
 import tseslint from 'typescript-eslint';
 import unusedImports from 'eslint-plugin-unused-imports';
 import prettier from 'eslint-plugin-prettier';
@@ -18,13 +15,12 @@ export default tseslint.config(
       '.pnp.cjs',
       '.pnp.loader.mjs',
       'coverage',
-      'storybook-static',
       'worker.ts',
       'worker-configuration.d.ts',
     ],
   },
   {
-    files: ['src/**/*.ts', '.storybook/**/*.ts'],
+    files: ['src/**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
     },
@@ -48,5 +44,4 @@ export default tseslint.config(
       'prettier/prettier': 'error',
     },
   },
-  storybook.configs['flat/recommended'],
 );

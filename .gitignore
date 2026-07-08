@@ -51,5 +51,3 @@ Thumbs.db
 /playwright/.cache/
 .env*.local
 
-*storybook.log
-storybook-static
