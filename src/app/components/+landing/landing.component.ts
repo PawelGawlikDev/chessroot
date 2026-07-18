@@ -3,8 +3,7 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { LichessAuthService } from '@services/lichess-auth.service';
-import { SeoService } from '@services/seo.service';
+import { LichessAuthService, SeoService } from '@services';
 
 @Component({
   selector: 'cr-landing',

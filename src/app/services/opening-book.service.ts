@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ChessFetchService } from '@services/chess-fetch.service';
+import { ChessFetchService } from '@services';
 import type {
   BookApiResponse,
   BookMovesData,

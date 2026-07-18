@@ -7,15 +7,12 @@ import {
   ChangeDetectorRef,
   OnInit,
 } from '@angular/core';
-import { LichessService } from '@services/lichess.service';
-import { GameCheckerService } from '@services/game-checker.service';
+import { LichessService, GameCheckerService, SeoService, ChessComService } from '@services';
 import { Game, BATCH_SIZE, GameTrophy, CategoryResult, AchievementResult } from '@model';
 import { ACHIEVEMENTS_METADATA, ACHIEVEMENT_CATEGORIES, AchievementMetadata } from '@achievements';
 import { Platform } from '@enums';
-import { SeoService } from '@services/seo.service';
 import { selectPlatform, selectFromDate, selectToDate, selectTimeControls } from '@state';
 import { Store } from '@ngrx/store';
-import { ChessComService } from '@services/chess-com.service';
 import { GameFetchPanelComponent } from '@components/game-fetch-panel/game-fetch-panel.component';
 import { AchievementCategoryComponent } from './components/achievement-category/achievement-category.component';
 import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';

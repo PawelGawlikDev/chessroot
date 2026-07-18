@@ -7,11 +7,9 @@ import {
   ChangeDetectorRef,
   OnInit,
 } from '@angular/core';
-import { LichessService } from '@services/lichess.service';
-import { ChessComService } from '@services/chess-com.service';
+import { LichessService, ChessComService, SeoService } from '@services';
 import { Game, BATCH_SIZE } from '@model';
 import { Platform } from '@enums';
-import { SeoService } from '@services/seo.service';
 import { Store } from '@ngrx/store';
 import { selectPlatform, selectFromDate, selectToDate, selectTimeControls } from '@state';
 import { GameFetchPanelComponent } from '@components/game-fetch-panel/game-fetch-panel.component';

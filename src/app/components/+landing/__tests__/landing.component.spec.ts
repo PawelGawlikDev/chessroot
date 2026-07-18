@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LandingComponent } from '../landing.component';
 import { provideRouter } from '@angular/router';
-import { LichessAuthService } from '@services/lichess-auth.service';
+import { LichessAuthService } from '@services';
 
 describe('LandingComponent', () => {
   const mockAuthService = {

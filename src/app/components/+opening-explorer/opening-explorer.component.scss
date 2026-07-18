@@ -1,8 +1,12 @@
 .explorer {
-  max-width: 96rem;
-  margin: 0 auto;
-  padding: 1rem;
+  width: 100%;
   box-sizing: border-box;
+
+  @media (min-width: 100rem) {
+    max-width: 100rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
 
   &__layout {
     display: flex;
@@ -13,7 +17,7 @@
 
   &__row {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: flex-start;
 
     @media (max-width: 75rem) {
@@ -46,7 +50,7 @@
 
   &__nav-col {
     flex: 0 0 auto;
-    width: 12.5rem;
+    width: 17.5rem;
 
     cr-move-navigation {
       display: block;
@@ -74,7 +78,7 @@
 
   &__board-col {
     flex: 0 0 auto;
-    width: min(44.5rem, calc(100% - 15.5rem));
+    width: min(44.5rem, calc(100% - 20.5rem));
 
     cr-chess-board {
       display: block;

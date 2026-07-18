@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { parseGame } from '@mliebelt/pgn-parser';
-import { ChessFetchService } from '@services/chess-fetch.service';
+import { ChessFetchService } from '@services';
 import {
   ChessComArchive,
   ChessComArchives,

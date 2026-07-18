@@ -12,7 +12,7 @@ import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { routes } from './app.routes';
-import { LichessAuthService } from '@services/lichess-auth.service';
+import { LichessAuthService } from '@services';
 import { userDataReducer, explorerReducer, EXPLORER_FEATURE_KEY } from '@state/reducers';
 import { USER_DATA_FEATURE_KEY } from '@state/selectors';
 import { ExplorerEffects } from '@state/effects';
