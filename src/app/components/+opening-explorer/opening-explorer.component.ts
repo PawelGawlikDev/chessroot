@@ -10,11 +10,13 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { LichessService } from '@services/lichess.service';
-import { ChessComService } from '@services/chess-com.service';
-import { OpeningGraphService } from '@services/opening-graph.service';
-import { OpeningBookService } from '@services/opening-book.service';
-import { OpeningManagerService } from '@services/opening-manager.service';
+import {
+  LichessService,
+  ChessComService,
+  OpeningGraphService,
+  OpeningBookService,
+  OpeningManagerService,
+} from '@services';
 import { GameFetchPanelComponent } from '@components/game-fetch-panel/game-fetch-panel.component';
 import { ChessBoardComponent } from '@components/chessboard/chessboard.component';
 import { MovesTableComponent } from '@components/moves-table/moves-table.component';
@@ -31,13 +33,13 @@ import {
   ExplorerActions,
 } from '@state';
 import { Platform } from '@enums';
-import { SeoService } from '@services/seo.service';
+
 import type { Game, LichessGameParameters } from '@model';
 import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
 import type { ExplorerMove, CompareInfo, OpeningBookConfig } from '@model/opening-explorer.model';
 import { Chess } from 'chess.js';
 import type { DrawShape } from 'chessground/draw';
-import { StockfishAnalysisService } from '@services/stockfish-analysis.service';
+import { StockfishAnalysisService, SeoService } from '@services';
 
 @Component({
   selector: 'cr-opening-explorer',
@@ -113,6 +115,7 @@ export class OpeningExplorerComponent implements OnInit {
       },
       '/explorer',
     );
+
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }
 

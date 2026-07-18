@@ -5,7 +5,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-import { LichessAuthService } from '@services/lichess-auth.service';
+import { LichessAuthService } from '@services';
 import { AcknowledgementsDialogComponent } from './components/dialogs/acknowledgements-dialog/acknowledgements-dialog.component';
 import { ContactDialogComponent } from './components/dialogs/contact-dialog/contact-dialog.component';
 import pkg from '../../package.json';

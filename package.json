@@ -19,9 +19,8 @@
     "release:minor": "standard-version --release-as minor && git push --follow-tags",
     "start": "ng serve",
     "test": "ng test",
-    "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui",
-    "test:watch": "vitest"
+    "test:coverage": "ng test --coverage",
+    "test:ui": "ng test --ui"
   },
   "lint-staged": {
     "*.ts": [

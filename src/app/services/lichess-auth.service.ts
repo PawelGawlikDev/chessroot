@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { OAuth2AuthCodePKCE } from '@bity/oauth2-auth-code-pkce';
-import { ChessFetchService } from '@services/chess-fetch.service';
+import { ChessFetchService } from '@services';
 
 const LICHESS_HOST = 'https://lichess.org';
 const CLIENT_ID = 'http://localhost:4200/';
