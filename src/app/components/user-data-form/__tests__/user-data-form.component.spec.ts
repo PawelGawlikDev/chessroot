@@ -25,13 +25,6 @@ describe('UserDataFormComponent', () => {
     return { fixture, component };
   }
 
-  function setTimeControls(timeControls: Record<string, boolean>) {
-    store.setState({
-      userData: { ...defaultState.userData, timeControls },
-    });
-    store.refreshState();
-  }
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UserDataFormComponent],
@@ -107,23 +100,88 @@ describe('UserDataFormComponent', () => {
     });
   });
 
-  describe('onTimeControlChange', () => {
-    it('should update time controls when toggling a checkbox', () => {
+  describe('form value changes dispatch store actions', () => {
+    it('should dispatch updatePlatform when platform changes', () => {
       const { component } = createComponent();
+      const dispatchSpy = vi.spyOn(store, 'dispatch');
+      component.userDataForm.controls.platform.setValue(Platform.ChessCom);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ platform: Platform.ChessCom }),
+      );
+    });
 
-      setTimeControls({ ...INITIAL_TIME_CONTROLS, bullet: false });
+    it('should dispatch updatePlayerColor when color changes', () => {
+      const { component } = createComponent();
+      const dispatchSpy = vi.spyOn(store, 'dispatch');
+      component.userDataForm.controls.playerColor.setValue('black');
+      expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ playerColor: 'black' }));
+    });
 
-      expect(component.$timeControls()).toEqual({ ...INITIAL_TIME_CONTROLS, bullet: false });
+    it('should dispatch updateFromDate when fromDate changes', () => {
+      const { component } = createComponent();
+      const dispatchSpy = vi.spyOn(store, 'dispatch');
+      const date = new Date(2024, 0, 15);
+      component.userDataForm.controls.fromDate.setValue(date);
+      expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ fromDate: '2024-01-15' }));
+    });
+
+    it('should dispatch updateFromDate with null when fromDate cleared', () => {
+      const { component } = createComponent();
+      const dispatchSpy = vi.spyOn(store, 'dispatch');
+      component.userDataForm.controls.fromDate.setValue(null);
+      expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ fromDate: null }));
+    });
+
+    it('should dispatch updateToDate when toDate changes', () => {
+      const { component } = createComponent();
+      const dispatchSpy = vi.spyOn(store, 'dispatch');
+      const date = new Date(2024, 11, 31);
+      component.userDataForm.controls.toDate.setValue(date);
+      expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ toDate: '2024-12-31' }));
+    });
+
+    it('should dispatch updateToDate with null when toDate cleared', () => {
+      const { component } = createComponent();
+      const dispatchSpy = vi.spyOn(store, 'dispatch');
+      component.userDataForm.controls.toDate.setValue(null);
+      expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ toDate: null }));
+    });
+
+    it('should update username model when username changes', () => {
+      const { component } = createComponent();
+      component.userDataForm.controls.username.setValue('testuser');
+      expect(component.username()).toBe('testuser');
+    });
+  });
+
+  describe('onTimeControlChange', () => {
+    it('should dispatch updateTimeControls when toggling a checkbox', () => {
+      const { component } = createComponent();
+      const dispatchSpy = vi.spyOn(store, 'dispatch');
+      component.onTimeControlChange('bullet', false);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          timeControls: expect.objectContaining({ bullet: false }),
+        }),
+      );
     });
 
     it('should re-enable a time control', () => {
       const { component } = createComponent();
+      const dispatchSpy = vi.spyOn(store, 'dispatch');
+      component.onTimeControlChange('bullet', true);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          timeControls: expect.objectContaining({ bullet: true }),
+        }),
+      );
+    });
+  });
 
-      setTimeControls({ ...INITIAL_TIME_CONTROLS, bullet: false });
-      expect(component.$timeControls().bullet).toBe(false);
-
-      setTimeControls(INITIAL_TIME_CONTROLS);
-      expect(component.$timeControls().bullet).toBe(true);
+  describe('filtersOpen', () => {
+    it('should default to closed', () => {
+      const { component } = createComponent();
+      expect(component.$filtersOpen()).toBe(false);
     });
   });
 });

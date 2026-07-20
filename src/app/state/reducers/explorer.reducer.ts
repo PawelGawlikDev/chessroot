@@ -8,7 +8,7 @@ export interface ExplorerState {
   bookMoves: BookMovesData;
 }
 
-const initialExplorerState: ExplorerState = {
+export const initialExplorerState: ExplorerState = {
   bookMoves: { fetch: 'off' },
 };
 

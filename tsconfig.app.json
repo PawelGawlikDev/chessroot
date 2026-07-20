@@ -8,6 +8,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "package.json"],
   "exclude": ["src/**/*.spec.ts"]
 }

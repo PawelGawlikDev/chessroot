@@ -49,6 +49,24 @@ describe('mapGameToTimeControlKey', () => {
   it('should handle undefined initial', () => {
     expect(mapGameToTimeControlKey({ increment: 1 })).toBe('ultraBullet');
   });
+
+  it('should handle exact boundary values correctly', () => {
+    expect(mapGameToTimeControlKey({ initial: 59, increment: 0 })).toBe('ultraBullet');
+    expect(mapGameToTimeControlKey({ initial: 60, increment: 0 })).toBe('bullet');
+    expect(mapGameToTimeControlKey({ initial: 179, increment: 0 })).toBe('bullet');
+    expect(mapGameToTimeControlKey({ initial: 180, increment: 0 })).toBe('blitz');
+    expect(mapGameToTimeControlKey({ initial: 479, increment: 0 })).toBe('blitz');
+    expect(mapGameToTimeControlKey({ initial: 480, increment: 0 })).toBe('rapid');
+    expect(mapGameToTimeControlKey({ initial: 1499, increment: 0 })).toBe('rapid');
+    expect(mapGameToTimeControlKey({ initial: 1500, increment: 0 })).toBe('classical');
+    expect(mapGameToTimeControlKey({ initial: 86399, increment: 0 })).toBe('classical');
+    expect(mapGameToTimeControlKey({ initial: 86400, increment: 0 })).toBe('correspondence');
+  });
+
+  it('should handle increment multiplier correctly', () => {
+    expect(mapGameToTimeControlKey({ initial: 0, increment: 2 })).toBe('bullet');
+    expect(mapGameToTimeControlKey({ initial: 0, increment: 5 })).toBe('blitz');
+  });
 });
 
 describe('timeControlsToPerfType', () => {
