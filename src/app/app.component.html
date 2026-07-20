@@ -52,13 +52,10 @@
       <mat-icon>mail</mat-icon>
       Contact
     </button>
+    <span class="app__version">v{{ version }}</span>
   </mat-menu>
 </mat-toolbar>
 
 <main class="app__main">
   <router-outlet />
 </main>
-
-<footer class="app__footer">
-  <span class="footer__text">v{{ version }}</span>
-</footer>

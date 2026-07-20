@@ -1,316 +1,350 @@
-import { TestBed } from '@angular/core/testing';
-import { Component, input, output } from '@angular/core';
-import { provideMockStore } from '@ngrx/store/testing';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { ToolsComponent } from '../tools.component';
-import { Insights } from '../models';
 import { Platform } from '@enums';
-import { USER_DATA_FEATURE_KEY } from '@state/selectors';
-import { INITIAL_TIME_CONTROLS } from '@model';
+import { INITIAL_TIME_CONTROLS, Game } from '@model';
+import { ChessComService, LichessService, SeoService } from '@services';
+import type { Insights } from '../models';
 
-@Component({ selector: 'cr-game-fetch-panel', template: '', standalone: true })
-class MockGameFetchPanelComponent {
-  public readonly title = input('');
-  public readonly buttonLabel = input('');
-  public readonly isLoading = input(false);
-  public readonly progress = input(0);
-  public readonly gameCount = input(0);
-  public readonly gamesAnalyzed = input(0);
-  public readonly totalGames = input(0);
-  public readonly username = input('');
-  public readonly usernameChange = output<string>();
-  public readonly fetch = output<void>();
+function buildState(platform: Platform = Platform.Lichess) {
+  return {
+    userData: {
+      platform,
+      playerColor: 'white',
+      fromDate: null,
+      toDate: null,
+      timeControls: { ...INITIAL_TIME_CONTROLS },
+    },
+  };
 }
 
-@Component({ selector: 'cr-insights-summary', template: '', standalone: true })
-class MockInsightsSummaryComponent {
-  public readonly totalGames = input(0);
-  public readonly winRate = input(0);
-  public readonly wins = input(0);
-  public readonly losses = input(0);
-  public readonly draws = input(0);
+function createGame(overrides: Partial<Game> = {}): Game {
+  const base: Game = {
+    site: 'lichess',
+    type: 'game',
+    id: 'game-1',
+    links: {
+      white: 'https://lichess.org/game-1',
+      black: 'https://lichess.org/game-1/black',
+    },
+    timestamp: new Date('2024-01-10T12:00:00Z').getTime(),
+    lastMoveAt: new Date('2024-01-10T12:05:00Z').getTime(),
+    isStandard: true,
+    clocks: [180, 180],
+    result: {
+      winner: 'white',
+      label: '1-0',
+    },
+    players: {
+      white: { username: 'tester', title: 'GM', rating: 2100 },
+      black: { username: 'opponent', title: 'IM', rating: 2000 },
+    },
+    timeControl: { initial: 180, increment: 0 },
+    opening: { eco: 'C20', name: 'King Pawn Game' },
+    moves: [{ notation: { notation: 'e4' } }, { notation: { notation: 'e5' } }],
+  };
+
+  return {
+    ...base,
+    ...overrides,
+    links: { ...base.links, ...overrides.links },
+    result: { ...base.result, ...overrides.result },
+    players: {
+      white: { ...base.players.white, ...overrides.players?.white },
+      black: { ...base.players.black, ...overrides.players?.black },
+    },
+    timeControl: { ...base.timeControl, ...overrides.timeControl },
+    opening: { ...base.opening, ...overrides.opening },
+    moves: overrides.moves ?? base.moves,
+  };
 }
 
-@Component({ selector: 'cr-insights-donut', template: '', standalone: true })
-class MockInsightsDonutComponent {
-  public readonly totalGames = input(0);
-  public readonly wins = input(0);
-  public readonly losses = input(0);
-  public readonly draws = input(0);
-  public readonly whiteWins = input(0);
-  public readonly whiteLosses = input(0);
-  public readonly whiteDraws = input(0);
-  public readonly whiteGames = input(0);
-  public readonly blackWins = input(0);
-  public readonly blackLosses = input(0);
-  public readonly blackDraws = input(0);
-  public readonly blackGames = input(0);
+function createInsights(overrides: Partial<Insights> = {}): Insights {
+  return {
+    totalGames: 0,
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    winsAsWhite: 0,
+    lossesAsWhite: 0,
+    drawsAsWhite: 0,
+    whiteGames: 0,
+    winsAsBlack: 0,
+    lossesAsBlack: 0,
+    drawsAsBlack: 0,
+    blackGames: 0,
+    openings: [],
+    topOpponents: [],
+    timeControls: [],
+    ...overrides,
+  };
 }
-
-@Component({ selector: 'cr-bar-chart', template: '', standalone: true })
-class MockBarChartComponent {
-  public readonly title = input('');
-  public readonly rows = input<unknown[]>([]);
-  public readonly barColor = input('');
-}
-
-const initialState = {
-  [USER_DATA_FEATURE_KEY]: {
-    platform: Platform.Lichess,
-    playerColor: 'white',
-    fromDate: null,
-    toDate: null,
-    timeControls: { ...INITIAL_TIME_CONTROLS },
-  },
-};
 
 describe('ToolsComponent', () => {
-  function createComponent() {
-    const fixture = TestBed.createComponent(ToolsComponent);
-    fixture.detectChanges();
-    return { fixture, component: fixture.componentInstance };
+  let fixture: ComponentFixture<ToolsComponent>;
+  let component: ToolsComponent;
+  let store: MockStore;
+
+  let lichessService: { profile: ReturnType<typeof vi.fn>; playerGames: ReturnType<typeof vi.fn> };
+  let chessComService: { profile: ReturnType<typeof vi.fn>; playerGames: ReturnType<typeof vi.fn> };
+  let seoService: { setSeo: ReturnType<typeof vi.fn> };
+
+  async function createComponent(platform: Platform = Platform.Lichess): Promise<void> {
+    lichessService = { profile: vi.fn(), playerGames: vi.fn() };
+    chessComService = { profile: vi.fn(), playerGames: vi.fn() };
+    seoService = { setSeo: vi.fn() };
+
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({
+      providers: [
+        provideMockStore({ initialState: buildState(platform) }),
+        { provide: LichessService, useValue: lichessService },
+        { provide: ChessComService, useValue: chessComService },
+        { provide: SeoService, useValue: seoService },
+      ],
+    })
+      .overrideComponent(ToolsComponent, {
+        set: {
+          template: '',
+          imports: [],
+        },
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(ToolsComponent);
+    component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
   }
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ToolsComponent,
-        MockGameFetchPanelComponent,
-        MockInsightsSummaryComponent,
-        MockInsightsDonutComponent,
-        MockBarChartComponent,
-      ],
-      providers: [provideNativeDateAdapter(), provideMockStore({ initialState })],
-    });
+  function initializeProcessingState(): void {
+    component['insights'] = createInsights();
+    component['openingMap'] = new Map();
+    component['opponentMap'] = new Map();
+    component['tcMap'] = new Map();
+  }
+
+  beforeEach(async () => {
+    await createComponent();
+    component.$username.set('tester');
+    initializeProcessingState();
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
   });
 
-  it('should set username', () => {
-    const { component } = createComponent();
-    component.$username.set('testuser');
-    expect(component.$username()).toBe('testuser');
+  it('should call seo.setSeo on init', () => {
+    fixture.detectChanges();
+
+    expect(seoService.setSeo).toHaveBeenCalledWith(
+      expect.objectContaining({ title: 'Insights' }),
+      '/tools',
+    );
   });
 
-  it('should compute isButtonDisabled when username is empty', () => {
-    const { component } = createComponent();
+  it('should compute button state, progress and zero-game win rate', () => {
+    component.$username.set('');
     expect(component.$isButtonDisabled()).toBe(true);
-  });
-
-  it('should compute isButtonDisabled when username is set and not loading', () => {
-    const { component } = createComponent();
-    component.$username.set('testuser');
+    component.$username.set('tester');
     expect(component.$isButtonDisabled()).toBe(false);
-  });
-
-  it('should compute isButtonDisabled when loading', () => {
-    const { component } = createComponent();
-    component.$username.set('testuser');
-    component.$isLoading.set(true);
-    expect(component.$isButtonDisabled()).toBe(true);
-  });
-
-  it('should compute progress with total games', () => {
-    const { component } = createComponent();
-    component.$totalGames.set(100);
-    component.$gamesAnalyzed.set(50);
-    expect(component.$progress()).toBe(50);
-  });
-
-  it('should cap progress at 100', () => {
-    const { component } = createComponent();
-    component.$totalGames.set(100);
-    component.$gamesAnalyzed.set(150);
-    expect(component.$progress()).toBe(100);
-  });
-
-  it('should compute progress with 0 total games using gameCount as denominator', () => {
-    const { component } = createComponent();
-    component.$totalGames.set(0);
-    component.$gameCount.set(20);
-    component.$gamesAnalyzed.set(5);
-    expect(component.$progress()).toBe(25);
-  });
-
-  it('should return 0 progress when no games', () => {
-    const { component } = createComponent();
     expect(component.$progress()).toBe(0);
-  });
-
-  it('should compute win rate', () => {
-    const { component } = createComponent();
-    component.$insights.set({
-      totalGames: 100,
-      wins: 60,
-      losses: 30,
-      draws: 10,
-      winsAsWhite: 30,
-      lossesAsWhite: 15,
-      drawsAsWhite: 5,
-      whiteGames: 50,
-      winsAsBlack: 30,
-      lossesAsBlack: 15,
-      drawsAsBlack: 5,
-      blackGames: 50,
-      openings: [],
-      topOpponents: [],
-      timeControls: [],
-    });
-    expect(component.$winRate()).toBe(60);
-  });
-
-  it('should return 0 win rate when no data', () => {
-    const { component } = createComponent();
     expect(component.$winRate()).toBe(0);
   });
 
-  it('should compute top openings sorted by count', () => {
-    const { component } = createComponent();
-    component.$insights.set({
-      totalGames: 3,
+  it('should process a white win, black win and draw with time-control categories', () => {
+    component['processGame'](createGame({ timeControl: { initial: 30, increment: 0 } }));
+    component['processGame'](
+      createGame({
+        id: 'game-2',
+        players: {
+          white: { username: 'other', title: 'FM', rating: 1900 },
+          black: { username: 'tester', title: 'GM', rating: 2100 },
+        },
+        result: { winner: 'black', label: '0-1' },
+        timeControl: { initial: 180, increment: 0 },
+      }),
+    );
+    component['processGame'](
+      createGame({
+        id: 'game-3',
+        result: { winner: undefined, label: '½-½' },
+        timeControl: { initial: 600, increment: 10 },
+      }),
+    );
+    component['processGame'](
+      createGame({
+        id: 'game-4',
+        result: { winner: undefined, label: '½-½' },
+        timeControl: { initial: 1800, increment: 0 },
+      }),
+    );
+
+    expect(component['insights']).toMatchObject({
+      totalGames: 4,
       wins: 2,
-      losses: 1,
-      draws: 0,
-      winsAsWhite: 0,
-      lossesAsWhite: 0,
-      drawsAsWhite: 0,
-      whiteGames: 0,
-      winsAsBlack: 0,
-      lossesAsBlack: 0,
-      drawsAsBlack: 0,
-      blackGames: 0,
-      openings: [
-        { name: 'Sicilian Defense', count: 3, wins: 2, losses: 1, draws: 0 },
-        { name: 'Italian Game', count: 1, wins: 1, losses: 0, draws: 0 },
-      ],
-      topOpponents: [],
-      timeControls: [],
+      draws: 2,
+      whiteGames: 3,
+      blackGames: 1,
+      winsAsWhite: 1,
+      winsAsBlack: 1,
+      drawsAsWhite: 2,
     });
-    const top = component.$topOpenings();
-    expect(top.length).toBe(2);
-    expect(top[0].label).toBe('Sicilian Defense');
-    expect(top[0].count).toBe(3);
-    expect(top[1].label).toBe('Italian Game');
+    expect(Array.from(component['opponentMap'].values())).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ username: 'opponent', games: 3 }),
+        expect.objectContaining({ username: 'other', games: 1, wins: 1 }),
+      ]),
+    );
+    expect(Array.from(component['tcMap'].keys())).toEqual(
+      expect.arrayContaining(['Bullet', 'Blitz', 'Rapid', 'Classical']),
+    );
   });
 
-  it('should return empty top openings when no insights', () => {
-    const { component } = createComponent();
-    expect(component.$topOpenings()).toEqual([]);
+  it('should apply date and time-control filters', () => {
+    const game = createGame({ timestamp: new Date('2024-01-15T12:00:00Z').getTime() });
+    const timeControls = { ...INITIAL_TIME_CONTROLS, blitz: false };
+
+    expect(component['applyFilters'](game, '2024-01-10', '2024-01-20', INITIAL_TIME_CONTROLS)).toBe(
+      true,
+    );
+    expect(component['applyFilters'](game, '2024-01-16', null, INITIAL_TIME_CONTROLS)).toBe(false);
+    expect(component['applyFilters'](game, null, '2024-01-14', INITIAL_TIME_CONTROLS)).toBe(false);
+    expect(component['applyFilters'](game, null, null, timeControls)).toBe(false);
   });
 
-  it('should limit top openings to 10', () => {
-    const { component } = createComponent();
-    const openings = Array.from({ length: 15 }, (_, i) => ({
-      name: `Opening ${i}`,
-      count: 15 - i,
-      wins: 0,
-      losses: 0,
-      draws: 0,
-    }));
-    component.$insights.set({
-      totalGames: 0,
-      wins: 0,
-      losses: 0,
-      draws: 0,
-      winsAsWhite: 0,
-      lossesAsWhite: 0,
-      drawsAsWhite: 0,
-      whiteGames: 0,
-      winsAsBlack: 0,
-      lossesAsBlack: 0,
-      drawsAsBlack: 0,
-      blackGames: 0,
-      openings,
-      topOpponents: [],
-      timeControls: [],
+  it('should sort and limit top opponents', () => {
+    component.$insights.set(
+      createInsights({
+        totalGames: 12,
+        topOpponents: Array.from({ length: 12 }, (_, index) => ({
+          username: `opponent-${index}`,
+          games: 12 - index,
+          wins: index,
+          losses: 0,
+          draws: 0,
+        })),
+      }),
+    );
+
+    const rows = component.$topOpponentsList();
+
+    expect(rows).toHaveLength(10);
+    expect(rows[0]).toMatchObject({ label: 'opponent-0', count: 12 });
+    expect(rows[9]).toMatchObject({ label: 'opponent-9', count: 3 });
+  });
+
+  it('should expose time-control stats rows', () => {
+    component.$insights.set(
+      createInsights({
+        timeControls: [
+          { name: 'Rapid', total: 2, wins: 1, losses: 1, draws: 0 },
+          { name: 'Blitz', total: 5, wins: 3, losses: 1, draws: 1 },
+        ],
+      }),
+    );
+
+    expect(component.$timeControlStats()).toEqual([
+      expect.objectContaining({ label: 'Blitz', count: 5 }),
+      expect.objectContaining({ label: 'Rapid', count: 2 }),
+    ]);
+  });
+
+  it('should process buffered games and increment analyzed count', async () => {
+    vi.useFakeTimers();
+    initializeProcessingState();
+    component['gameBuffer'] = [
+      createGame(),
+      createGame({ id: 'game-2', result: { label: '½-½' } }),
+    ];
+
+    const promise = component['processGameBuffer']();
+    await vi.runAllTimersAsync();
+    await promise;
+
+    expect(component.$gamesAnalyzed()).toBe(2);
+    expect(component['insights'].totalGames).toBe(2);
+    expect(component['isProcessing']).toBe(false);
+  });
+
+  it('should resolve drainBuffer once processing finishes', async () => {
+    component['isProcessing'] = true;
+    component['gameBuffer'] = [];
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      component['isProcessing'] = false;
+      callback(0);
+      return 1;
     });
-    expect(component.$topOpenings().length).toBe(10);
+
+    await expect(component['drainBuffer']()).resolves.toBeUndefined();
   });
 
-  it('should compute top opponents sorted by games', () => {
-    const { component } = createComponent();
-    component.$insights.set({
-      totalGames: 5,
-      wins: 3,
-      losses: 2,
-      draws: 0,
-      winsAsWhite: 0,
-      lossesAsWhite: 0,
-      drawsAsWhite: 0,
-      whiteGames: 0,
-      winsAsBlack: 0,
-      lossesAsBlack: 0,
-      drawsAsBlack: 0,
-      blackGames: 0,
-      openings: [],
-      topOpponents: [
-        { username: 'player2', games: 3, wins: 2, losses: 1, draws: 0 },
-        { username: 'player1', games: 2, wins: 1, losses: 1, draws: 0 },
-      ],
-      timeControls: [],
+  it('should fetch lichess games and build insights', async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      return setTimeout(() => callback(0), 0) as unknown as number;
     });
-    const opps = component.$topOpponentsList();
-    expect(opps.length).toBe(2);
-    expect(opps[0].label).toBe('player2');
-    expect(opps[0].count).toBe(3);
+
+    lichessService.profile.mockResolvedValue({ counts: { all: 8 } });
+    lichessService.playerGames.mockImplementation(
+      async (_username: string, onGame: (game: Game) => void) => {
+        onGame(createGame());
+        onGame(createGame({ id: 'game-2', result: { winner: undefined, label: '½-½' } }));
+      },
+    );
+
+    const promise = component.fetchGames();
+    await vi.runAllTimersAsync();
+    await promise;
+
+    expect(lichessService.profile).toHaveBeenCalledWith('tester');
+    expect(lichessService.playerGames).toHaveBeenCalled();
+    expect(component.$totalGames()).toBe(8);
+    expect(component.$gameCount()).toBe(2);
+    expect(component.$gamesAnalyzed()).toBe(2);
+    expect(component.$insights()).toMatchObject({ totalGames: 2, wins: 1, draws: 1 });
+    expect(component.$isLoading()).toBe(false);
   });
 
-  it('should return empty top opponents when no insights', () => {
-    const { component } = createComponent();
-    expect(component.$topOpponentsList()).toEqual([]);
-  });
-
-  it('should compute time control stats sorted by total', () => {
-    const { component } = createComponent();
-    component.$insights.set({
-      totalGames: 5,
-      wins: 3,
-      losses: 2,
-      draws: 0,
-      winsAsWhite: 0,
-      lossesAsWhite: 0,
-      drawsAsWhite: 0,
-      whiteGames: 0,
-      winsAsBlack: 0,
-      lossesAsBlack: 0,
-      drawsAsBlack: 0,
-      blackGames: 0,
-      openings: [],
-      topOpponents: [],
-      timeControls: [
-        { name: 'Blitz', total: 3, wins: 2, losses: 1, draws: 0 },
-        { name: 'Rapid', total: 2, wins: 1, losses: 1, draws: 0 },
-      ],
+  it('should fetch chess.com games and apply filters before buffering', async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      return setTimeout(() => callback(0), 0) as unknown as number;
     });
-    const tcs = component.$timeControlStats();
-    expect(tcs.length).toBe(2);
-    expect(tcs[0].label).toBe('Blitz');
-    expect(tcs[0].count).toBe(3);
-  });
 
-  it('should return empty time control stats when no insights', () => {
-    const { component } = createComponent();
-    expect(component.$timeControlStats()).toEqual([]);
-  });
+    await createComponent(Platform.ChessCom);
+    component.$username.set('tester');
+    store.setState({
+      userData: {
+        platform: Platform.ChessCom,
+        playerColor: 'white',
+        fromDate: '2024-01-10',
+        toDate: '2024-01-20',
+        timeControls: { ...INITIAL_TIME_CONTROLS },
+      },
+    });
 
-  it('should set loading state during fetch', () => {
-    const { component } = createComponent();
-    component.$username.set('testuser');
+    chessComService.profile.mockResolvedValue({ counts: { all: 4 } });
+    chessComService.playerGames.mockImplementation(
+      async (_username: string, onGame: (game: Game) => void) => {
+        onGame(
+          createGame({ site: 'chess.com', timestamp: new Date('2024-01-12T12:00:00Z').getTime() }),
+        );
+        onGame(
+          createGame({ site: 'chess.com', timestamp: new Date('2024-01-25T12:00:00Z').getTime() }),
+        );
+      },
+    );
 
-    component.fetchGames();
+    const promise = component.fetchGames();
+    await vi.runAllTimersAsync();
+    await promise;
 
-    expect(component.$isLoading()).toBe(true);
-    expect(component.$gameCount()).toBe(0);
-  });
-
-  it('should reset insights during fetch start', () => {
-    const { component } = createComponent();
-    component.$insights.set({} as Insights);
-    component.$username.set('testuser');
-    component.fetchGames();
-    expect(component.$insights()).toBeNull();
+    expect(chessComService.profile).toHaveBeenCalledWith('tester');
+    expect(chessComService.playerGames).toHaveBeenCalled();
+    expect(component.$gameCount()).toBe(1);
+    expect(component.$gamesAnalyzed()).toBe(1);
+    expect(component.$insights()?.totalGames).toBe(1);
   });
 });

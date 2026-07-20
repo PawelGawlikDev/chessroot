@@ -22,5 +22,23 @@ export default defineConfig(({ mode }) => ({
         inline: ['jszip', 'ngx-chessground'],
       },
     },
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'text-summary'],
+      exclude: [
+        '**/*.html',
+        '**/*.d.ts',
+        '**/model/**',
+        '**/enums/**',
+        '**/state/actions/**',
+        '**/state/selectors/**',
+        '**/index.ts',
+        '**/types.ts',
+        '**/*.spec.ts',
+        '**/*.test.ts',
+        '**/test/**',
+        '**/__tests__/**',
+      ],
+    },
   },
 }));

@@ -18,7 +18,7 @@ export function alphabetOpening(game: Game, word: string, moves: PgnMove[]): Tro
     return [
       {
         color: winningColor,
-        onMoveNumber: word.length * 2,
+        onMoveNumber: moves.length - 1,
       },
     ];
   }
