@@ -39,6 +39,8 @@
 
   &__opening-name {
     min-height: 1.5lh;
+    cursor: default;
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

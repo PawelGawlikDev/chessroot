@@ -18,15 +18,15 @@
   <div class="explorer__layout">
     <div class="explorer__row">
       <div class="explorer__nav-col">
-        <div class="explorer__opening-name">{{ $bookMoves().openingName }}</div>
+        <div
+          [matTooltip]="$bookMoves().openingName"
+          matTooltipPosition="above"
+          class="explorer__opening-name"
+        >
+          {{ $bookMoves().openingName }}
+        </div>
         <div class="board-toolbar">
-          <button class="board-toolbar__btn" (click)="flipBoard()">
-            @if ($orientation() === 'white') {
-              Flip to Black
-            } @else {
-              Flip to White
-            }
-          </button>
+          <button class="board-toolbar__btn" (click)="flipBoard()">Flip Board</button>
         </div>
         <cr-move-navigation
           [plys]="$plys()"

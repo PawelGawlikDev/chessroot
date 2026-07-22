@@ -10,6 +10,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   LichessService,
   ChessComService,
@@ -45,6 +46,7 @@ import { StockfishAnalysisService, SeoService } from '@services';
   selector: 'cr-opening-explorer',
   imports: [
     GameFetchPanelComponent,
+    MatTooltipModule,
     ChessBoardComponent,
     MovesTableComponent,
     MoveNavigationComponent,
