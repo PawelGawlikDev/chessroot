@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.2.0...v1.3.0) (2026-07-27)
+
+### Features
+
+- add ko-fi banner ([370bcad](https://github.com/PawelGawlikDev/chessroot/commit/370bcad34ff24ced4a62cfc0c5b2802007e9c577))
+
+### Bug Fixes
+
+- opening name improvements ([253dd3b](https://github.com/PawelGawlikDev/chessroot/commit/253dd3b8c24452bd6d9c1700121dff8ae2cd4d5a))
+- update headers ([4b89f43](https://github.com/PawelGawlikDev/chessroot/commit/4b89f43368d4d65141c504277ce378b0d240708d))
+
 ## [1.2.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.1.0...v1.2.0) (2026-07-21)
 
 ### Features
