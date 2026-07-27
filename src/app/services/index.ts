@@ -10,3 +10,4 @@ export * from './opening-graph.service';
 export * from './opening-book.service';
 export * from './opening-manager.service';
 export * from './game-checker.service';
+export * from './local-storage.service';

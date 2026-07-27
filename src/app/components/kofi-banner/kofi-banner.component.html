@@ -1,0 +1,29 @@
+@if (visible()) {
+  <div class="kofi-fab cr-fade-in">
+    <a
+      href="https://ko-fi.com/N0F523L5OT"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="kofi-fab__link"
+      matTooltip="Buy me a coffee"
+    >
+      <img
+        height="32"
+        src="https://storage.ko-fi.com/cdn/kofi6.png?v=6"
+        border="0"
+        alt="Buy Me a Coffee at ko-fi.com"
+        class="kofi-fab__image"
+      />
+    </a>
+
+    <button
+      mat-icon-button
+      class="kofi-fab__close"
+      (click)="dismiss()"
+      matTooltip="Hide"
+      aria-label="Dismiss Ko-fi button"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+}
