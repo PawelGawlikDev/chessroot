@@ -5,9 +5,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-import { LichessAuthService } from '@services';
+import { LichessAuthService, LocalStorageService } from '@services';
 import { AcknowledgementsDialogComponent } from './components/dialogs/acknowledgements-dialog/acknowledgements-dialog.component';
 import { ContactDialogComponent } from './components/dialogs/contact-dialog/contact-dialog.component';
+import { KofiBannerComponent } from './components/kofi-banner/kofi-banner.component';
 import pkg from '../../package.json';
 
 @Component({
@@ -20,6 +21,7 @@ import pkg from '../../package.json';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
+    KofiBannerComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -30,12 +32,13 @@ export class ChessRoot {
   public router = inject(Router);
   private iconRegistry = inject(MatIconRegistry);
   private dialog = inject(MatDialog);
+  private storage = inject(LocalStorageService);
 
   public version = pkg.version;
 
   constructor() {
     this.iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
-    const saved = localStorage.getItem('chess-theme');
+    const saved = this.storage.getItem<string>('chess-theme');
     if (saved) {
       this.$isDarkTheme.set(saved === 'dark');
     } else {
@@ -46,7 +49,7 @@ export class ChessRoot {
       const isDark = this.$isDarkTheme();
       document.documentElement.classList.toggle('dark-theme', isDark);
       document.documentElement.classList.toggle('light-theme', !isDark);
-      localStorage.setItem('chess-theme', isDark ? 'dark' : 'light');
+      this.storage.setItem('chess-theme', isDark ? 'dark' : 'light');
     });
   }
 
