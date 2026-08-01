@@ -1,6 +1,7 @@
 import { Platform } from '@enums';
-import { UserActions } from '@state/actions';
 import { INITIAL_TIME_CONTROLS } from '@model';
+import { UserActions } from '@state/actions';
+
 import { userDataReducer, initialUserDataState } from '../user-data.reducer';
 
 describe('userDataReducer', () => {

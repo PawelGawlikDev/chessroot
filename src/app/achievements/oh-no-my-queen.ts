@@ -1,7 +1,9 @@
 import { PgnMove } from '@mliebelt/pgn-types';
 import { Chess } from 'chess.js';
-import { TrophyCheckResult } from './types';
+
 import { fenToPosition } from '@utils';
+
+import { TrophyCheckResult } from './types';
 
 export function ohNoMyQueen(moves: PgnMove[]): TrophyCheckResult {
   const lastMove = moves[moves.length - 1];

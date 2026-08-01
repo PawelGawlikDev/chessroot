@@ -1,5 +1,6 @@
-import { monaLisaCheckmate } from '../mona-lisa-checkmate';
 import { Game, Result } from '@model';
+
+import { monaLisaCheckmate } from '../mona-lisa-checkmate';
 
 function makeGame(result: Partial<Result>): Game {
   return {

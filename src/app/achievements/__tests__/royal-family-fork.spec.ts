@@ -1,6 +1,7 @@
-import { royalFamilyFork } from '../royal-family-fork';
 import { PgnMove } from '@mliebelt/pgn-types';
 import { Chess } from 'chess.js';
+
+import { royalFamilyFork } from '../royal-family-fork';
 
 function pgnToMoves(pgn: string): PgnMove[] {
   const chess = new Chess();

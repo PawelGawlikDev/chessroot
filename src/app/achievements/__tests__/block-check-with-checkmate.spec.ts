@@ -1,5 +1,6 @@
-import { blockCheckWithCheckmate } from '../block-check-with-checkmate';
 import { PgnMove } from '@mliebelt/pgn-types';
+
+import { blockCheckWithCheckmate } from '../block-check-with-checkmate';
 
 function makeMove(
   notation: string,

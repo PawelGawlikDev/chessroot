@@ -8,10 +8,10 @@ import {
   model,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
-import { UserDataFormComponent } from '@components/user-data-form/user-data-form.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
+import { UserDataFormComponent } from '@components/user-data-form/user-data-form.component';
 
 @Component({
   selector: 'cr-game-fetch-panel',
@@ -24,6 +24,7 @@ export class GameFetchPanelComponent {
   private router = inject(Router);
   public title = input.required<string>();
   public readonly username = model<string>('');
+  public readonly usernameError = model(false);
   public headerIcon = input<string>('');
   public buttonLabel = input.required<string>();
   public buttonIcon = input('analytics');

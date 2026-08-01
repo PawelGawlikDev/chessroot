@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { BookSettingsDialogComponent } from '../book-settings-dialog.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
 import type { OpeningBookConfig } from '@model/opening-explorer.model';
 import { DEFAULT_BOOK_CONFIG } from '@model/opening-explorer.model';
+
+import { BookSettingsDialogComponent } from '../book-settings-dialog.component';
 
 describe('BookSettingsDialogComponent', () => {
   const mockConfig: OpeningBookConfig = { ...DEFAULT_BOOK_CONFIG };

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Chess } from 'chess.js';
+
 import type { Game } from '@model';
 import type { MoveStats, PgnStats, ExplorerMove } from '@model/opening-explorer.model';
 

@@ -1,6 +1,6 @@
 import { ChessColor } from './chess-site.model';
-import { Title } from './title.model';
 import { LichessTimeControl } from './time-control.model';
+import { Title } from './title.model';
 
 export interface LichessGameParameters {
   since?: number;

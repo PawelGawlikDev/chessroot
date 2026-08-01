@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { ToolsComponent } from '../tools.component';
+
 import { Platform } from '@enums';
 import { INITIAL_TIME_CONTROLS, Game } from '@model';
 import { ChessComService, LichessService, SeoService } from '@services';
+
 import type { Insights } from '../models';
+import { ToolsComponent } from '../tools.component';
 
 function buildState(platform: Platform = Platform.Lichess) {
   return {
@@ -346,5 +348,17 @@ describe('ToolsComponent', () => {
     expect(component.$gameCount()).toBe(1);
     expect(component.$gamesAnalyzed()).toBe(1);
     expect(component.$insights()?.totalGames).toBe(1);
+  });
+
+  it('should mark username invalid and stop when profile fetch fails', async () => {
+    lichessService.profile.mockRejectedValue(new Error('fetch failed'));
+
+    const promise = component.fetchGames();
+    await promise;
+
+    expect(component.$usernameInvalid()).toBe(true);
+    expect(lichessService.playerGames).not.toHaveBeenCalled();
+    expect(component.$isLoading()).toBe(false);
+    expect(component.$totalGames()).toBe(0);
   });
 });

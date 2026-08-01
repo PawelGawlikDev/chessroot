@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { ChessRoot } from '../app.component';
+import { provideRouter } from '@angular/router';
+
 import { LichessAuthService } from '@services';
+
+import pkg from '../../../package.json';
+import { ChessRoot } from '../app.component';
 import { AcknowledgementsDialogComponent } from '../components/dialogs/acknowledgements-dialog/acknowledgements-dialog.component';
 import { ContactDialogComponent } from '../components/dialogs/contact-dialog/contact-dialog.component';
-import pkg from '../../../package.json';
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy, input, output, computed } from '@angular/core';
+
 import type { NavigatorPly } from '@model/opening-explorer.model';
+
 import { buildPgnList } from './utils';
 
 @Component({

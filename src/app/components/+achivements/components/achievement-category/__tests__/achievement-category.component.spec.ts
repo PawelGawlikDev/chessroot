@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { AchievementCategoryComponent } from '../achievement-category.component';
+
 import { CategoryResult } from '@model';
+
+import { AchievementCategoryComponent } from '../achievement-category.component';
 
 describe('AchievementCategoryComponent', () => {
   const mockCategory: CategoryResult = {

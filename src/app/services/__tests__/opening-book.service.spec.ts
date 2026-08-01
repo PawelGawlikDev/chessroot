@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { OpeningBookService } from '../opening-book.service';
-import { ChessFetchService } from '@services';
+
 import { DEFAULT_BOOK_CONFIG } from '@model/opening-explorer.model';
 import type { BookApiResponse, OpeningBookConfig } from '@model/opening-explorer.model';
+import { ChessFetchService } from '@services';
+
+import { OpeningBookService } from '../opening-book.service';
 
 describe('OpeningBookService', () => {
   let service: OpeningBookService;

@@ -1,3 +1,4 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
   ApplicationConfig,
   isDevMode,
@@ -7,15 +8,16 @@ import {
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideEffects } from '@ngrx/effects';
-import { routes } from './app.routes';
+
 import { LichessAuthService } from '@services';
+import { ExplorerEffects } from '@state/effects';
 import { userDataReducer, explorerReducer, EXPLORER_FEATURE_KEY } from '@state/reducers';
 import { USER_DATA_FEATURE_KEY } from '@state/selectors';
-import { ExplorerEffects } from '@state/effects';
+
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [

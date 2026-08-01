@@ -1,7 +1,9 @@
 import { PgnMove } from '@mliebelt/pgn-types';
 import { Chess, Square } from 'chess.js';
-import { TrophyCheckResult } from './types';
+
 import { knightMoves } from '@utils';
+
+import { TrophyCheckResult } from './types';
 
 export function royalFamilyFork(moves: PgnMove[]): TrophyCheckResult {
   let chessJS = new Chess();

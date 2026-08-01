@@ -1,4 +1,5 @@
 import { createActionGroup, props } from '@ngrx/store';
+
 import { Platform } from '@enums';
 import { ChessColor } from '@model';
 

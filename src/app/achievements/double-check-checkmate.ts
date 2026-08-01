@@ -1,5 +1,7 @@
 import { Chess } from 'chess.js';
+
 import { Game } from '@model';
+
 import { TrophyCheckResult } from './types';
 
 type Color = 'w' | 'b';

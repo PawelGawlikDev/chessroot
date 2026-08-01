@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+
 import { InsightsDonutComponent } from '../insights-donut.component';
 
 describe('InsightsDonutComponent', () => {

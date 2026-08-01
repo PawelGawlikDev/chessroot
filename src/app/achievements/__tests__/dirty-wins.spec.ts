@@ -1,6 +1,8 @@
-import { flagOpponentWhoHadMateInOne, winInsufficientMaterial, clutchPawn } from '../dirty-wins';
-import { Game } from '@model';
 import { PgnMove } from '@mliebelt/pgn-types';
+
+import { Game } from '@model';
+
+import { flagOpponentWhoHadMateInOne, winInsufficientMaterial, clutchPawn } from '../dirty-wins';
 
 function makeGame(via: string, winner?: 'white' | 'black'): Game {
   return {

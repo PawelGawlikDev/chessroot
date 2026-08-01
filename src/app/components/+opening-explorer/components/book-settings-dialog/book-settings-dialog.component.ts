@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
 import type { OpeningBookConfig } from '@model/opening-explorer.model';
 import { RATING_OPTIONS, SPEED_OPTIONS } from '@model/opening-explorer.model';
 

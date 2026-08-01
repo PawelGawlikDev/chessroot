@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { MovesTableComponent } from '../moves-table.component';
+
 import type { ExplorerMove } from '@model/opening-explorer.model';
+
+import { MovesTableComponent } from '../moves-table.component';
 
 describe('MovesTableComponent', () => {
   const mockMoves: ExplorerMove[] = [

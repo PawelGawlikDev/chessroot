@@ -1,5 +1,6 @@
-import { checkmateWithTenthSecondLeft, avoidTheFlagCheckmate } from '../avoid-the-flag-checkmate';
 import { Game } from '@model';
+
+import { checkmateWithTenthSecondLeft, avoidTheFlagCheckmate } from '../avoid-the-flag-checkmate';
 
 function makeGame(
   opts: Partial<{

@@ -1,7 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
+
 import { Platform } from '@enums';
-import { UserActions } from '@state/actions';
 import { UserDataState, INITIAL_TIME_CONTROLS } from '@model';
+import { UserActions } from '@state/actions';
 
 export const initialUserDataState: UserDataState = {
   platform: Platform.Lichess,

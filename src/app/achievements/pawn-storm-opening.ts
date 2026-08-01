@@ -1,5 +1,7 @@
 import { PgnMove } from '@mliebelt/pgn-types';
+
 import { Game } from '@model';
+
 import { TrophyCheckResult } from './types';
 
 export function pawnStormOpening(game: Game, moves: PgnMove[]): TrophyCheckResult {

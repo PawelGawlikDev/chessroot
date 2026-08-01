@@ -1,9 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-import { LichessService } from '../lichess.service';
-import { ChessFetchService } from '../chess-fetch.service';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+
 import { LichessArena, LichessGame, LichessPlayer, LichessSwiss } from '@model';
+
+import { ChessFetchService } from '../chess-fetch.service';
+import { LichessService } from '../lichess.service';
 
 function createNdjsonResponse(lines: string[]): Response {
   const body = `${lines.join('\n')}\n`;

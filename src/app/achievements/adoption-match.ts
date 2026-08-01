@@ -1,4 +1,5 @@
 import { Game } from '@model';
+
 import { TrophyCheckResult } from './types';
 
 export class AdoptionMatchTracker {

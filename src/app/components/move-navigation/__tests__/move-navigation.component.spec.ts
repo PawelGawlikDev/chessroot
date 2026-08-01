@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { MoveNavigationComponent } from '../move-navigation.component';
+
 import type { NavigatorPly } from '@model/opening-explorer.model';
+
+import { MoveNavigationComponent } from '../move-navigation.component';
 
 describe('MoveNavigationComponent', () => {
   const mockPlys: NavigatorPly[] = [

@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 import { UserDataState } from '@model';
 
 export const USER_DATA_FEATURE_KEY = 'userData';

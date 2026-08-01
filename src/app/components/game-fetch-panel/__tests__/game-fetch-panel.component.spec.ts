@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { GameFetchPanelComponent } from '../game-fetch-panel.component';
 import { provideRouter } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
+
 import { Platform } from '@enums';
 import { INITIAL_TIME_CONTROLS } from '@model';
 import { USER_DATA_FEATURE_KEY } from '@state/selectors';
+
+import { GameFetchPanelComponent } from '../game-fetch-panel.component';
 
 const initialState = {
   [USER_DATA_FEATURE_KEY]: {
@@ -145,6 +147,14 @@ describe('GameFetchPanelComponent', () => {
     const { fixture } = createComponent({ showColorFilter: true });
     const el = fixture.nativeElement as HTMLElement;
     expect(el.querySelector('cr-user-data-form')).not.toBeNull();
+  });
+
+  it('should forward usernameError to user-data-form', () => {
+    const { fixture } = createComponent();
+    fixture.componentRef.setInput('usernameError', true);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('mat-error')?.textContent).toContain('Username not found');
   });
 
   it('should display button label', () => {

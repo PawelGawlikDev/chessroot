@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { AchievementCardComponent } from '../achievement-card.component';
+
 import { AchievementResult } from '@model';
+
+import { AchievementCardComponent } from '../achievement-card.component';
 
 describe('AchievementCardComponent', () => {
   const mockAchievement: AchievementResult = {

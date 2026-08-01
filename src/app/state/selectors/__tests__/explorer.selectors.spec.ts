@@ -1,5 +1,6 @@
 import '@angular/compiler';
 import type { ExplorerState } from '@state/reducers/explorer.reducer';
+
 import { selectExplorerState, selectBookMoves } from '../explorer.selectors';
 
 describe('Explorer Selectors', () => {

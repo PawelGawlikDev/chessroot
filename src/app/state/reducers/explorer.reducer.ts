@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { ExplorerActions } from '@state/actions/explorer.actions';
+
 import type { BookMovesData } from '@model/opening-explorer.model';
 
 export const EXPLORER_FEATURE_KEY = 'explorer';

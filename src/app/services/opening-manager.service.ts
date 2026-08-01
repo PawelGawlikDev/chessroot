@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import type { NavigatorPly } from '@model/opening-explorer.model';
 import { Chess } from 'chess.js';
+
+import type { NavigatorPly } from '@model/opening-explorer.model';
 
 @Injectable({ providedIn: 'root' })
 export class OpeningManagerService {

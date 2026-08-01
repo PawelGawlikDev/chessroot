@@ -1,3 +1,5 @@
+import { Game } from '@model';
+
 import {
   stalemateTricks,
   bishopAndKnightMate,
@@ -6,7 +8,6 @@ import {
   twoBishopMate,
   fourKnightMate,
 } from '../game-checks';
-import { Game } from '@model';
 
 function makeGame(via: string, winner?: 'white' | 'black'): Game {
   return {

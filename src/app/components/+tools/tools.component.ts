@@ -7,16 +7,18 @@ import {
   ChangeDetectorRef,
   OnInit,
 } from '@angular/core';
-import { LichessService, ChessComService, SeoService } from '@services';
-import { Game, BATCH_SIZE } from '@model';
-import { Platform } from '@enums';
-import { Store } from '@ngrx/store';
-import { selectPlatform, selectFromDate, selectToDate, selectTimeControls } from '@state';
-import { GameFetchPanelComponent } from '@components/game-fetch-panel/game-fetch-panel.component';
-import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
-import { InsightsSummaryComponent } from './components/insights-summary/insights-summary.component';
-import { InsightsDonutComponent } from './components/insights-donut/insights-donut.component';
 import { BarChartComponent, BarChartRow } from '@components/bar-chart/bar-chart.component';
+import { GameFetchPanelComponent } from '@components/game-fetch-panel/game-fetch-panel.component';
+import { Store } from '@ngrx/store';
+
+import { Platform } from '@enums';
+import { Game, BATCH_SIZE } from '@model';
+import { LichessService, ChessComService, SeoService } from '@services';
+import { selectPlatform, selectFromDate, selectToDate, selectTimeControls } from '@state';
+import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
+
+import { InsightsDonutComponent } from './components/insights-donut/insights-donut.component';
+import { InsightsSummaryComponent } from './components/insights-summary/insights-summary.component';
 import { Insights, OpeningStat, OpponentStat, TimeControlStat } from './models';
 
 @Component({
@@ -50,6 +52,7 @@ export class ToolsComponent implements OnInit {
   }
 
   public $username = signal('');
+  public $usernameInvalid = signal(false);
   private $platform = this.store.selectSignal(selectPlatform);
   private $fromDate = this.store.selectSignal(selectFromDate);
   private $toDate = this.store.selectSignal(selectToDate);
@@ -223,6 +226,7 @@ export class ToolsComponent implements OnInit {
 
   public async fetchGames(): Promise<void> {
     this.$isLoading.set(true);
+    this.$usernameInvalid.set(false);
     this.$insights.set(null);
     this.$gameCount.set(0);
     this.$gamesAnalyzed.set(0);
@@ -263,6 +267,10 @@ export class ToolsComponent implements OnInit {
       }
     } catch {
       this.$totalGames.set(0);
+      this.$usernameInvalid.set(true);
+      this.$isLoading.set(false);
+      this.cdr.markForCheck();
+      return;
     }
 
     const fromDate = this.$fromDate();

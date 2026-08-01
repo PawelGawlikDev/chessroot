@@ -1,5 +1,6 @@
 import { Platform } from '@enums';
 import { UserDataState, INITIAL_TIME_CONTROLS } from '@model';
+
 import {
   selectPlatform,
   selectPlayerColor,

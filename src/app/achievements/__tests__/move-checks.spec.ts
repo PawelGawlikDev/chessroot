@@ -1,3 +1,5 @@
+import { PgnMove } from '@mliebelt/pgn-types';
+
 import {
   castleAfterMove40,
   pawnCheckmate,
@@ -10,7 +12,6 @@ import {
   promoteToKnightCheckmate,
   promotePawnBeforeMoveNumber,
 } from '../move-checks';
-import { PgnMove } from '@mliebelt/pgn-types';
 
 function makeMove(
   notation: string,

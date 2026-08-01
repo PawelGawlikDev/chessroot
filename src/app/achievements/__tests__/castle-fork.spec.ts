@@ -1,5 +1,6 @@
-import { castleFork } from '../castle-fork';
 import { PgnMove } from '@mliebelt/pgn-types';
+
+import { castleFork } from '../castle-fork';
 
 function makeMove(
   notation: string,

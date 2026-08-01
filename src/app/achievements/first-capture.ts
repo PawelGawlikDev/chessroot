@@ -1,4 +1,5 @@
 import { PgnMove } from '@mliebelt/pgn-types';
+
 import { TrophyCheckResult } from './types';
 
 export function getMoveNumberOfFirstCapture(moves: PgnMove[]): number {

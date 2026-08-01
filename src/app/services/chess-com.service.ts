@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { parseGame } from '@mliebelt/pgn-parser';
-import { ChessFetchService } from '@services';
+
 import {
   ChessComArchive,
   ChessComArchives,
@@ -20,6 +20,7 @@ import {
   ChessComTournament,
   ChessComPlayer,
 } from '@model';
+import { ChessFetchService } from '@services';
 
 @Injectable({
   providedIn: 'root',

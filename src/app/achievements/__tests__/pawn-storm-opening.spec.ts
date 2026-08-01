@@ -1,6 +1,8 @@
-import { pawnStormOpening } from '../pawn-storm-opening';
-import { Game } from '@model';
 import { PgnMove } from '@mliebelt/pgn-types';
+
+import { Game } from '@model';
+
+import { pawnStormOpening } from '../pawn-storm-opening';
 
 function makeGame(winner?: 'white' | 'black'): Game {
   return {

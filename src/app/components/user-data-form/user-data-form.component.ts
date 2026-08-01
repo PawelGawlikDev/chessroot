@@ -1,17 +1,19 @@
-import { Component, inject, input, model, signal } from '@angular/core';
+import { Component, effect, inject, input, model, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Store } from '@ngrx/store';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
+import { Store } from '@ngrx/store';
+
 import { Platform } from '@enums';
-import { UserActions, selectTimeControls } from '@state';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TIME_CONTROL_FILTERS, type ChessColor } from '@model';
+import { UserActions, selectTimeControls } from '@state';
+import { formatDate } from '@utils';
 
 @Component({
   selector: 'cr-user-data-form',
@@ -33,6 +35,7 @@ export class UserDataFormComponent {
   private store = inject(Store);
 
   public readonly username = model<string>('');
+  public readonly usernameError = model(false);
 
   public readonly timeControlFilters = Object.entries(TIME_CONTROL_FILTERS).map(([key, val]) => ({
     key,
@@ -57,7 +60,11 @@ export class UserDataFormComponent {
   constructor() {
     this.userDataForm.controls.username.valueChanges
       .pipe(takeUntilDestroyed())
-      .subscribe((username) => this.username.set(username));
+      .subscribe((username) => {
+        this.username.set(username);
+        this.usernameError.set(false);
+        this.userDataForm.controls.username.setErrors(null);
+      });
 
     this.userDataForm.controls.platform.valueChanges
       .pipe(takeUntilDestroyed())
@@ -84,6 +91,16 @@ export class UserDataFormComponent {
           UserActions.updateToDate({ toDate: toDate ? formatDate(toDate) : null }),
         ),
       );
+
+    effect(() => {
+      const control = this.userDataForm.controls.username;
+      if (this.usernameError()) {
+        control.setErrors({ invalidUsername: true });
+        control.markAsTouched();
+      } else if (control.hasError('invalidUsername')) {
+        control.setErrors(null);
+      }
+    });
   }
 
   public onTimeControlChange(key: string, checked: boolean): void {
@@ -91,11 +108,4 @@ export class UserDataFormComponent {
     current[key] = checked;
     this.store.dispatch(UserActions.updateTimeControls({ timeControls: current }));
   }
-}
-
-function formatDate(date: Date): string {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
 }

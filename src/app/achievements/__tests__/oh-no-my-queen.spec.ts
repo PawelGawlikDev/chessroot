@@ -1,6 +1,7 @@
-import { ohNoMyQueen } from '../oh-no-my-queen';
 import { PgnMove } from '@mliebelt/pgn-types';
 import { Chess } from 'chess.js';
+
+import { ohNoMyQueen } from '../oh-no-my-queen';
 
 function pgnToMoves(pgn: string): PgnMove[] {
   const chess = new Chess();
