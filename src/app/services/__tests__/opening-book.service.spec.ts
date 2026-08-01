@@ -104,7 +104,7 @@ describe('OpeningBookService', () => {
 
       const expectedUrl = `https://explorer.lichess.ovh/lichess?fen=${encodeURIComponent(TEST_FEN)}&variant=standard&ratings=2000,2200,2500&speeds=rapid,classical`;
       expect(mockFetchService.fetchFromEndpoint).toHaveBeenCalledWith(expectedUrl, {
-        headers: { 'User-Agent': 'chess-app/1.0' },
+        headers: { 'User-Agent': 'chessroot/1.0' },
       });
     });
 

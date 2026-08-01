@@ -40,7 +40,7 @@ export class OpeningBookService {
       const url = `https://explorer.lichess.ovh/${cfg.bookType}?fen=${encoded}&variant=standard&ratings=${ratings}&speeds=${speeds}`;
 
       const response = await this.fetchService.fetchFromEndpoint(url, {
-        headers: { 'User-Agent': 'chess-app/1.0' },
+        headers: { 'User-Agent': 'chessroot/1.0' },
       });
       this.fetchService.checkForServerError(response);
       const data: BookApiResponse = await response.json();

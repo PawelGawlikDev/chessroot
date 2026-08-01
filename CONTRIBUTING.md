@@ -5,7 +5,7 @@ Thanks for your interest in contributing!
 ## Getting started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/your-username/chess-app.git`
+2. Clone your fork: `git clone https://github.com/your-username/chessroot.git`
 3. Install dependencies: `yarn install`
 4. Run the dev server: `ng serve`
 
@@ -53,4 +53,4 @@ docs: update documentation
 
 ## Questions?
 
-Open a [discussion](https://github.com/PawelGawlikDev/chess-app/discussions) or contact the maintainer directly.
+Open a [discussion](https://github.com/PawelGawlikDev/chessroot/discussions) or contact the maintainer directly.

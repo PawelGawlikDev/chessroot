@@ -7627,9 +7627,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chess-app@workspace:.":
+"chess.js@npm:1.4.0":
+  version: 1.4.0
+  resolution: "chess.js@npm:1.4.0"
+  checksum: 10c0/9f49e298cbaabddceb1d1e27e276b9f58665090faaacec3a802b5475f8359397857b0f355e49160fac214fbff54a639432c8155b63806f8dd34d3afc575f690b
+  languageName: node
+  linkType: hard
+
+"chessground@npm:9.2.1":
+  version: 9.2.1
+  resolution: "chessground@npm:9.2.1"
+  checksum: 10c0/b1a8b8392b54bfcad519e5db3e437a9314e11530403dd1d1bb57cbab09e31084c5c9ee1b63b444be4fe5d8b28bde1e9f21b5b269e2b4f0c24f90ada98ea64b47
+  languageName: node
+  linkType: hard
+
+"chessops@npm:0.15.1":
+  version: 0.15.1
+  resolution: "chessops@npm:0.15.1"
+  dependencies:
+    "@badrap/result": "npm:^0.3"
+  checksum: 10c0/3acc88f7908a1af2a64cee6a1c99ddd30fb568a27e4d90bde7b41c374955ab8498782fc7f7dc5084c44d8b15186a762023f9f22aaf348813aa0dbe07917aec35
+  languageName: node
+  linkType: hard
+
+"chessroot@workspace:.":
   version: 0.0.0-use.local
-  resolution: "chess-app@workspace:."
+  resolution: "chessroot@workspace:."
   dependencies:
     "@analogjs/vite-plugin-angular": "npm:2.6.4"
     "@analogjs/vitest-angular": "npm:2.6.4"
@@ -7708,29 +7731,6 @@ __metadata:
     wrangler: "npm:4.114.0"
   languageName: unknown
   linkType: soft
-
-"chess.js@npm:1.4.0":
-  version: 1.4.0
-  resolution: "chess.js@npm:1.4.0"
-  checksum: 10c0/9f49e298cbaabddceb1d1e27e276b9f58665090faaacec3a802b5475f8359397857b0f355e49160fac214fbff54a639432c8155b63806f8dd34d3afc575f690b
-  languageName: node
-  linkType: hard
-
-"chessground@npm:9.2.1":
-  version: 9.2.1
-  resolution: "chessground@npm:9.2.1"
-  checksum: 10c0/b1a8b8392b54bfcad519e5db3e437a9314e11530403dd1d1bb57cbab09e31084c5c9ee1b63b444be4fe5d8b28bde1e9f21b5b269e2b4f0c24f90ada98ea64b47
-  languageName: node
-  linkType: hard
-
-"chessops@npm:0.15.1":
-  version: 0.15.1
-  resolution: "chessops@npm:0.15.1"
-  dependencies:
-    "@badrap/result": "npm:^0.3"
-  checksum: 10c0/3acc88f7908a1af2a64cee6a1c99ddd30fb568a27e4d90bde7b41c374955ab8498782fc7f7dc5084c44d8b15186a762023f9f22aaf348813aa0dbe07917aec35
-  languageName: node
-  linkType: hard
 
 "chokidar@npm:^3.6.0":
   version: 3.6.0
