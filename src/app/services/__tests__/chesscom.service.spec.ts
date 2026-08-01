@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+
 import { ChessComGame, ChesscomStats } from '@model';
-import { ChessFetchService } from '../chess-fetch.service';
+
 import { ChessComService } from '../chess-com.service';
+import { ChessFetchService } from '../chess-fetch.service';
 
 function jsonResponse(body: unknown): Response {
   return {

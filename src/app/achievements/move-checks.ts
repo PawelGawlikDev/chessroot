@@ -1,5 +1,6 @@
 import { PgnMove } from '@mliebelt/pgn-types';
 import { Chess } from 'chess.js';
+
 import { TrophyCheckResult } from './types';
 
 export function castleAfterMove40(moves: PgnMove[]): TrophyCheckResult {

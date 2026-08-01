@@ -1,7 +1,8 @@
-import { TestBed } from '@angular/core/testing';
 import { Component, input } from '@angular/core';
-import { ChessBoardComponent } from '../chessboard.component';
+import { TestBed } from '@angular/core/testing';
 import { Chess } from 'chess.js';
+
+import { ChessBoardComponent } from '../chessboard.component';
 
 @Component({
   selector: 'ngx-chessground',

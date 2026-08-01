@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+
 import { BarChartComponent, BarChartRow } from '../bar-chart.component';
 
 describe('BarChartComponent', () => {

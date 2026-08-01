@@ -1,4 +1,5 @@
 import { ExplorerActions } from '@state/actions';
+
 import { explorerReducer, initialExplorerState } from '../explorer.reducer';
 
 describe('explorerReducer', () => {

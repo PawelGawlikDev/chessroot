@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import type { Action } from '@ngrx/store';
+import { ExplorerActions } from '@state/actions/explorer.actions';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { vi } from 'vitest';
-import { ExplorerEffects } from '../explorer.effects';
-import { ExplorerActions } from '@state/actions/explorer.actions';
-import { OpeningBookService, LichessAuthService } from '@services';
+
 import type { BookMovesData } from '@model/opening-explorer.model';
-import type { Action } from '@ngrx/store';
+import { OpeningBookService, LichessAuthService } from '@services';
+
+import { ExplorerEffects } from '../explorer.effects';
 
 describe('ExplorerEffects', () => {
   let effects: ExplorerEffects;

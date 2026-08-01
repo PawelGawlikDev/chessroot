@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { parseGame } from '@mliebelt/pgn-parser';
-import { ChessFetchService } from '@services';
+
 import {
   Game,
   GameCallback,
@@ -16,6 +16,7 @@ import {
   Result,
   NetworkError,
 } from '@model';
+import { ChessFetchService } from '@services';
 
 @Injectable({
   providedIn: 'root',

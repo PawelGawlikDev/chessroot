@@ -1,5 +1,6 @@
-import { getMoveNumberOfFirstCapture, noCapturesBeforeMoveNumber } from '../first-capture';
 import { PgnMove } from '@mliebelt/pgn-types';
+
+import { getMoveNumberOfFirstCapture, noCapturesBeforeMoveNumber } from '../first-capture';
 
 function makeMove(notation: string, turn: 'w' | 'b', strike?: string): PgnMove {
   return {

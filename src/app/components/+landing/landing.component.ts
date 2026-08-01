@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
+
 import { LichessAuthService, SeoService } from '@services';
 
 @Component({

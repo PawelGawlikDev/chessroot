@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+
 import { StatCardComponent } from '../stat-card.component';
 
 describe('StatCardComponent', () => {

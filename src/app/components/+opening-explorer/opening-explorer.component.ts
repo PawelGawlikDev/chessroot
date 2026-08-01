@@ -1,16 +1,29 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   inject,
   signal,
   computed,
   OnInit,
   effect,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BookSettingsDialogComponent } from '@components/+opening-explorer/components/book-settings-dialog/book-settings-dialog.component';
+import { ChessBoardComponent } from '@components/chessboard/chessboard.component';
+import { GameFetchPanelComponent } from '@components/game-fetch-panel/game-fetch-panel.component';
+import { MoveNavigationComponent } from '@components/move-navigation/move-navigation.component';
+import { MovesTableComponent } from '@components/moves-table/moves-table.component';
+import { Store } from '@ngrx/store';
+import { Chess } from 'chess.js';
+import type { DrawShape } from 'chessground/draw';
+
+import { Platform } from '@enums';
+import type { Game, LichessGameParameters } from '@model';
+import type { ExplorerMove, CompareInfo, OpeningBookConfig } from '@model/opening-explorer.model';
 import {
   LichessService,
   ChessComService,
@@ -18,12 +31,7 @@ import {
   OpeningBookService,
   OpeningManagerService,
 } from '@services';
-import { GameFetchPanelComponent } from '@components/game-fetch-panel/game-fetch-panel.component';
-import { ChessBoardComponent } from '@components/chessboard/chessboard.component';
-import { MovesTableComponent } from '@components/moves-table/moves-table.component';
-import { MoveNavigationComponent } from '@components/move-navigation/move-navigation.component';
-import { BookSettingsDialogComponent } from '@components/+opening-explorer/components/book-settings-dialog/book-settings-dialog.component';
-import { Store } from '@ngrx/store';
+import { StockfishAnalysisService, SeoService } from '@services';
 import {
   selectPlatform,
   selectPlayerColor,
@@ -33,14 +41,7 @@ import {
   selectBookMoves,
   ExplorerActions,
 } from '@state';
-import { Platform } from '@enums';
-
-import type { Game, LichessGameParameters } from '@model';
 import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
-import type { ExplorerMove, CompareInfo, OpeningBookConfig } from '@model/opening-explorer.model';
-import { Chess } from 'chess.js';
-import type { DrawShape } from 'chessground/draw';
-import { StockfishAnalysisService, SeoService } from '@services';
 
 @Component({
   selector: 'cr-opening-explorer',
@@ -70,8 +71,10 @@ export class OpeningExplorerComponent implements OnInit {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private stockfish = inject(StockfishAnalysisService);
+  private cdr = inject(ChangeDetectorRef);
 
   public $username = signal('');
+  public $usernameInvalid = signal(false);
   private $platform = this.store.selectSignal(selectPlatform);
   private $playerColor = this.store.selectSignal(selectPlayerColor);
   private $fromDate = this.store.selectSignal(selectFromDate);
@@ -246,6 +249,7 @@ export class OpeningExplorerComponent implements OnInit {
 
   public async fetchGames(): Promise<void> {
     this.$isLoading.set(true);
+    this.$usernameInvalid.set(false);
     this.$loaded.set(false);
     this.$gameCount.set(0);
     this.$gamesAnalyzed.set(0);
@@ -266,6 +270,10 @@ export class OpeningExplorerComponent implements OnInit {
       }
     } catch {
       this.$totalGames.set(0);
+      this.$usernameInvalid.set(true);
+      this.$isLoading.set(false);
+      this.cdr.markForCheck();
+      return;
     }
 
     const filterColor = this.$playerColor();

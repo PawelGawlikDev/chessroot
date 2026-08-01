@@ -1,6 +1,7 @@
 import { Game } from '@model';
-import { knightCube, knightRectangle } from './piece-structures';
 import { fenToPosition, calculateMaterialImbalance } from '@utils';
+
+import { knightCube, knightRectangle } from './piece-structures';
 import { TrophyCheckResult } from './types';
 
 export function stalemateTricks(game: Game, fen: string): TrophyCheckResult {

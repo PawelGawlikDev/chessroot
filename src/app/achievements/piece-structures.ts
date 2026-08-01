@@ -1,5 +1,6 @@
-import { TrophyCheckResult } from './types';
 import { fenToPosition, positionToFiles } from '@utils';
+
+import { TrophyCheckResult } from './types';
 
 export function quadrupledPawns(fen: string): TrophyCheckResult {
   const position = fenToPosition(fen);

@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { TrophyCollectionComponent } from '@components/trophy-collection/trophy-collection.component';
+
 import { AchievementResult } from '@model';
 
 @Component({

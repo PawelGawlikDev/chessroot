@@ -7,15 +7,17 @@ import {
   ChangeDetectorRef,
   OnInit,
 } from '@angular/core';
-import { LichessService, GameCheckerService, SeoService, ChessComService } from '@services';
-import { Game, BATCH_SIZE, GameTrophy, CategoryResult, AchievementResult } from '@model';
+import { GameFetchPanelComponent } from '@components/game-fetch-panel/game-fetch-panel.component';
+import { Store } from '@ngrx/store';
+
 import { ACHIEVEMENTS_METADATA, ACHIEVEMENT_CATEGORIES, AchievementMetadata } from '@achievements';
 import { Platform } from '@enums';
+import { Game, BATCH_SIZE, GameTrophy, CategoryResult, AchievementResult } from '@model';
+import { LichessService, GameCheckerService, SeoService, ChessComService } from '@services';
 import { selectPlatform, selectFromDate, selectToDate, selectTimeControls } from '@state';
-import { Store } from '@ngrx/store';
-import { GameFetchPanelComponent } from '@components/game-fetch-panel/game-fetch-panel.component';
-import { AchievementCategoryComponent } from './components/achievement-category/achievement-category.component';
 import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
+
+import { AchievementCategoryComponent } from './components/achievement-category/achievement-category.component';
 
 @Component({
   selector: 'cr-achievements',
@@ -44,6 +46,7 @@ export class AchievementsComponent implements OnInit {
   }
 
   public $username = signal('');
+  public $usernameInvalid = signal(false);
   private $platform = this.store.selectSignal(selectPlatform);
   private $fromDate = this.store.selectSignal(selectFromDate);
   private $toDate = this.store.selectSignal(selectToDate);
@@ -137,6 +140,7 @@ export class AchievementsComponent implements OnInit {
 
   public async fetchGames(): Promise<void> {
     this.$isLoading.set(true);
+    this.$usernameInvalid.set(false);
     this.$results.set(new Map());
     this.$gameCount.set(0);
     this.$gamesAnalyzed.set(0);
@@ -156,6 +160,10 @@ export class AchievementsComponent implements OnInit {
       }
     } catch {
       this.$totalGames.set(0);
+      this.$usernameInvalid.set(true);
+      this.$isLoading.set(false);
+      this.cdr.markForCheck();
+      return;
     }
 
     const fromDate = this.$fromDate();

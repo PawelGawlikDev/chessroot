@@ -1,4 +1,5 @@
 import { AchievementMetadata } from '@achievements';
+
 import { AchievementResult } from './achievement-result.model';
 
 export interface CategoryResult {

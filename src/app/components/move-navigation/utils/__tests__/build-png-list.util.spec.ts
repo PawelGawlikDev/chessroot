@@ -1,5 +1,6 @@
-import { buildPgnList } from '../build-png-list.util';
 import type { NavigatorPly } from '@model';
+
+import { buildPgnList } from '../build-png-list.util';
 
 function makePly(san: string | null): NavigatorPly {
   return {

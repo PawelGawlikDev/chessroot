@@ -4,3 +4,4 @@ export * from './knight-moves.util';
 export * from './neighboring-squares.util';
 export * from './pawn-captures.util';
 export * from './time-control.util';
+export * from './format-date.util';

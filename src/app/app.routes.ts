@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { LandingComponent } from '@components/+landing/landing.component';
 import { AchievementsComponent } from '@components/+achivements/achievements.component';
-import { ToolsComponent } from '@components/+tools/tools.component';
+import { LandingComponent } from '@components/+landing/landing.component';
 import { OpeningExplorerComponent } from '@components/+opening-explorer/opening-explorer.component';
+import { ToolsComponent } from '@components/+tools/tools.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },

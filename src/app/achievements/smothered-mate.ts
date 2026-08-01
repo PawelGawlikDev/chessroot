@@ -1,7 +1,9 @@
 import { PgnMove } from '@mliebelt/pgn-types';
 import { Chess, Color, Piece, Square } from 'chess.js';
-import { TrophyCheckResult } from './types';
+
 import { knightMoves, neighboringSquares, pawnCaptures } from '@utils';
+
+import { TrophyCheckResult } from './types';
 
 // https://github.com/jhlywa/chess.js/issues/174#issuecomment-388633402
 function get_piece_positions(chessJs: Chess, piece: Piece): Square[] {

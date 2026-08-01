@@ -1,15 +1,17 @@
 import { Component, signal, effect, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialog } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+
 import { LichessAuthService, LocalStorageService } from '@services';
+
+import pkg from '../../package.json';
 import { AcknowledgementsDialogComponent } from './components/dialogs/acknowledgements-dialog/acknowledgements-dialog.component';
 import { ContactDialogComponent } from './components/dialogs/contact-dialog/contact-dialog.component';
 import { KofiBannerComponent } from './components/kofi-banner/kofi-banner.component';
-import pkg from '../../package.json';
 
 @Component({
   selector: 'cr-root',

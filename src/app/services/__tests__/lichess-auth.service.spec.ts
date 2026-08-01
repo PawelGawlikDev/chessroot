@@ -1,9 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-import { LichessAuthService } from '../lichess-auth.service';
-import { ChessFetchService } from '../chess-fetch.service';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+
+import { ChessFetchService } from '../chess-fetch.service';
+import { LichessAuthService } from '../lichess-auth.service';
 
 const routerMock = {
   url: '/current-route',

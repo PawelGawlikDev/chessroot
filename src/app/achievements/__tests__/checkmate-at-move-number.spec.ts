@@ -1,5 +1,6 @@
-import { checkmateAtMoveNumber } from '../checkmate-at-move-number';
 import { PgnMove } from '@mliebelt/pgn-types';
+
+import { checkmateAtMoveNumber } from '../checkmate-at-move-number';
 
 function makeMove(notation: string, turn: 'w' | 'b', check?: string, fig?: string): PgnMove {
   return {

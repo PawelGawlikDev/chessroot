@@ -1,6 +1,7 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { catchError, firstValueFrom, retry } from 'rxjs';
+
 import { FetchOptions, FetchError, NetworkError } from '@model';
 
 interface RetryConfig {

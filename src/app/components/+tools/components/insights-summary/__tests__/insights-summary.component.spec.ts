@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+
 import { InsightsSummaryComponent } from '../insights-summary.component';
 
 describe('InsightsSummaryComponent', () => {

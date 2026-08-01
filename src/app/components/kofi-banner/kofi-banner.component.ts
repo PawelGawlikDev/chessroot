@@ -2,6 +2,7 @@ import { Component, inject, signal, effect, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
 import { LocalStorageService } from '@services';
 
 const KOFI_BANNER_DISMISSED_KEY = 'chess-kofi-banner-dismissed';

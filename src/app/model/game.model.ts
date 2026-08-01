@@ -1,7 +1,7 @@
 import { ChessSite } from './chess-site.model';
-import { Title } from './title.model';
-import { TimeControl } from './time-control.model';
 import { Result } from './result.model';
+import { TimeControl } from './time-control.model';
+import { Title } from './title.model';
 
 export interface GamePlayer {
   username?: string;

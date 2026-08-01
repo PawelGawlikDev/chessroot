@@ -8,13 +8,13 @@ import {
   inject,
   DestroyRef,
 } from '@angular/core';
-import { NgxChessgroundComponent } from 'ngx-chessground';
+import { Chess } from 'chess.js';
 import { Chessground } from 'chessground';
 import type { Api } from 'chessground/api';
 import type { Config } from 'chessground/config';
 import type { DrawShape } from 'chessground/draw';
 import type { Key } from 'chessground/types';
-import { Chess } from 'chess.js';
+import { NgxChessgroundComponent } from 'ngx-chessground';
 import { toDests } from 'ngx-chessground';
 
 @Component({

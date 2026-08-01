@@ -1,5 +1,6 @@
-import { AdoptionMatchTracker } from '../adoption-match';
 import { Game } from '@model';
+
+import { AdoptionMatchTracker } from '../adoption-match';
 
 function makeGame(
   winner: 'white' | 'black' | undefined,

@@ -1,6 +1,7 @@
-import { lefongTrap } from '../lefong-trap';
 import { PgnMove } from '@mliebelt/pgn-types';
 import { Chess } from 'chess.js';
+
+import { lefongTrap } from '../lefong-trap';
 
 function pgnToMoves(pgn: string): PgnMove[] {
   const chess = new Chess();

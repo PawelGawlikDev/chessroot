@@ -1,8 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 import { OAuth2AuthCodePKCE } from '@bity/oauth2-auth-code-pkce';
+import { firstValueFrom } from 'rxjs';
+
 import { ChessFetchService } from '@services';
 
 const LICHESS_HOST = 'https://lichess.org';

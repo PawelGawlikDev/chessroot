@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Chess } from 'chess.js';
-import { Game } from '@model';
-import { TrophyCheckResult, AdoptionMatchTracker } from '@achievements';
 
-import * as gameChecks from '../achievements/game-checks';
-import * as moveChecks from '../achievements/move-checks';
-import * as pieceStructures from '../achievements/piece-structures';
-import * as dirtyWins from '../achievements/dirty-wins';
+import { TrophyCheckResult, AdoptionMatchTracker } from '@achievements';
 import {
   avoidTheFlagCheckmate,
   checkmateWithTenthSecondLeft,
@@ -26,6 +21,12 @@ import {
   alphabetOpening,
   ohNoMyQueen,
 } from '@achievements';
+import { Game } from '@model';
+
+import * as dirtyWins from '../achievements/dirty-wins';
+import * as gameChecks from '../achievements/game-checks';
+import * as moveChecks from '../achievements/move-checks';
+import * as pieceStructures from '../achievements/piece-structures';
 
 @Injectable({
   providedIn: 'root',

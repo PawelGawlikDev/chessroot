@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { signal } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
-import { OpeningExplorerComponent } from '../opening-explorer.component';
+
 import { Platform } from '@enums';
 import { INITIAL_TIME_CONTROLS, Game } from '@model';
 import type { BookMovesData, ExplorerMove, OpeningBookConfig } from '@model/opening-explorer.model';
@@ -16,6 +16,8 @@ import {
   SeoService,
   StockfishAnalysisService,
 } from '@services';
+
+import { OpeningExplorerComponent } from '../opening-explorer.component';
 
 function buildState(
   platform: Platform = Platform.Lichess,
@@ -398,5 +400,16 @@ describe('OpeningExplorerComponent', () => {
     expect(component.$loaded()).toBe(true);
     expect(component.$isLoading()).toBe(false);
     expect(component.$gameCount()).toBe(0);
+  });
+
+  it('should mark username invalid and stop when profile fetch fails', async () => {
+    lichessService.profile.mockRejectedValue(new Error('fetch failed'));
+
+    await component.fetchGames();
+
+    expect(component.$usernameInvalid()).toBe(true);
+    expect(lichessService.playerGames).not.toHaveBeenCalled();
+    expect(component.$isLoading()).toBe(false);
+    expect(component.$totalGames()).toBe(0);
   });
 });

@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { UserDataFormComponent } from '../user-data-form.component';
+
 import { Platform } from '@enums';
 import { INITIAL_TIME_CONTROLS } from '@model';
+
+import { UserDataFormComponent } from '../user-data-form.component';
 
 describe('UserDataFormComponent', () => {
   let store: MockStore;
@@ -175,6 +177,47 @@ describe('UserDataFormComponent', () => {
           timeControls: expect.objectContaining({ bullet: true }),
         }),
       );
+    });
+  });
+
+  describe('usernameError', () => {
+    it('should set invalidUsername error on the control when usernameError is true', () => {
+      const { fixture, component } = createComponent();
+      fixture.componentRef.setInput('usernameError', true);
+      fixture.detectChanges();
+
+      expect(component.userDataForm.controls.username.hasError('invalidUsername')).toBe(true);
+    });
+
+    it('should clear invalidUsername error when usernameError becomes false', () => {
+      const { fixture, component } = createComponent();
+      fixture.componentRef.setInput('usernameError', true);
+      fixture.detectChanges();
+      fixture.componentRef.setInput('usernameError', false);
+      fixture.detectChanges();
+
+      expect(component.userDataForm.controls.username.hasError('invalidUsername')).toBe(false);
+    });
+
+    it('should render mat-error when usernameError is true', () => {
+      const { fixture } = createComponent();
+      fixture.componentRef.setInput('usernameError', true);
+      fixture.detectChanges();
+
+      const error = fixture.nativeElement.querySelector('mat-error');
+      expect(error).not.toBeNull();
+      expect(error.textContent).toContain('Username not found');
+    });
+
+    it('should clear error and reset the model when the user types', () => {
+      const { fixture, component } = createComponent();
+      fixture.componentRef.setInput('usernameError', true);
+      fixture.detectChanges();
+
+      component.userDataForm.controls.username.setValue('newuser');
+
+      expect(component.userDataForm.controls.username.hasError('invalidUsername')).toBe(false);
+      expect(component.usernameError()).toBe(false);
     });
   });
 

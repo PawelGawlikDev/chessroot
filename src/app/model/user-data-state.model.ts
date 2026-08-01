@@ -1,4 +1,5 @@
 import { Platform } from '@enums';
+
 import { ChessColor } from './chess-site.model';
 
 export type UserDataState = {

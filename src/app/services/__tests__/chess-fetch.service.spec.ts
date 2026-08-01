@@ -1,8 +1,10 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { ChessFetchService } from '../chess-fetch.service';
+import { TestBed } from '@angular/core/testing';
+
 import { FetchError, NetworkError } from '@model';
+
+import { ChessFetchService } from '../chess-fetch.service';
 
 interface ChessFetchServicePrivate {
   abortController: AbortController;

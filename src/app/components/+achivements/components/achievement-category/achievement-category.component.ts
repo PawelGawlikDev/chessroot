@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
-import { AchievementCardComponent } from '../achievement-card/achievement-card.component';
+
 import { CategoryResult } from '@model';
+
+import { AchievementCardComponent } from '../achievement-card/achievement-card.component';
 
 @Component({
   selector: 'cr-achievement-category',

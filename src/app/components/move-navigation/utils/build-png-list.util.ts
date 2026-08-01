@@ -1,4 +1,5 @@
 import type { NavigatorPly } from '@model';
+
 import { PgnMoveEntry } from '../models';
 
 export const buildPgnList = (plys: NavigatorPly[]): PgnMoveEntry[] => {

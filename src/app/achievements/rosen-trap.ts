@@ -1,6 +1,8 @@
 import { PgnMove } from '@mliebelt/pgn-types';
-import { Game } from '@model';
 import { Chess } from 'chess.js';
+
+import { Game } from '@model';
+
 import { TrophyCheckResult } from './types';
 
 export function rosenTrap(game: Game, moves: PgnMove[]): TrophyCheckResult {

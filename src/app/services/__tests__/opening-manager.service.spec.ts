@@ -1,6 +1,7 @@
-import { OpeningManagerService } from '../opening-manager.service';
 import { TestBed } from '@angular/core/testing';
 import { Chess } from 'chess.js';
+
+import { OpeningManagerService } from '../opening-manager.service';
 
 describe('OpeningManagerService', () => {
   let service: OpeningManagerService;

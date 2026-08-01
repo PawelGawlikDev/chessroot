@@ -1,8 +1,10 @@
 import { PgnMove } from '@mliebelt/pgn-types';
-import { Game } from '@model';
 import { Chess } from 'chess.js';
-import { TrophyCheckResult } from './types';
+
+import { Game } from '@model';
 import { calculateMaterialImbalance, fenToPosition } from '@utils';
+
+import { TrophyCheckResult } from './types';
 
 export function flagOpponentWhoHadMateInOne(game: Game, moves: PgnMove[]): TrophyCheckResult {
   if (!game.result.winner || game.result.via !== 'timeout') {

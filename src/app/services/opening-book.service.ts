@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ChessFetchService } from '@services';
+
 import type {
   BookApiResponse,
   BookMovesData,
@@ -7,6 +7,7 @@ import type {
   OpeningBookConfig,
 } from '@model/opening-explorer.model';
 import { DEFAULT_BOOK_CONFIG } from '@model/opening-explorer.model';
+import { ChessFetchService } from '@services';
 
 @Injectable({ providedIn: 'root' })
 export class OpeningBookService {

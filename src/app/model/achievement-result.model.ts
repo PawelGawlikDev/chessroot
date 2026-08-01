@@ -1,4 +1,5 @@
 import { AchievementMetadata } from '@achievements';
+
 import { GameTrophy } from './game-trophy.model';
 
 export interface AchievementResult {

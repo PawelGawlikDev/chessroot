@@ -1,5 +1,6 @@
-import { doubleCheckCheckmate } from '../double-check-checkmate';
 import { Game } from '@model';
+
+import { doubleCheckCheckmate } from '../double-check-checkmate';
 
 function makeGame(via: string, winner?: 'white' | 'black', movesLength: number = 10): Game {
   return {

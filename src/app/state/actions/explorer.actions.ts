@@ -1,4 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
+
 import type { BookMovesData } from '@model/opening-explorer.model';
 
 export const ExplorerActions = createActionGroup({

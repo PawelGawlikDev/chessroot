@@ -1,8 +1,9 @@
+import { PgnMove } from '@mliebelt/pgn-types';
+
 import {
   consecutiveCapturesAnySquare,
   consecutiveCapturesSameSquare,
 } from '../consecutive-captures';
-import { PgnMove } from '@mliebelt/pgn-types';
 
 function makeMove(
   notation: string,

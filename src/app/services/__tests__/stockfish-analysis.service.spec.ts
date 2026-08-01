@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+
 import { StockfishAnalysisService } from '../stockfish-analysis.service';
 
 class MockWorker {

@@ -3,6 +3,9 @@
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-form__username">
       <mat-label>Username</mat-label>
       <input formControlName="username" matInput placeholder="lichess username" />
+      @if (usernameError()) {
+        <mat-error>Username not found. Check it and try again.</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-form__platform">

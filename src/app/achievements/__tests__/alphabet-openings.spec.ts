@@ -1,6 +1,8 @@
-import { alphabetOpening } from '../alphabet-openings';
-import { Game } from '@model';
 import { PgnMove } from '@mliebelt/pgn-types';
+
+import { Game } from '@model';
+
+import { alphabetOpening } from '../alphabet-openings';
 
 function makeGame(winner: 'white' | 'black' | undefined): Game {
   return {

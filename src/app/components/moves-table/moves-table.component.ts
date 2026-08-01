@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
+
 import type { ExplorerMove } from '@model/opening-explorer.model';
+
 import { simplifyCount } from './utils';
 
 @Component({

@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { OpeningGraphService } from '../opening-graph.service';
 import { Chess } from 'chess.js';
+
 import type { Game } from '@model';
+
+import { OpeningGraphService } from '../opening-graph.service';
 
 function makeGame(moves: string[], result: string, overrides?: Partial<Game>): Game {
   const chess = new Chess();

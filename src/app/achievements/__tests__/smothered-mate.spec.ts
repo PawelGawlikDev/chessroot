@@ -1,6 +1,7 @@
-import { smotheredMate, smotheredPorkMate } from '../smothered-mate';
 import { PgnMove } from '@mliebelt/pgn-types';
 import { Chess } from 'chess.js';
+
+import { smotheredMate, smotheredPorkMate } from '../smothered-mate';
 
 function pgnToMoves(pgn: string): PgnMove[] {
   const chess = new Chess();
