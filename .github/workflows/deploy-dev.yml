@@ -1,7 +1,9 @@
 name: Deploy Dev
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*.*-*'
 
 jobs:
   deploy:
@@ -19,7 +21,7 @@ jobs:
           {
             "environment": "development",
             "commit": "${{ github.sha }}",
-            "ref": "${{ github.ref_name }}",
+            "tag": "${{ github.ref_name }}",
             "deployedAt": "${{ github.event.repository.updated_at }}"
           }
           EOF
@@ -29,4 +31,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           command: deploy --env development
       - name: Log deployed commit
-        run: echo "Deployed commit ${{ github.sha }} (${{ github.event.head_commit.message }}) to development"
+        run: echo "Deployed commit ${{ github.sha }} (tag ${{ github.ref_name }}) to development"
