@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.4.0-dev.0...v1.4.0) (2026-08-01)
+
+### Features
+
+- opencode config ([4ca9981](https://github.com/PawelGawlikDev/chessroot/commit/4ca9981f947d8f40f0eab35f25cb000067a0de69))
+
 ## [1.4.0-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.3.0...v1.4.0-dev.0) (2026-08-01)
 
 ### Features
