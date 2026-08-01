@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.3.0...v1.4.0-dev.0) (2026-08-01)
+
+### Features
+
+- show error when user type wrong username in user date form ([09c071d](https://github.com/PawelGawlikDev/chessroot/commit/09c071d126ee4be8288f413b590b06a94a6ca91e))
+
 ## [1.3.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.2.0...v1.3.0) (2026-07-27)
 
 ### Features
