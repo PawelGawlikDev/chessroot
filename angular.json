@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "chess-app": {
+    "chessroot": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -74,10 +74,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "chess-app:build:production"
+              "buildTarget": "chessroot:build:production"
             },
             "development": {
-              "buildTarget": "chess-app:build:development"
+              "buildTarget": "chessroot:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -98,11 +98,11 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:e2e",
           "options": {
-            "devServerTarget": "chess-app:serve"
+            "devServerTarget": "chessroot:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "chess-app:serve:production"
+              "devServerTarget": "chessroot:serve:production"
             }
           }
         }
