@@ -89,6 +89,7 @@ export class OpeningExplorerComponent implements OnInit {
   public $gamesAnalyzed = signal(0);
   public $totalGames = signal(0);
   public $loaded = signal(false);
+  public $successVersion = signal(0);
   public $activeTab = signal<'moves' | 'book' | 'analysis'>('moves');
 
   public $engineEnabled = this.stockfish.$enabled;
@@ -327,6 +328,7 @@ export class OpeningExplorerComponent implements OnInit {
     }
 
     this.$loaded.set(true);
+    this.$successVersion.update((value) => value + 1);
     this.$isLoading.set(false);
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }

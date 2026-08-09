@@ -1,7 +1,31 @@
 <div class="nav">
-  <button class="nav__btn" (click)="goBack.emit()" [disabled]="!$canGoBack()">◀</button>
-  <button class="nav__btn" (click)="goForward.emit()" [disabled]="!$canGoForward()">▶</button>
-  <button class="nav__btn nav__btn--reset" (click)="reset.emit()" title="Reset to start">↺</button>
+  <button
+    class="nav__btn"
+    (click)="goBack.emit()"
+    [disabled]="!$canGoBack()"
+    aria-label="Go to previous move"
+  >
+    <span class="nav__btn-icon">◀</span>
+    <span class="nav__btn-label">Back</span>
+  </button>
+  <button
+    class="nav__btn"
+    (click)="goForward.emit()"
+    [disabled]="!$canGoForward()"
+    aria-label="Go to next move"
+  >
+    <span class="nav__btn-icon">▶</span>
+    <span class="nav__btn-label">Next</span>
+  </button>
+  <button
+    class="nav__btn nav__btn--reset"
+    (click)="reset.emit()"
+    title="Reset to start"
+    aria-label="Reset to start"
+  >
+    <span class="nav__btn-icon">↺</span>
+    <span class="nav__btn-label">Start</span>
+  </button>
 </div>
 @if ($pgnList().length > 0) {
   <div class="moves-list">

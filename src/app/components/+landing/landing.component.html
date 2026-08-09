@@ -1,79 +1,107 @@
 <div class="landing">
   <section class="hero">
-    <div class="hero__content">
-      <h1 class="hero__title">
-        ChessRoot
-        <img src="/icon.svg" alt="ChessRoot logo" class="hero__logo" />
-      </h1>
-      <p class="hero__subtitle">
-        Discover hidden achievements in your chess games. Analyze your play, track rare milestones,
-        and explore deep insights about your chess journey.
-      </p>
-      <div class="hero__actions">
-        <a mat-stroked-button color="primary" routerLink="/explorer">
-          <mat-icon>explore</mat-icon>
-          Explorer
-        </a>
-
-        <a mat-stroked-button color="primary" routerLink="/tools">
-          <mat-icon>bar_chart</mat-icon>
-          Insights
-        </a>
-        <a mat-stroked-button color="primary" routerLink="/achievements">
-          <mat-icon>emoji_events</mat-icon>
-          Achievements
-        </a>
+    <div class="hero__main">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          ChessRoot
+          <img src="/icon.svg" alt="ChessRoot logo" class="hero__logo" />
+        </h1>
+        <p class="hero__subtitle">
+          Turn a pile of games into a clear story: what you play, what works, and which moments are
+          worth remembering.
+        </p>
+        <div class="hero__actions">
+          <a mat-flat-button color="primary" routerLink="/explorer">
+            <mat-icon>explore</mat-icon>
+            Start with Explorer
+          </a>
+          <a mat-stroked-button color="primary" routerLink="/tools">
+            <mat-icon>bar_chart</mat-icon>
+            Build Insights
+          </a>
+          <a mat-stroked-button color="primary" routerLink="/achievements">
+            <mat-icon>emoji_events</mat-icon>
+            Find Achievements
+          </a>
+        </div>
       </div>
+
+      <aside class="hero__guide">
+        <h2 class="hero__guide-title">Start in three steps</h2>
+        <ol class="hero__guide-list">
+          <li>Choose a player and source platform.</li>
+          <li>Use filters when you want a tighter slice of games.</li>
+          <li>Pick the view that matches your goal: openings, insights, or milestones.</li>
+        </ol>
+
+        @if (auth.isLoggedIn()) {
+          <div class="hero__login hero__login--ready">
+            <mat-icon>check_circle</mat-icon>
+            Logged in as <strong>{{ auth.getUsername() }}</strong>
+          </div>
+        } @else {
+          <button mat-stroked-button color="primary" class="hero__login-btn" (click)="auth.login()">
+            <mat-icon>login</mat-icon>
+            Log in with Lichess
+          </button>
+        }
+      </aside>
     </div>
   </section>
 
-  <section class="features">
-    <mat-card class="feature-card">
-      <mat-icon class="feature-card__icon">explore</mat-icon>
-      <h3 class="feature-card__title">Opening Explorer</h3>
-      <p class="feature-card__desc">
-        Explore your personal opening repertoire on an interactive board. Browse your games move by
-        move, see statistics for each position, and compare your play to master-level opening books.
-      </p>
-      <a mat-button color="primary" routerLink="/explorer">Explore &rarr;</a>
-    </mat-card>
-    <mat-card class="feature-card">
-      <mat-icon class="feature-card__icon">emoji_events</mat-icon>
-      <h3 class="feature-card__title">Achievements</h3>
-      <p class="feature-card__desc">
-        Scan thousands of games for 50+ rare ChessRoot &mdash; from smothered mates to pawn
-        checkmates, castle forks, and alphabet openings.
-      </p>
-      <a mat-button color="primary" routerLink="/achievements">Explore Achievements &rarr;</a>
-    </mat-card>
+  <section class="workspace">
+    <div class="workspace__stack">
+      <article class="workspace-card workspace-card--feature">
+        <div class="workspace-card__copy">
+          <h2 class="workspace-card__title">Explore your repertoire move by move</h2>
+          <p class="workspace-card__desc">
+            Best when you want to answer, "What do I really play from this position, and how does it
+            compare to theory?"
+          </p>
+          <a mat-button color="primary" routerLink="/explorer">Open Explorer &rarr;</a>
+        </div>
+        <ul class="workspace-card__bullets">
+          <li>Interactive board and move-by-move navigation</li>
+          <li>Book move comparison from the current position</li>
+        </ul>
+      </article>
 
-    <mat-card class="feature-card">
-      <mat-icon class="feature-card__icon">bar_chart</mat-icon>
-      <h3 class="feature-card__title">Insights</h3>
-      <p class="feature-card__desc">
-        Visualize your most played openings, win rates by color and time control, top opponents, and
-        other stats &mdash; just like Lichess insights.
-      </p>
-      <a mat-button color="primary" routerLink="/tools">View Insights &rarr;</a>
-    </mat-card>
+      <article class="workspace-card workspace-card--support">
+        <h2 class="workspace-card__title">Support ChessRoot on Ko-fi</h2>
+        <p class="workspace-card__desc">
+          If ChessRoot helps with your prep or post-game review, you can support ongoing development
+          with a small Ko-fi donation.
+        </p>
+        <a
+          mat-button
+          color="primary"
+          href="https://ko-fi.com/N0F523L5OT"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open Ko-fi &rarr;
+        </a>
+      </article>
+    </div>
 
-    <mat-card class="feature-card">
-      <mat-icon class="feature-card__icon">login</mat-icon>
-      <h3 class="feature-card__title">Lichess Login</h3>
-      <p class="feature-card__desc">
-        Log in with your Lichess account for faster game downloads and higher API rate limits. Your
-        token stays safely in your browser.
-      </p>
-      @if (auth.isLoggedIn()) {
-        <span class="feature-card__logged-in">
-          <mat-icon>check_circle</mat-icon>
-          <strong>{{ auth.getUsername() }}</strong>
-        </span>
-      } @else {
-        <button mat-button color="primary" (click)="auth.login()">
-          Log in with Lichess &rarr;
-        </button>
-      }
-    </mat-card>
+    <div class="workspace__stack">
+      <article class="workspace-card">
+        <h2 class="workspace-card__title">See the trends that shape your results</h2>
+        <p class="workspace-card__desc">
+          Use Insights to compare win rates, openings, time controls, and opponents without digging
+          through individual games.
+        </p>
+        <a mat-button color="primary" routerLink="/tools">View Insights &rarr;</a>
+      </article>
+
+      <article class="workspace-card">
+        <h2 class="workspace-card__title">Surface the rare wins you would otherwise miss</h2>
+        <p class="workspace-card__desc">
+          Achievements scans for memorable mates, tactical tricks, and quirky milestones across your
+          archive.
+        </p>
+        <a mat-button color="primary" routerLink="/achievements">Open Achievements &rarr;</a>
+      </article>
+    </div>
   </section>
 </div>

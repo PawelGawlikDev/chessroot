@@ -24,9 +24,11 @@ describe('GameFetchPanelComponent', () => {
     const fixture = TestBed.createComponent(GameFetchPanelComponent);
     const defaults = {
       title: 'Test Panel',
+      panelKey: 'test-panel',
       headerIcon: '',
       buttonLabel: 'Fetch',
       buttonIcon: 'analytics',
+      successVersion: 0,
       isLoading: false,
       isButtonDisabled: false,
       progress: 0,
@@ -46,6 +48,7 @@ describe('GameFetchPanelComponent', () => {
   }
 
   beforeEach(() => {
+    localStorage.clear();
     TestBed.configureTestingModule({
       imports: [GameFetchPanelComponent],
       providers: [
@@ -54,6 +57,10 @@ describe('GameFetchPanelComponent', () => {
         provideMockStore({ initialState }),
       ],
     });
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   it('should create', () => {
@@ -167,5 +174,38 @@ describe('GameFetchPanelComponent', () => {
     const { fixture } = createComponent({ buttonIcon: 'download', isLoading: false });
     const el = fixture.nativeElement as HTMLElement;
     expect(el.querySelector('mat-icon')).not.toBeNull();
+  });
+
+  it('should toggle the form shell', () => {
+    const { fixture } = createComponent();
+    const el = fixture.nativeElement as HTMLElement;
+
+    (el.querySelector('.fetch-panel__toggle') as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    expect(el.querySelector('.fetch-panel__form-shell')?.className).toContain(
+      'fetch-panel__form-shell--collapsed',
+    );
+  });
+
+  it('should auto-collapse after a successful fetch version update', () => {
+    const { fixture, component } = createComponent();
+    component.username.set('tester');
+
+    fixture.componentRef.setInput('successVersion', 1);
+    fixture.detectChanges();
+
+    expect(component.$isFormCollapsed()).toBe(true);
+  });
+
+  it('should hide helper content and persist the preference', () => {
+    const { fixture } = createComponent({ helperTitle: 'Recommended flow' });
+    const el = fixture.nativeElement as HTMLElement;
+
+    (el.querySelector('.fetch-panel__guide-dismiss') as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    expect(el.querySelector('.fetch-panel__guide')).toBeNull();
+    expect(localStorage.getItem('test-panel:guideHidden')).toBe('true');
   });
 });

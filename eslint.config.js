@@ -33,6 +33,8 @@ export default tseslint.config(
       'coverage',
       'worker.ts',
       'worker-configuration.d.ts',
+      '.agents/**',
+      '.opencode/**',
     ],
   },
   {

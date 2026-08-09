@@ -7,7 +7,7 @@
 
 @media (max-width: 48rem) {
   .mat-toolbar .mdc-button {
-    padding: 0 !important;
+    padding-inline: 0.5rem !important;
   }
 
   .mat-toolbar .mdc-button__label {
@@ -15,15 +15,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-  }
-
-  .mat-toolbar .app__brand .mdc-button__label,
-  .mat-toolbar .app__nav .mdc-button__label,
-  .mat-toolbar .app__login-btn .mdc-button__label,
-  .mat-toolbar .app__user-btn .mdc-button__label,
-  .mat-toolbar .app__theme-btn .mdc-button__label,
-  .mat-toolbar .app__more-btn .mdc-button__label {
-    display: none !important;
   }
 
   .mat-toolbar .mdc-button .mat-icon {

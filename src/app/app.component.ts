@@ -27,14 +27,19 @@ import { KofiBannerComponent } from './components/kofi-banner/kofi-banner.compon
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  host: {
+    '(window:scroll)': 'onWindowScroll()',
+  },
 })
 export class ChessRoot {
   public $isDarkTheme = signal(true);
+  public $isHeaderHidden = signal(false);
   public auth = inject(LichessAuthService);
   public router = inject(Router);
   private iconRegistry = inject(MatIconRegistry);
   private dialog = inject(MatDialog);
   private storage = inject(LocalStorageService);
+  private lastScrollY = 0;
 
   public version = pkg.version;
 
@@ -65,5 +70,19 @@ export class ChessRoot {
 
   public openContact(): void {
     this.dialog.open(ContactDialogComponent, { width: '28rem' });
+  }
+
+  public onWindowScroll(): void {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY <= 24) {
+      this.$isHeaderHidden.set(false);
+    } else if (currentScrollY > this.lastScrollY + 8) {
+      this.$isHeaderHidden.set(true);
+    } else if (currentScrollY < this.lastScrollY - 8) {
+      this.$isHeaderHidden.set(false);
+    }
+
+    this.lastScrollY = currentScrollY;
   }
 }

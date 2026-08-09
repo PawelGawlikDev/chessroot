@@ -2,7 +2,13 @@
   <div class="filter-form__fields">
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-form__username">
       <mat-label>Username</mat-label>
-      <input formControlName="username" matInput placeholder="lichess username" />
+      <input
+        formControlName="username"
+        matInput
+        name="username"
+        autocomplete="username"
+        placeholder="lichess username"
+      />
       @if (usernameError()) {
         <mat-error>Username not found. Check it and try again.</mat-error>
       }
@@ -10,7 +16,7 @@
 
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-form__platform">
       <mat-label>Platform</mat-label>
-      <mat-select formControlName="platform">
+      <mat-select formControlName="platform" name="platform" aria-label="Platform">
         @for (opt of platformOptions; track opt) {
           <mat-option [value]="opt">{{ opt === 'lichess' ? 'Lichess' : 'Chess.com' }}</mat-option>
         }
@@ -20,7 +26,7 @@
     @if (showColorFilter()) {
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-form__color">
         <mat-label>Color</mat-label>
-        <mat-select formControlName="playerColor">
+        <mat-select formControlName="playerColor" name="playerColor" aria-label="Color">
           @for (opt of colorOptions; track opt) {
             <mat-option [value]="opt">{{ opt === 'white' ? 'White' : 'Black' }}</mat-option>
           }
@@ -49,14 +55,28 @@
         <div class="filter-form__row">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>From</mat-label>
-            <input formControlName="fromDate" matInput [matDatepicker]="fromPicker" />
+            <input
+              formControlName="fromDate"
+              matInput
+              name="fromDate"
+              aria-label="From date"
+              autocomplete="off"
+              [matDatepicker]="fromPicker"
+            />
             <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
             <mat-datepicker #fromPicker></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>To</mat-label>
-            <input formControlName="toDate" matInput [matDatepicker]="toPicker" />
+            <input
+              formControlName="toDate"
+              matInput
+              name="toDate"
+              aria-label="To date"
+              autocomplete="off"
+              [matDatepicker]="toPicker"
+            />
             <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
             <mat-datepicker #toPicker></mat-datepicker>
           </mat-form-field>

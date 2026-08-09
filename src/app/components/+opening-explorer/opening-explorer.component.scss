@@ -1,6 +1,12 @@
 .explorer {
   width: 100%;
   box-sizing: border-box;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(74, 222, 128, 0.08) 0%, transparent 34%),
+    radial-gradient(circle at 85% 18%, rgba(255, 183, 131, 0.08) 0%, transparent 30%),
+    linear-gradient(180deg, var(--cr-chess-container-start) 0%, var(--cr-chess-container-end) 100%);
+  border-radius: var(--cr-rounded-xl);
 
   @media (min-width: 100rem) {
     max-width: 100rem;
@@ -37,17 +43,50 @@
     }
   }
 
+  &__section {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.85rem;
+    background: var(--cr-chess-card-bg);
+    border: 1px solid var(--cr-chess-card-border);
+    border-radius: var(--cr-rounded-lg);
+  }
+
+  &__section-header,
+  &__panel-header,
+  &__board-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  &__section-title {
+    margin: 0;
+    font-size: var(--cr-body-md-size);
+    font-weight: 700;
+    color: var(--cr-on-surface);
+  }
+
+  &__section-copy {
+    color: var(--cr-on-surface-variant);
+    font-size: var(--cr-code-sm-size);
+    line-height: 1.4;
+  }
+
+  &__board-copy {
+    display: flex;
+    gap: 1rem;
+    min-width: 0;
+  }
+
   &__opening-name {
-    min-height: 1.5lh;
-    cursor: default;
-    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--cr-on-surface);
-    margin-bottom: 0.5rem;
   }
 
   &__nav-col {
@@ -56,25 +95,10 @@
 
     cr-move-navigation {
       display: block;
-      background: var(--cr-chess-card-bg);
-      border: 1px solid var(--cr-chess-card-border);
-      border-radius: var(--cr-rounded-lg);
-    }
-
-    .board-toolbar {
-      padding: 0 0 0.5rem;
-
-      &__btn {
-        width: 100%;
-      }
     }
 
     @media (max-width: 75rem) {
       width: 100%;
-
-      .board-toolbar__btn {
-        width: auto;
-      }
     }
   }
 
@@ -84,7 +108,6 @@
 
     cr-chess-board {
       display: block;
-      width: 100%;
     }
 
     @media (max-width: 75rem) {
@@ -95,7 +118,6 @@
   &__panel {
     flex: 1;
     min-width: 0;
-    width: 100%;
     background: var(--cr-chess-card-bg);
     border: 1px solid var(--cr-chess-card-border);
     border-radius: var(--cr-rounded-lg);
@@ -104,26 +126,26 @@
     overflow: hidden;
   }
 
-  &__loading {
-    padding: 2rem 1rem;
-    text-align: center;
-    color: var(--cr-on-surface-variant);
-    font-size: 0.9rem;
+  &__panel-header {
+    padding: 0.85rem 0.85rem 0;
   }
 
+  &__loading,
   &__empty {
     padding: 2rem 1rem;
     text-align: center;
     color: var(--cr-on-surface-variant);
-    font-size: 0.85rem;
     line-height: 1.5;
+  }
+
+  &__empty a {
+    color: var(--cr-primary);
+    font-weight: 600;
   }
 }
 
 .board-toolbar {
   display: flex;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
 
   &__btn {
     background: var(--cr-surface-container-high);
@@ -146,11 +168,13 @@
 .tabs {
   display: flex;
   align-items: center;
+  padding: 0 0.75rem;
   border-bottom: 2px solid var(--cr-outline-variant);
+  overflow-x: auto;
 
   &__btn {
-    flex: 1;
-    padding: 0.75rem 1rem;
+    flex: 1 0 max-content;
+    padding: 0.75rem 0.9rem;
     background: none;
     border: none;
     cursor: pointer;
@@ -176,8 +200,50 @@
 
   &__content {
     flex: 1;
-    min-height: 0;
-    overflow-y: auto;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 48rem) {
+  .explorer {
+    padding: 0.75rem;
+
+    &__row {
+      gap: 0.75rem;
+    }
+
+    &__section-header,
+    &__panel-header,
+    &__board-header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+
+    &__panel-header {
+      padding: 0.75rem 0.75rem 0;
+    }
+
+    &__opening-name {
+      font-size: var(--cr-code-sm-size);
+    }
+  }
+
+  .board-toolbar {
+    width: 100%;
+
+    &__btn {
+      width: 100%;
+    }
+  }
+
+  .tabs {
+    padding: 0 0.5rem;
+
+    &__btn {
+      padding: 0.7rem 0.75rem;
+      font-size: 0.8rem;
+    }
   }
 }
 
@@ -272,7 +338,6 @@
 
     &-fill {
       height: 100%;
-      transition: width 0.2s;
 
       &--white {
         background: #fff;

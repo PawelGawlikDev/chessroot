@@ -1,11 +1,22 @@
 <div class="explorer">
   <cr-game-fetch-panel
     title="Opening Explorer"
+    panelKey="explorer"
     headerIcon="explore"
-    buttonLabel="Fetch Games"
+    buttonLabel="Load Repertoire"
     buttonIcon="download"
+    intro="Build a move tree from your own games, then compare each position with book moves and engine analysis."
+    helperTitle="Recommended flow"
+    helperText="Start with a focused slice of games so the repertoire tree stays easier to scan."
+    [helperItems]="[
+      'Enter your username, choose a platform, and optionally select White or Black only.',
+      'Use Filters when you want a specific date range or time-control bucket.',
+      'Load Repertoire, then switch between My Moves, Best Moves, and Analysis.',
+    ]"
+    helperNote="Tip: choosing one color first gives you a much cleaner opening map."
     [(username)]="$username"
     [(usernameError)]="$usernameInvalid"
+    [successVersion]="$successVersion()"
     [isLoading]="$isLoading()"
     [isButtonDisabled]="$isButtonDisabled()"
     [progress]="$progress()"
@@ -19,39 +30,60 @@
   <div class="explorer__layout">
     <div class="explorer__row">
       <div class="explorer__nav-col">
-        <div
-          [matTooltip]="$bookMoves().openingName"
-          matTooltipPosition="above"
-          class="explorer__opening-name"
-        >
-          {{ $bookMoves().openingName }}
-        </div>
-        <div class="board-toolbar">
-          <button class="board-toolbar__btn" (click)="flipBoard()">Flip Board</button>
-        </div>
-        <cr-move-navigation
-          [plys]="$plys()"
-          [currentIndex]="$currentIndex()"
-          (goForward)="onGoForward()"
-          (goBack)="onGoBack()"
-          (reset)="onReset()"
-          (navigate)="onNavigateTo($event)"
-        />
+        <section class="explorer__section explorer__section--moves">
+          <div class="explorer__section-header">
+            <h3 class="explorer__section-title">Move history</h3>
+            <span class="explorer__section-copy">Step through your loaded line</span>
+          </div>
+          <cr-move-navigation
+            [plys]="$plys()"
+            [currentIndex]="$currentIndex()"
+            (goForward)="onGoForward()"
+            (goBack)="onGoBack()"
+            (reset)="onReset()"
+            (navigate)="onNavigateTo($event)"
+          />
+        </section>
       </div>
 
       <div class="explorer__board-col">
-        <cr-chess-board
-          [fen]="$fen()"
-          [orientation]="$orientation()"
-          [turnColor]="$turnColor()"
-          [lastMove]="$lastMove()"
-          [arrows]="$arrows()"
-          [interactive]="true"
-          (movePlayed)="onBoardMove($event)"
-        />
+        <section class="explorer__section explorer__section--board">
+          <div class="explorer__board-header">
+            <div class="explorer__board-copy">
+              <h3 class="explorer__section-title">Board</h3>
+              <div
+                [matTooltip]="$bookMoves().openingName"
+                matTooltipPosition="above"
+                class="explorer__opening-name"
+              >
+                {{ $bookMoves().openingName }}
+              </div>
+            </div>
+
+            <div class="board-toolbar">
+              <button class="board-toolbar__btn" (click)="flipBoard()">Flip board</button>
+            </div>
+          </div>
+
+          <cr-chess-board
+            [fen]="$fen()"
+            [orientation]="$orientation()"
+            [turnColor]="$turnColor()"
+            [lastMove]="$lastMove()"
+            [arrows]="$arrows()"
+            [interactive]="true"
+            (movePlayed)="onBoardMove($event)"
+          />
+        </section>
       </div>
 
       <div class="explorer__panel">
+        <div class="explorer__panel-header">
+          <h3 class="explorer__section-title">Compare moves</h3>
+          <span class="explorer__section-copy"
+            >Switch between your moves, book moves, and engine analysis</span
+          >
+        </div>
         <div class="tabs">
           <button
             class="tabs__btn"
@@ -87,7 +119,10 @@
               />
             } @else {
               <div class="explorer__empty">
-                No moves to show. Please select a source from the User tab and enter the details.
+                <p>
+                  Load a player's games to build the move tree. Start with a username above, then
+                  use My Moves to browse your repertoire from the starting position.
+                </p>
               </div>
             }
           }
