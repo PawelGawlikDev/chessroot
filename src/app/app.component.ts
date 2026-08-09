@@ -29,6 +29,11 @@ import { KofiBannerComponent } from './components/kofi-banner/kofi-banner.compon
   styleUrl: './app.component.scss',
   host: {
     '(window:scroll)': 'onWindowScroll()',
+    '(window:wheel)': 'onWindowWheel($event)',
+    '(window:touchstart)': 'onWindowTouchStart($event)',
+    '(window:touchmove)': 'onWindowTouchMove($event)',
+    '(window:touchend)': 'onWindowTouchEnd()',
+    '(window:keydown)': 'onWindowKeydown($event)',
   },
 })
 export class ChessRoot {
@@ -40,6 +45,10 @@ export class ChessRoot {
   private dialog = inject(MatDialog);
   private storage = inject(LocalStorageService);
   private lastScrollY = 0;
+  private lastTouchY: number | null = null;
+  private lastScrollIntent: 'up' | 'down' | null = null;
+  private lastScrollIntentAt = 0;
+  private readonly scrollIntentTtlMs = 300;
 
   public version = pkg.version;
 
@@ -79,10 +88,68 @@ export class ChessRoot {
       this.$isHeaderHidden.set(false);
     } else if (currentScrollY > this.lastScrollY + 8) {
       this.$isHeaderHidden.set(true);
-    } else if (currentScrollY < this.lastScrollY - 8) {
+    } else if (currentScrollY < this.lastScrollY - 8 && this.hasRecentScrollIntent('up')) {
       this.$isHeaderHidden.set(false);
     }
 
     this.lastScrollY = currentScrollY;
+  }
+
+  public onWindowWheel(event: WheelEvent): void {
+    if (Math.abs(event.deltaY) <= 1) {
+      return;
+    }
+
+    this.setScrollIntent(event.deltaY > 0 ? 'down' : 'up');
+  }
+
+  public onWindowTouchStart(event: TouchEvent): void {
+    this.lastTouchY = event.touches[0]?.clientY ?? null;
+  }
+
+  public onWindowTouchMove(event: TouchEvent): void {
+    const currentTouchY = event.touches[0]?.clientY;
+    if (currentTouchY === undefined || this.lastTouchY === null) {
+      return;
+    }
+
+    const deltaY = currentTouchY - this.lastTouchY;
+    if (Math.abs(deltaY) > 4) {
+      this.setScrollIntent(deltaY < 0 ? 'down' : 'up');
+    }
+
+    this.lastTouchY = currentTouchY;
+  }
+
+  public onWindowTouchEnd(): void {
+    this.lastTouchY = null;
+  }
+
+  public onWindowKeydown(event: KeyboardEvent): void {
+    if (['ArrowUp', 'PageUp', 'Home'].includes(event.key)) {
+      this.setScrollIntent('up');
+      return;
+    }
+
+    if (['ArrowDown', 'PageDown', 'End'].includes(event.key)) {
+      this.setScrollIntent('down');
+      return;
+    }
+
+    if (event.key === ' ') {
+      this.setScrollIntent(event.shiftKey ? 'up' : 'down');
+    }
+  }
+
+  private setScrollIntent(direction: 'up' | 'down'): void {
+    this.lastScrollIntent = direction;
+    this.lastScrollIntentAt = performance.now();
+  }
+
+  private hasRecentScrollIntent(direction: 'up' | 'down'): boolean {
+    return (
+      this.lastScrollIntent === direction &&
+      performance.now() - this.lastScrollIntentAt <= this.scrollIntentTtlMs
+    );
   }
 }

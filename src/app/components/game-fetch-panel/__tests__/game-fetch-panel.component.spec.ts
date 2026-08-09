@@ -198,9 +198,57 @@ describe('GameFetchPanelComponent', () => {
     expect(component.$isFormCollapsed()).toBe(true);
   });
 
+  it('should preserve scroll position when auto-collapsing after success', () => {
+    const { fixture, component } = createComponent();
+    component.username.set('tester');
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value: 320,
+    });
+
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined);
+    const controls = fixture.nativeElement.querySelector('.fetch-panel__controls') as HTMLElement;
+    vi.spyOn(controls, 'getBoundingClientRect').mockReturnValue({
+      top: -24,
+    } as DOMRect);
+
+    const rafCallbacks: FrameRequestCallback[] = [];
+    const rafSpy = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      rafCallbacks.push(callback);
+      return rafCallbacks.length;
+    });
+
+    fixture.componentRef.setInput('successVersion', 1);
+    fixture.detectChanges();
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value: 260,
+    });
+
+    expect(rafCallbacks).toHaveLength(1);
+    rafCallbacks[0](16.67);
+
+    expect(scrollToSpy).toHaveBeenCalledWith({ top: 320 });
+
+    rafSpy.mockRestore();
+  });
+
+  it('should show helper content and presist the performance', () => {
+    const { fixture } = createComponent({ helperTitle: 'Recommended flow' });
+    const el = fixture.nativeElement as HTMLElement;
+
+    expect(el.querySelector('.fetch-panel__guide')).toBeNull();
+    expect(localStorage.getItem('test-panel:guideHidden')).toBe(null);
+  });
+
   it('should hide helper content and persist the preference', () => {
     const { fixture } = createComponent({ helperTitle: 'Recommended flow' });
     const el = fixture.nativeElement as HTMLElement;
+
+    fixture.componentInstance.$isGuideHidden.set(false);
+
+    fixture.detectChanges();
 
     (el.querySelector('.fetch-panel__guide-dismiss') as HTMLButtonElement).click();
     fixture.detectChanges();
