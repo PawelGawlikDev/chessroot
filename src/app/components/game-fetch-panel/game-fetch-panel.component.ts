@@ -1,4 +1,14 @@
-import { Component, input, output, inject, computed, model, effect } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  input,
+  output,
+  inject,
+  computed,
+  model,
+  effect,
+  viewChild,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -27,6 +37,7 @@ export class GameFetchPanelComponent {
   private storage = inject(LocalStorageService);
   private store = inject(Store);
   private lastSuccessVersion = -1;
+  private controls = viewChild.required<ElementRef<HTMLElement>>('fetchPanelControls');
 
   public title = input.required<string>();
   public panelKey = input.required<string>();
@@ -106,14 +117,14 @@ export class GameFetchPanelComponent {
       const guideHidden = this.storage.getItem<boolean>(`${key}:guideHidden`);
 
       this.$isFormCollapsed.set(collapsed ?? false);
-      this.$isGuideHidden.set(guideHidden ?? false);
+      this.$isGuideHidden.set(guideHidden ?? true);
     });
 
     effect(() => {
       const successVersion = this.successVersion();
       if (successVersion > this.lastSuccessVersion) {
         if (this.lastSuccessVersion >= 0 && this.username().trim()) {
-          this.setFormCollapsed(true);
+          this.setFormCollapsed(true, true);
         }
         this.lastSuccessVersion = successVersion;
       }
@@ -134,8 +145,23 @@ export class GameFetchPanelComponent {
     this.storage.setItem(`${this.panelKey()}:guideHidden`, true);
   }
 
-  private setFormCollapsed(collapsed: boolean): void {
+  private setFormCollapsed(collapsed: boolean, preserveScrollPosition = false): void {
+    const previousScrollY = preserveScrollPosition ? window.scrollY : 0;
+    const controlsTop = preserveScrollPosition
+      ? this.controls().nativeElement.getBoundingClientRect().top
+      : 0;
+
     this.$isFormCollapsed.set(collapsed);
     this.storage.setItem(`${this.panelKey()}:formCollapsed`, collapsed);
+
+    if (!preserveScrollPosition || previousScrollY <= 0 || controlsTop >= 0) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      if (window.scrollY < previousScrollY) {
+        window.scrollTo({ top: previousScrollY });
+      }
+    });
   }
 }

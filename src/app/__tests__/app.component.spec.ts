@@ -45,6 +45,13 @@ describe('ChessRoot', () => {
     return { fixture, component: fixture.componentInstance };
   }
 
+  function setScrollY(value: number) {
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value,
+    });
+  }
+
   beforeEach(() => {
     localStorage.clear();
     document.documentElement.classList.remove('dark-theme', 'light-theme');
@@ -122,5 +129,41 @@ describe('ChessRoot', () => {
     component.openContact();
 
     expect(dialog.open).toHaveBeenCalledWith(ContactDialogComponent, { width: '28rem' });
+  });
+
+  it('should keep the header hidden on upward layout shifts without user scroll intent', () => {
+    const nowSpy = vi.spyOn(performance, 'now').mockReturnValue(1_000);
+    const { component } = createComponent();
+
+    setScrollY(200);
+    component.onWindowWheel({ deltaY: 120 } as WheelEvent);
+    component.onWindowScroll();
+
+    expect(component.$isHeaderHidden()).toBe(true);
+
+    setScrollY(140);
+    component.onWindowScroll();
+
+    expect(component.$isHeaderHidden()).toBe(true);
+    nowSpy.mockRestore();
+  });
+
+  it('should show the header again after a real upward scroll intent', () => {
+    const nowSpy = vi.spyOn(performance, 'now').mockReturnValue(1_000);
+    const { component } = createComponent();
+
+    setScrollY(220);
+    component.onWindowWheel({ deltaY: 120 } as WheelEvent);
+    component.onWindowScroll();
+
+    expect(component.$isHeaderHidden()).toBe(true);
+
+    nowSpy.mockReturnValue(1_100);
+    component.onWindowWheel({ deltaY: -120 } as WheelEvent);
+    setScrollY(160);
+    component.onWindowScroll();
+
+    expect(component.$isHeaderHidden()).toBe(false);
+    nowSpy.mockRestore();
   });
 });
