@@ -1,11 +1,22 @@
 <div class="tools">
   <cr-game-fetch-panel
     title="Chess Insights"
+    panelKey="tools"
     headerIcon="analytics"
-    buttonLabel="Analyze Games"
+    buttonLabel="Build Insights"
     buttonIcon="analytics"
+    intro="See how you actually score across openings, time controls, and opponents before you dive into individual games."
+    helperTitle="Start here"
+    helperText="Insights works best when you first narrow the data to the slice of games you want to compare."
+    [helperItems]="[
+      'Enter your username and choose Lichess or Chess.com.',
+      'Open Filters if you want a date range or specific time controls.',
+      'Build Insights to generate your summary cards and charts.',
+    ]"
+    helperNote="Tip: short date ranges make it easier to compare recent trends against your full history."
     [(username)]="$username"
     [(usernameError)]="$usernameInvalid"
+    [successVersion]="$successVersion()"
     [isLoading]="$isLoading()"
     [isButtonDisabled]="$isButtonDisabled()"
     [progress]="$progress()"

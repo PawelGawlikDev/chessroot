@@ -1,27 +1,110 @@
 <div class="fetch-panel">
   <div class="fetch-panel__header">
-    <div class="fetch-panel__title-group">
-      @if (headerIcon(); as icon) {
-        <mat-icon class="fetch-panel__title-icon">{{ icon }}</mat-icon>
+    <div class="fetch-panel__heading">
+      <div class="fetch-panel__title-group">
+        @if (headerIcon(); as icon) {
+          <mat-icon class="fetch-panel__title-icon">{{ icon }}</mat-icon>
+        }
+        <h2 class="fetch-panel__title">{{ title() }}</h2>
+      </div>
+
+      @if (intro()) {
+        <p class="fetch-panel__intro">{{ intro() }}</p>
       }
-      <h2 class="fetch-panel__title">{{ title() }}</h2>
     </div>
 
-    <button class="fetch-panel__btn" (click)="fetch.emit()" [disabled]="isButtonDisabled()">
-      @if (isLoading()) {
-        <mat-spinner diameter="16" />
-      } @else {
-        <mat-icon>{{ buttonIcon() }}</mat-icon>
+    <div class="fetch-panel__actions">
+      @if (helperTitle() || helperText() || helperItems().length > 0 || helperNote()) {
+        @if ($isGuideHidden()) {
+          <button type="button" class="fetch-panel__utility-btn" (click)="showGuide()">
+            <mat-icon>help</mat-icon>
+            <span>Show help</span>
+          </button>
+        } @else {
+          <button type="button" class="fetch-panel__utility-btn" (click)="hideGuide()">
+            <mat-icon>visibility_off</mat-icon>
+            <span>Hide help</span>
+          </button>
+        }
       }
-      <span>{{ buttonLabel() }}</span>
-    </button>
+
+      <button class="fetch-panel__btn" (click)="fetch.emit()" [disabled]="isButtonDisabled()">
+        @if (isLoading()) {
+          <mat-spinner diameter="16" />
+        } @else {
+          <mat-icon>{{ buttonIcon() }}</mat-icon>
+        }
+        <span>{{ buttonLabel() }}</span>
+      </button>
+    </div>
   </div>
 
-  <cr-user-data-form
-    [(username)]="username"
-    [(usernameError)]="usernameError"
-    [showColorFilter]="showColorFilter()"
-  ></cr-user-data-form>
+  <section class="fetch-panel__controls">
+    <button type="button" class="fetch-panel__toggle" (click)="toggleForm()">
+      <span class="fetch-panel__toggle-copy">
+        <span class="fetch-panel__toggle-label">Player setup</span>
+        @if ($isFormCollapsed()) {
+          <span class="fetch-panel__toggle-summary">
+            @if ($collapsedSummary().length > 0) {
+              {{ $collapsedSummary().join(' • ') }}
+            } @else {
+              Add a username, platform, and optional filters.
+            }
+          </span>
+        } @else {
+          <span class="fetch-panel__toggle-summary">Username, platform, color, and filters</span>
+        }
+      </span>
+      <mat-icon>{{ $isFormCollapsed() ? 'expand_more' : 'expand_less' }}</mat-icon>
+    </button>
+
+    <div
+      class="fetch-panel__form-shell"
+      [class.fetch-panel__form-shell--collapsed]="$isFormCollapsed()"
+    >
+      <div class="fetch-panel__form-body">
+        <cr-user-data-form
+          [(username)]="username"
+          [(usernameError)]="usernameError"
+          [showColorFilter]="showColorFilter()"
+        ></cr-user-data-form>
+      </div>
+    </div>
+  </section>
+
+  @if (
+    (helperTitle() || helperText() || helperItems().length > 0 || helperNote()) && !$isGuideHidden()
+  ) {
+    <section class="fetch-panel__guide" aria-label="How to use this screen">
+      <div class="fetch-panel__guide-header">
+        @if (helperTitle()) {
+          <h3 class="fetch-panel__guide-title">{{ helperTitle() }}</h3>
+        }
+
+        <button
+          type="button"
+          class="fetch-panel__guide-dismiss"
+          (click)="hideGuide()"
+          aria-label="Hide recommended flow"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      @if (helperText()) {
+        <p class="fetch-panel__guide-text">{{ helperText() }}</p>
+      }
+      @if (helperItems().length > 0) {
+        <ol class="fetch-panel__guide-list">
+          @for (item of helperItems(); track item) {
+            <li>{{ item }}</li>
+          }
+        </ol>
+      }
+      @if (helperNote()) {
+        <p class="fetch-panel__guide-note">{{ helperNote() }}</p>
+      }
+    </section>
+  }
 
   <ng-content></ng-content>
 

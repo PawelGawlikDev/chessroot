@@ -60,6 +60,7 @@ export class AchievementsComponent implements OnInit {
   public $gamesAnalyzed = signal(0);
   public $totalGames = signal(0);
   public $positionCount = signal(0);
+  public $successVersion = signal(0);
   private $results = signal<Map<string, GameTrophy[]>>(new Map());
   public $expandedAchievements = signal<Set<string>>(new Set());
 
@@ -191,6 +192,7 @@ export class AchievementsComponent implements OnInit {
         await this.chessComService.playerGames(this.$username(), onGame, { since, until });
       }
       await this.drainBuffer();
+      this.$successVersion.update((value) => value + 1);
       this.cdr.markForCheck();
     } catch (error) {
       console.error('Error fetching games:', error);

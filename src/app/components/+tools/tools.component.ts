@@ -68,6 +68,7 @@ export class ToolsComponent implements OnInit {
   public $gameCount = signal(0);
   public $gamesAnalyzed = signal(0);
   public $totalGames = signal(0);
+  public $successVersion = signal(0);
 
   public $progress = computed(() => {
     const total = this.$totalGames();
@@ -318,6 +319,7 @@ export class ToolsComponent implements OnInit {
 
     this.$insights.set(this.insights);
 
+    this.$successVersion.update((value) => value + 1);
     this.$isLoading.set(false);
     this.cdr.markForCheck();
   }

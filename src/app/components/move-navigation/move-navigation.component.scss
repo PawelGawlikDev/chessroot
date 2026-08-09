@@ -1,16 +1,22 @@
 .nav {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.25rem 0.25rem 0;
 
   &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
     background: var(--cr-surface-container-high);
     border: 1px solid var(--cr-outline-variant);
-    border-radius: 0.25rem;
-    padding: 0.25rem 0.5rem;
+    border-radius: var(--cr-rounded-md);
+    min-height: 2.5rem;
+    padding: 0.45rem 0.5rem;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: var(--cr-body-md-size);
+    font-weight: 600;
     color: var(--cr-on-surface);
 
     &:disabled {
@@ -19,24 +25,25 @@
     }
 
     &--reset {
-      margin-left: auto;
+      justify-self: stretch;
     }
   }
 
-  &__pos {
-    font-size: 0.8rem;
-    color: var(--cr-on-surface-variant);
+  &__btn-icon {
+    line-height: 1;
   }
 }
 
 .moves-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.15rem;
-  padding: 0.5rem;
-  font-size: 0.8rem;
+  gap: 0.25rem;
+  padding: 0.65rem 0.25rem 0.25rem;
+  font-size: var(--cr-code-sm-size);
   font-family: 'JetBrains Mono', monospace;
   line-height: 1.6;
+  max-height: 15rem;
+  overflow-y: auto;
 
   &__move-number {
     color: var(--cr-on-surface-variant);
@@ -45,8 +52,8 @@
 
   &__ply {
     cursor: pointer;
-    padding: 0.05rem 0.25rem;
-    border-radius: 0.2rem;
+    padding: 0.15rem 0.35rem;
+    border-radius: var(--cr-rounded);
     transition: background 0.15s;
 
     &:hover {
@@ -62,5 +69,24 @@
         background: var(--mat-sys-primary);
       }
     }
+  }
+}
+
+@media (max-width: 48rem) {
+  .nav {
+    &__btn {
+      flex-direction: column;
+      gap: 0.15rem;
+      min-height: 3rem;
+      padding-block: 0.5rem;
+    }
+
+    &__btn-label {
+      font-size: 0.72rem;
+    }
+  }
+
+  .moves-list {
+    max-height: 11rem;
   }
 }

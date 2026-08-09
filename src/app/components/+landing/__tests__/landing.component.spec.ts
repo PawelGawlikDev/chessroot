@@ -36,10 +36,20 @@ describe('LandingComponent', () => {
     expect(el.querySelector('.hero__title')?.textContent).toContain('ChessRoot');
   });
 
-  it('should display feature cards', () => {
+  it('should display workspace cards', () => {
     const { fixture } = createComponent();
     const el = fixture.nativeElement as HTMLElement;
-    expect(el.querySelectorAll('.feature-card').length).toBe(4);
+    expect(el.querySelectorAll('.workspace-card').length).toBe(4);
+  });
+
+  it('should show the Ko-fi support link on the landing page', () => {
+    const { fixture } = createComponent();
+    const el = fixture.nativeElement as HTMLElement;
+    const supportLink = Array.from(el.querySelectorAll('a')).find(
+      (link) => link.getAttribute('href') === 'https://ko-fi.com/N0F523L5OT',
+    );
+
+    expect(supportLink?.textContent).toContain('Open Ko-fi');
   });
 
   it('should have navigation links to explorer, insights, achievements', () => {
@@ -72,7 +82,7 @@ describe('LandingComponent', () => {
     mockAuthService.isLoggedIn.mockReturnValue(false);
     const { fixture } = createComponent();
     const el = fixture.nativeElement as HTMLElement;
-    const loginBtn = el.querySelector('button') as HTMLElement;
+    const loginBtn = el.querySelector('.hero__login-btn') as HTMLElement;
     loginBtn.click();
     expect(mockAuthService.login).toHaveBeenCalled();
   });

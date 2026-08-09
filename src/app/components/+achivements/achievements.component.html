@@ -1,11 +1,22 @@
 <div class="achievements">
   <cr-game-fetch-panel
     title="Achievements"
+    panelKey="achievements"
     headerIcon="emoji_events"
-    buttonLabel="Fetch & Analyze Games"
+    buttonLabel="Find Achievements"
     buttonIcon="emoji_events"
+    intro="Search your game history for rare tactical patterns, memorable finishes, and milestone moments worth keeping."
+    helperTitle="How it works"
+    helperText="Achievement scans can take longer than the other tools because each game is checked position by position."
+    [helperItems]="[
+      'Enter your username and choose the source platform.',
+      'Use Filters if you want to scan a tournament run, month, or time-control category.',
+      'Find Achievements and expand any category to inspect what you unlocked.',
+    ]"
+    helperNote="Tip: smaller filters are a good way to compare different phases of your chess improvement."
     [(username)]="$username"
     [(usernameError)]="$usernameInvalid"
+    [successVersion]="$successVersion()"
     [isLoading]="$isLoading()"
     [isButtonDisabled]="$isButtonDisabled()"
     [progress]="$progress()"
