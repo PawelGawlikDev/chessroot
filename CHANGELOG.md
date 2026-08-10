@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.4.0...v1.5.0-dev.0) (2026-08-10)
+
+### Features
+
+- redesign of app ([8693568](https://github.com/PawelGawlikDev/chessroot/commit/8693568851953055c83b350bd71aa7e0a424aab9))
+
+### Bug Fixes
+
+- fix show nav bar bug ([d43db8b](https://github.com/PawelGawlikDev/chessroot/commit/d43db8b6c3046cea79d35c08ef4e78c03345713f))
+
 ## [1.4.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.4.0-dev.0...v1.4.0) (2026-08-01)
 
 ### Features
