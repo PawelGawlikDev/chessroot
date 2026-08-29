@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.0...v1.5.1) (2026-08-29)
+
+### Bug Fixes
+
+- fix chesscom username normalization ([54009b9](https://github.com/PawelGawlikDev/chessroot/commit/54009b9fe4804d12b7175cc55d3f7a55f9967d72))
+
 ## [1.5.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.0-dev.0...v1.5.0) (2026-08-10)
 
 ## [1.5.0-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.4.0...v1.5.0-dev.0) (2026-08-10)
