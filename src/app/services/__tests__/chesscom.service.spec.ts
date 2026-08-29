@@ -106,7 +106,7 @@ describe('ChessComService', () => {
       )
       .mockResolvedValueOnce(jsonResponse(createStats()));
 
-    await expect(service.profile('TestUser')).resolves.toEqual({
+    await expect(service.profile(' TestUser ')).resolves.toEqual({
       site: 'chess.com',
       type: 'profile',
       link: 'https://www.chess.com/member/TestUser',
@@ -125,11 +125,11 @@ describe('ChessComService', () => {
     });
     expect(fetchService.fetchFromEndpoint).toHaveBeenNthCalledWith(
       1,
-      'https://api.chess.com/pub/player/TestUser',
+      'https://api.chess.com/pub/player/testuser',
     );
     expect(fetchService.fetchFromEndpoint).toHaveBeenNthCalledWith(
       2,
-      'https://api.chess.com/pub/player/TestUser/stats',
+      'https://api.chess.com/pub/player/testuser/stats',
     );
     expect(fetchService.checkForServerError).toHaveBeenCalledTimes(2);
   });
@@ -143,7 +143,7 @@ describe('ChessComService', () => {
     await expect(service.archive('archive-url')).resolves.toEqual({ games: [createGame()] });
     expect(fetchService.fetchFromEndpoint).toHaveBeenNthCalledWith(
       1,
-      'https://api.chess.com/pub/player/TestUser/games/archives',
+      'https://api.chess.com/pub/player/testuser/games/archives',
     );
     expect(fetchService.fetchFromEndpoint).toHaveBeenNthCalledWith(2, 'archive-url');
     expect(fetchService.checkForServerError).toHaveBeenCalledTimes(2);
@@ -156,7 +156,7 @@ describe('ChessComService', () => {
     await service.playerGamesForMonth('TestUser', 2024, 1, callback);
 
     expect(fetchService.fetchFromEndpoint).toHaveBeenCalledWith(
-      'https://api.chess.com/pub/player/TestUser/games/2024/01',
+      'https://api.chess.com/pub/player/testuser/games/2024/01',
     );
     expect(callback).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -194,7 +194,7 @@ describe('ChessComService', () => {
     });
     fetchService.fetchFromEndpoint.mockImplementation((url: string) => {
       const responses: Record<string, unknown> = {
-        'https://api.chess.com/pub/player/TestUser/games/archives': {
+        'https://api.chess.com/pub/player/testuser/games/archives': {
           archives: ['archive-older', 'archive-newer'],
         },
         'https://api.chess.com/pub/titled/GM': { players: ['MagnusCarlsen'] },

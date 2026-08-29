@@ -81,9 +81,7 @@ export class OpeningExplorerComponent implements OnInit {
   private $toDate = this.store.selectSignal(selectToDate);
   private $timeControls = this.store.selectSignal(selectTimeControls);
 
-  public $isButtonDisabled = computed(
-    () => this.$isLoading() || !this.$username() || this.$username() === '',
-  );
+  public $isButtonDisabled = computed(() => this.$isLoading() || !this.$username().trim());
   public $isLoading = signal(false);
   public $gameCount = signal(0);
   public $gamesAnalyzed = signal(0);
@@ -249,6 +247,8 @@ export class OpeningExplorerComponent implements OnInit {
   });
 
   public async fetchGames(): Promise<void> {
+    const username = this.$username().trim();
+
     this.$isLoading.set(true);
     this.$usernameInvalid.set(false);
     this.$loaded.set(false);
@@ -263,10 +263,10 @@ export class OpeningExplorerComponent implements OnInit {
     try {
       const platform = this.$platform();
       if (platform === Platform.Lichess) {
-        const profile = await this.lichessService.profile(this.$username());
+        const profile = await this.lichessService.profile(username);
         this.$totalGames.set(profile.counts?.all ?? 0);
       } else {
-        const profile = await this.chessComService.profile(this.$username());
+        const profile = await this.chessComService.profile(username);
         this.$totalGames.set(profile.counts?.all ?? 0);
       }
     } catch {
@@ -294,7 +294,7 @@ export class OpeningExplorerComponent implements OnInit {
           this.graph.addGame(game, playerColor);
           this.$gamesAnalyzed.update((c) => c + 1);
         };
-        await this.lichessService.playerGames(this.$username(), onGame, {
+        await this.lichessService.playerGames(username, onGame, {
           opening: true,
           since,
           until,
@@ -321,7 +321,7 @@ export class OpeningExplorerComponent implements OnInit {
           this.graph.addGame(game, playerColor);
           this.$gamesAnalyzed.update((c) => c + 1);
         };
-        await this.chessComService.playerGames(this.$username(), onGame, { since, until });
+        await this.chessComService.playerGames(username, onGame, { since, until });
       }
     } catch (error) {
       console.error('Error fetching games:', error);
@@ -334,7 +334,7 @@ export class OpeningExplorerComponent implements OnInit {
   }
 
   private resolvePlayerColor(game: Game): string {
-    const name = this.$username().toLowerCase();
+    const name = this.$username().trim().toLowerCase();
     if (game.players.white.username?.toLowerCase() === name) return 'white';
     if (game.players.black.username?.toLowerCase() === name) return 'black';
     return 'white';

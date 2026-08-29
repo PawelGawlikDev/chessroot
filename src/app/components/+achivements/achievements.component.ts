@@ -53,9 +53,7 @@ export class AchievementsComponent implements OnInit {
   private $timeControls = this.store.selectSignal(selectTimeControls);
 
   public $isLoading = signal(false);
-  public $isButtonDisabled = computed(
-    () => this.$isLoading() || !this.$username() || this.$username() === '',
-  );
+  public $isButtonDisabled = computed(() => this.$isLoading() || !this.$username().trim());
   public $gameCount = signal(0);
   public $gamesAnalyzed = signal(0);
   public $totalGames = signal(0);
@@ -140,6 +138,8 @@ export class AchievementsComponent implements OnInit {
   });
 
   public async fetchGames(): Promise<void> {
+    const username = this.$username().trim();
+
     this.$isLoading.set(true);
     this.$usernameInvalid.set(false);
     this.$results.set(new Map());
@@ -153,10 +153,10 @@ export class AchievementsComponent implements OnInit {
     try {
       const platform = this.$platform();
       if (platform === Platform.Lichess) {
-        const profile = await this.lichessService.profile(this.$username());
+        const profile = await this.lichessService.profile(username);
         this.$totalGames.set(profile.counts?.all ?? 0);
       } else {
-        const profile = await this.chessComService.profile(this.$username());
+        const profile = await this.chessComService.profile(username);
         this.$totalGames.set(profile.counts?.all ?? 0);
       }
     } catch {
@@ -178,7 +178,7 @@ export class AchievementsComponent implements OnInit {
     try {
       if (this.$platform() === Platform.Lichess) {
         await this.lichessService.playerGames(
-          this.$username(),
+          username,
           (game) => {
             this.onGameReceived(game);
           },
@@ -189,7 +189,7 @@ export class AchievementsComponent implements OnInit {
           if (!this.applyFilters(game, fromDate, toDate, timeControls)) return;
           this.onGameReceived(game);
         };
-        await this.chessComService.playerGames(this.$username(), onGame, { since, until });
+        await this.chessComService.playerGames(username, onGame, { since, until });
       }
       await this.drainBuffer();
       this.$successVersion.update((value) => value + 1);
@@ -274,7 +274,7 @@ export class AchievementsComponent implements OnInit {
     result.forEach((trophyResults, key) => {
       if (trophyResults.length > 0) {
         const isWhite =
-          game.players.white.username?.toLowerCase() === this.$username()?.toLowerCase();
+          game.players.white.username?.toLowerCase() === this.$username().trim().toLowerCase();
         const trophyColor = trophyResults[0]?.color;
 
         if ((isWhite && trophyColor === 'w') || (!isWhite && trophyColor === 'b')) {
