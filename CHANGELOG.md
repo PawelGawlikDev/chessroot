@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.2-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.1...v1.5.2-dev.0) (2026-08-29)
+
+### Bug Fixes
+
+- hotfix ([846581e](https://github.com/PawelGawlikDev/chessroot/commit/846581e356b1d9b800d113eabfd35e91c7ffef47))
+
 ### [1.5.1](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.0...v1.5.1) (2026-08-29)
 
 ### Bug Fixes
