@@ -28,9 +28,14 @@ import { ChessFetchService } from '@services';
 export class ChessComService {
   private readonly fetchService = inject(ChessFetchService);
 
+  private normalizeUsername(username: string): string {
+    return encodeURIComponent(username.trim().toLowerCase());
+  }
+
   public async profile(username: string): Promise<Profile> {
+    const normalizedUsername = this.normalizeUsername(username);
     const response = await this.fetchService.fetchFromEndpoint(
-      `https://api.chess.com/pub/player/${username}`,
+      `https://api.chess.com/pub/player/${normalizedUsername}`,
     );
     this.fetchService.checkForServerError(response);
 
@@ -40,8 +45,9 @@ export class ChessComService {
   }
 
   public async archives(username: string): Promise<ChessComArchives> {
+    const normalizedUsername = this.normalizeUsername(username);
     const response = await this.fetchService.fetchFromEndpoint(
-      `https://api.chess.com/pub/player/${username}/games/archives`,
+      `https://api.chess.com/pub/player/${normalizedUsername}/games/archives`,
     );
     this.fetchService.checkForServerError(response);
     return response.json();
@@ -59,9 +65,10 @@ export class ChessComService {
     month: number,
     callback: GameCallback,
   ): Promise<void> {
+    const normalizedUsername = this.normalizeUsername(username);
     const month2digit = ('0' + month.toString()).slice(-2);
     const json = await this.archive(
-      `https://api.chess.com/pub/player/${username}/games/${year}/${month2digit}`,
+      `https://api.chess.com/pub/player/${normalizedUsername}/games/${year}/${month2digit}`,
     );
     for (const game of json.games) {
       callback(this.formatGame(game));
@@ -143,7 +150,7 @@ export class ChessComService {
     const date = data.game.pgnHeaders.Date.split('.');
 
     const archiveData = await this.archive(
-      `https://api.chess.com/pub/player/${data.game.pgnHeaders.White.toLowerCase()}/games/${date[0]}/${date[1]}`,
+      `https://api.chess.com/pub/player/${this.normalizeUsername(data.game.pgnHeaders.White)}/games/${date[0]}/${date[1]}`,
     );
     for (const game of archiveData.games) {
       if (game.uuid === uuid) {
@@ -190,8 +197,9 @@ export class ChessComService {
   }
 
   public async stats(username: string): Promise<ChesscomStats> {
+    const normalizedUsername = this.normalizeUsername(username);
     const response = await this.fetchService.fetchFromEndpoint(
-      `https://api.chess.com/pub/player/${username}/stats`,
+      `https://api.chess.com/pub/player/${normalizedUsername}/stats`,
     );
     this.fetchService.checkForServerError(response);
     return response.json();

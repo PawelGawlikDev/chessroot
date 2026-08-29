@@ -61,9 +61,7 @@ export class ToolsComponent implements OnInit {
   public $isLoading = signal(false);
   public $insights = signal<Insights | null>(null);
 
-  public $isButtonDisabled = computed(
-    () => this.$isLoading() || !this.$username() || this.$username() === '',
-  );
+  public $isButtonDisabled = computed(() => this.$isLoading() || !this.$username().trim());
 
   public $gameCount = signal(0);
   public $gamesAnalyzed = signal(0);
@@ -147,7 +145,8 @@ export class ToolsComponent implements OnInit {
   private isProcessing = false;
 
   private processGame(game: Game): void {
-    const isWhite = game.players.white.username?.toLowerCase() === this.$username()?.toLowerCase();
+    const isWhite =
+      game.players.white.username?.toLowerCase() === this.$username().trim().toLowerCase();
     const opponentName = isWhite ? game.players.black.username : game.players.white.username;
     const userWon =
       (game.result.winner === 'white' && isWhite) || (game.result.winner === 'black' && !isWhite);
@@ -226,6 +225,8 @@ export class ToolsComponent implements OnInit {
   }
 
   public async fetchGames(): Promise<void> {
+    const username = this.$username().trim();
+
     this.$isLoading.set(true);
     this.$usernameInvalid.set(false);
     this.$insights.set(null);
@@ -260,10 +261,10 @@ export class ToolsComponent implements OnInit {
     try {
       const platform = this.$platform();
       if (platform === Platform.Lichess) {
-        const profile = await this.lichessService.profile(this.$username());
+        const profile = await this.lichessService.profile(username);
         this.$totalGames.set(profile.counts?.all ?? 0);
       } else {
-        const profile = await this.chessComService.profile(this.$username());
+        const profile = await this.chessComService.profile(username);
         this.$totalGames.set(profile.counts?.all ?? 0);
       }
     } catch {
@@ -291,7 +292,7 @@ export class ToolsComponent implements OnInit {
             this.processGameBuffer();
           }
         };
-        await this.lichessService.playerGames(this.$username(), onGame, {
+        await this.lichessService.playerGames(username, onGame, {
           opening: true,
           since,
           until,
@@ -306,7 +307,7 @@ export class ToolsComponent implements OnInit {
             this.processGameBuffer();
           }
         };
-        await this.chessComService.playerGames(this.$username(), onGame, { since, until });
+        await this.chessComService.playerGames(username, onGame, { since, until });
       }
       await this.drainBuffer();
     } catch (error) {
