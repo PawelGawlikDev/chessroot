@@ -2,14 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [1.5.3-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.2...v1.5.3-dev.0) (2026-09-04)
-
-### Bug Fixes
-
-- fixup release process ([8575dda](https://github.com/PawelGawlikDev/chessroot/commit/8575ddab462895fbbc12c6cf31aaa6b22645a6fe))
-- restore automated dev prerelease bump on master merge ([1a5e717](https://github.com/PawelGawlikDev/chessroot/commit/1a5e717ac2b38b1c1b8a1c363dd6713a419f091e))
-- stop CI from auto-pushing version bumps to protected master ([d47aa09](https://github.com/PawelGawlikDev/chessroot/commit/d47aa097e9a6d2ba52e7f5958bbd053fcc655ad9))
-
 ### [1.5.2](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.2-dev.0...v1.5.2) (2026-08-29)
 
 ### [1.5.2-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.1...v1.5.2-dev.0) (2026-08-29)
