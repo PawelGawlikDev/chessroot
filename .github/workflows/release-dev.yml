@@ -8,14 +8,8 @@ concurrency:
   group: release-dev
   cancel-in-progress: false
 
-permissions:
-  contents: write
-
 jobs:
   release:
-    # Skip commits made by this workflow itself (and manual prod/dev releases),
-    # otherwise the version-bump push below would re-trigger this workflow.
-    if: ${{ !startsWith(github.event.head_commit.message, 'chore(release)') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -26,14 +20,6 @@ jobs:
           node-version: 22
           cache: yarn
       - run: yarn install --immutable
-      - name: Configure git identity
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-      - name: Bump dev version
-        run: yarn release:dev:ci
-      - name: Push version bump
-        run: git push --follow-tags origin HEAD:master
       - name: Write deploy metadata
         run: |-
           cat > src/assets/deploy.json <<EOF
