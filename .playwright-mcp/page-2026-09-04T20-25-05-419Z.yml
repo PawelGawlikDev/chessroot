@@ -1,0 +1,63 @@
+- generic [ref=f1e2]:
+    - banner [ref=f1e3]:
+        - generic [ref=f1e4]:
+            - button "Go to home page" [ref=f1e5]:
+                - generic [ref=f1e6]: ChessRoot
+            - generic [ref=f1e9]:
+                - button "Log in" [ref=f1e10]:
+                    - img [aria-hidden] [ref=f1e11]: login
+                - button "Toggle theme" [ref=f1e15]:
+                    - img [aria-hidden] [ref=f1e16]: dark_mode
+                - button "Open more options" [ref=f1e19]:
+                    - img [aria-hidden] [ref=f1e20]: more_vert
+        - navigation "Primary navigation" [ref=f1e23]:
+            - link "Explorer" [ref=f1e24] [cursor=pointer]:
+                - /url: /explorer
+                - img [aria-hidden] [ref=f1e25]: explore
+            - link "Insights" [ref=f1e30] [cursor=pointer]:
+                - /url: /tools
+                - img [aria-hidden] [ref=f1e31]: bar_chart
+            - link "Achievements" [ref=f1e36] [cursor=pointer]:
+                - /url: /achievements
+                - img [aria-hidden] [ref=f1e37]: emoji_events
+    - main [ref=f1e42]:
+        - generic "Chess Insights" [ref=f1e45]:
+            - generic [ref=f1e46]:
+                - generic [ref=f1e47]:
+                    - generic [ref=f1e48]:
+                        - generic [ref=f1e49]:
+                            - img [aria-hidden] [ref=f1e50]: analytics
+                            - heading "Chess Insights" [level=2] [ref=f1e51]
+                        - paragraph [ref=f1e52]: See how you actually score across openings, time controls, and opponents before you dive into individual games.
+                    - generic [ref=f1e53]:
+                        - button "Show help" [ref=f1e54] [cursor=pointer]:
+                            - img [aria-hidden] [ref=f1e55]: help
+                        - button "Build Insights" [disabled] [ref=f1e57]:
+                            - img [aria-hidden] [ref=f1e58]: analytics
+                - generic [ref=f1e60]:
+                    - button "Player setup Lichess" [ref=f1e61] [cursor=pointer]:
+                        - generic [ref=f1e62]:
+                            - generic [ref=f1e63]: Player setup
+                            - generic [ref=f1e64]: Lichess
+                        - img [aria-hidden] [ref=f1e65]: expand_more
+                    - generic [ref=f1e69]:
+                        - generic [ref=f1e70]:
+                            - generic [ref=f1e73]:
+                                - generic: Username
+                                - textbox "Username" [ref=f1e76]:
+                                    - /placeholder: lichess username
+                            - generic [ref=f1e79] [cursor=pointer]:
+                                - generic: Platform
+                                - combobox "Platform" [ref=f1e82]:
+                                    - generic [ref=f1e83]: Lichess
+                        - button "Filters" [ref=f1e92] [cursor=pointer]:
+                            - generic [ref=f1e94]:
+                                - img [aria-hidden] [ref=f1e95]: tune
+                                - generic [ref=f1e96]: Filters
+                                - img [aria-hidden] [ref=f1e97]: expand_more
+    - generic [ref=f1e99]:
+        - link [ref=f1e100] [cursor=pointer]:
+            - /url: https://ko-fi.com/N0F523L5OT
+            - img "Buy Me a Coffee at ko-fi.com" [ref=f1e101]
+        - button "Dismiss Ko-fi button" [ref=f1e102] [cursor=pointer]:
+            - img [aria-hidden] [ref=f1e103]: close

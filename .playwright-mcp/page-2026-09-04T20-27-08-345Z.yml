@@ -1,0 +1,63 @@
+- generic [ref=e2]:
+    - banner [ref=e3]:
+        - generic [ref=e4]:
+            - button "Go to home page" [ref=e5]:
+                - generic [ref=e6]: ChessRoot
+            - generic [ref=e9]:
+                - button "Log in" [ref=e10]:
+                    - img [aria-hidden] [ref=e11]: login
+                - button "Toggle theme" [ref=e15]:
+                    - img [aria-hidden] [ref=e16]: dark_mode
+                - button "Open more options" [ref=e19]:
+                    - img [aria-hidden] [ref=e20]: more_vert
+        - navigation "Primary navigation" [ref=e23]:
+            - link "Explorer" [ref=e24] [cursor=pointer]:
+                - /url: /explorer
+                - img [aria-hidden] [ref=e25]: explore
+            - link "Insights" [ref=e30] [cursor=pointer]:
+                - /url: /tools
+                - img [aria-hidden] [ref=e31]: bar_chart
+            - link "Achievements" [ref=e36] [cursor=pointer]:
+                - /url: /achievements
+                - img [aria-hidden] [ref=e37]: emoji_events
+    - main [ref=e42]:
+        - generic "Chess Insights" [ref=e45]:
+            - generic [ref=e46]:
+                - generic [ref=e47]:
+                    - generic [ref=e48]:
+                        - generic [ref=e49]:
+                            - img [aria-hidden] [ref=e50]: analytics
+                            - heading "Chess Insights" [level=2] [ref=e51]
+                        - paragraph [ref=e52]: See how you actually score across openings, time controls, and opponents before you dive into individual games.
+                    - generic [ref=e53]:
+                        - button "Show help" [ref=e54] [cursor=pointer]:
+                            - img [aria-hidden] [ref=e55]: help
+                        - button "Build Insights" [disabled] [ref=e57]:
+                            - img [aria-hidden] [ref=e58]: analytics
+                - generic [ref=e60]:
+                    - button "Player setup Username, platform, color, and filters" [ref=e61] [cursor=pointer]:
+                        - generic [ref=e62]:
+                            - generic [ref=e63]: Player setup
+                            - generic [ref=e64]: Username, platform, color, and filters
+                        - img [aria-hidden] [ref=e65]: expand_less
+                    - generic [ref=e69]:
+                        - generic [ref=e70]:
+                            - generic [ref=e73]:
+                                - generic: Username
+                                - textbox "Username" [ref=e76]:
+                                    - /placeholder: lichess username
+                            - generic [ref=e79] [cursor=pointer]:
+                                - generic: Platform
+                                - combobox "Platform" [ref=e82]:
+                                    - generic [ref=e83]: Lichess
+                        - button "Filters" [ref=e92] [cursor=pointer]:
+                            - generic [ref=e94]:
+                                - img [aria-hidden] [ref=e95]: tune
+                                - generic [ref=e96]: Filters
+                                - img [aria-hidden] [ref=e97]: expand_more
+    - generic [ref=e99]:
+        - link [ref=e100] [cursor=pointer]:
+            - /url: https://ko-fi.com/N0F523L5OT
+            - img "Buy Me a Coffee at ko-fi.com" [ref=e101]
+        - button "Dismiss Ko-fi button" [ref=e102] [cursor=pointer]:
+            - img [aria-hidden] [ref=e103]: close

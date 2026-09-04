@@ -1,0 +1,116 @@
+- generic [ref=f4e2]:
+    - banner [ref=f4e3]:
+        - generic [ref=f4e4]:
+            - button "Go to home page" [ref=f4e5]:
+                - generic [ref=f4e6]: ChessRoot
+            - generic [ref=f4e9]:
+                - button "Log in" [ref=f4e10]:
+                    - img [aria-hidden] [ref=f4e11]: login
+                - button "Toggle theme" [ref=f4e15]:
+                    - img [aria-hidden] [ref=f4e16]: dark_mode
+                - button "Open more options" [ref=f4e19]:
+                    - img [aria-hidden] [ref=f4e20]: more_vert
+        - navigation "Primary navigation" [ref=f4e23]:
+            - link "Explorer" [ref=f4e24] [cursor=pointer]:
+                - /url: /explorer
+                - img [aria-hidden] [ref=f4e25]: explore
+            - link "Insights" [ref=f4e30] [cursor=pointer]:
+                - /url: /tools
+                - img [aria-hidden] [ref=f4e31]: bar_chart
+            - link "Achievements" [ref=f4e36] [cursor=pointer]:
+                - /url: /achievements
+                - img [aria-hidden] [ref=f4e37]: emoji_events
+    - main [ref=f4e42]:
+        - generic [ref=f4e44]:
+            - generic "Opening Explorer" [ref=f4e45]:
+                - generic [ref=f4e46]:
+                    - generic [ref=f4e47]:
+                        - generic [ref=f4e48]:
+                            - generic [ref=f4e49]:
+                                - img [aria-hidden] [ref=f4e50]: explore
+                                - heading "Opening Explorer" [level=2] [ref=f4e51]
+                            - paragraph [ref=f4e52]: Build a move tree from your own games, then compare each position with book moves and engine analysis.
+                        - generic [ref=f4e53]:
+                            - button "Show help" [ref=f4e54] [cursor=pointer]:
+                                - img [aria-hidden] [ref=f4e55]: help
+                            - button "Load Repertoire" [disabled] [ref=f4e57]:
+                                - img [aria-hidden] [ref=f4e58]: download
+                    - generic [ref=f4e60]:
+                        - button "Player setup Lichess • White games" [ref=f4e61] [cursor=pointer]:
+                            - generic [ref=f4e62]:
+                                - generic [ref=f4e63]: Player setup
+                                - generic [ref=f4e64]: Lichess • White games
+                            - img [aria-hidden] [ref=f4e65]: expand_more
+                        - generic [ref=f4e67]:
+                            - generic [ref=f4e68]:
+                                - generic [ref=f4e71]:
+                                    - generic: Username
+                                    - textbox "Username" [ref=f4e74]:
+                                        - /placeholder: lichess username
+                                - generic [ref=f4e77] [cursor=pointer]:
+                                    - generic: Platform
+                                    - combobox "Platform" [ref=f4e80]:
+                                        - generic [ref=f4e81]: Lichess
+                                - generic [ref=f4e90] [cursor=pointer]:
+                                    - generic: Color
+                                    - combobox "Color" [ref=f4e93]:
+                                        - generic [ref=f4e94]: White
+                            - button "Filters" [ref=f4e103] [cursor=pointer]:
+                                - generic [ref=f4e105]:
+                                    - img [aria-hidden] [ref=f4e106]: tune
+                                    - generic [ref=f4e107]: Filters
+                                    - img [aria-hidden] [ref=f4e108]: expand_more
+            - generic [ref=f4e110]:
+                - generic [ref=f4e112]:
+                    - generic [ref=f4e113]:
+                        - heading "Move history" [level=3] [ref=f4e114]
+                        - generic [ref=f4e115]: Step through your loaded line
+                    - generic [ref=f4e117]:
+                        - button "Go to previous move" [disabled] [ref=f4e118]:
+                            - generic [ref=f4e119]: ◀
+                            - generic [ref=f4e120]: Back
+                        - button "Go to next move" [disabled] [ref=f4e121]:
+                            - generic [ref=f4e122]: ▶
+                            - generic [ref=f4e123]: Next
+                        - button "Reset to start" [ref=f4e124] [cursor=pointer]:
+                            - generic [ref=f4e125]: ↺
+                            - generic [ref=f4e126]: Start
+                - generic [ref=f4e128]:
+                    - generic [ref=f4e129]:
+                        - heading "Board" [level=3] [ref=f4e131]
+                        - button "Flip board" [ref=f4e133] [cursor=pointer]
+                    - generic [ref=f4e139]:
+                        - generic [ref=f4e140] [cursor=pointer]
+                        - generic:
+                            - generic: '1'
+                            - generic: '2'
+                            - generic: '3'
+                            - generic: '4'
+                            - generic: '5'
+                            - generic: '6'
+                            - generic: '7'
+                            - generic: '8'
+                        - generic:
+                            - generic: a
+                            - generic: b
+                            - generic: c
+                            - generic: d
+                            - generic: e
+                            - generic: f
+                            - generic: g
+                            - generic: h
+                - generic [ref=f4e141]:
+                    - generic [ref=f4e142]:
+                        - heading "Compare moves" [level=3] [ref=f4e143]
+                        - generic [ref=f4e144]: Switch between your moves, book moves, and engine analysis
+                    - generic [ref=f4e145]:
+                        - button "My Moves" [ref=f4e146] [cursor=pointer]
+                        - button "Best Moves" [ref=f4e147] [cursor=pointer]
+                        - button "Analysis" [ref=f4e148] [cursor=pointer]
+                    - paragraph [ref=f4e151]: Load a player's games to build the move tree. Start with a username above, then use My Moves to browse your repertoire from the starting position.
+    - generic [ref=f4e153]:
+        - link [ref=f4e154] [cursor=pointer]:
+            - /url: https://ko-fi.com/N0F523L5OT
+            - img "Buy Me a Coffee at ko-fi.com" [ref=f4e155]
+        - button "Dismiss Ko-fi button" [ref=f4e156] [cursor=pointer]:
+            - img [aria-hidden] [ref=f4e157]: close
