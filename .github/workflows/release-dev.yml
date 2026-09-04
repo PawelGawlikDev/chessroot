@@ -10,6 +10,8 @@ concurrency:
 
 jobs:
   release:
+    # Skip commits made by this workflow itself (and manual prod/dev releases),
+    # otherwise the version-bump push below would re-trigger this workflow.
     if: ${{ !startsWith(github.event.head_commit.message, 'chore(release)') }}
     runs-on: ubuntu-latest
     steps:
@@ -22,20 +24,11 @@ jobs:
           node-version: 22
           cache: yarn
       - run: yarn install --immutable
-      - name: Write deploy metadata
-        run: |-
-          cat > src/assets/deploy.json <<EOF
-          {
-            "environment": "development",
-            "commit": "$(git rev-parse HEAD)",
-            "tag": "$(git describe --tags --abbrev=0)",
-            "deployedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          }
-          EOF
-      - run: yarn build
-      - uses: cloudflare/wrangler-action@v4
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: deploy --env development
-      - name: Log deployed commit
-        run: echo "Deployed $(git describe --tags --abbrev=0) to development"
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Bump dev version and create prerelease tag
+        run: yarn release:dev:ci
+      - name: Push version bump and tag
+        run: git push --follow-tags origin HEAD:master
