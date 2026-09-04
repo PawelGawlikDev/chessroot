@@ -6,6 +6,7 @@ import {
   inject,
   computed,
   model,
+  linkedSignal,
   effect,
   viewChild,
 } from '@angular/core';
@@ -70,8 +71,12 @@ export class GameFetchPanelComponent {
   private $toDate = this.store.selectSignal(selectToDate);
   private $timeControls = this.store.selectSignal(selectTimeControls);
 
-  public $isFormCollapsed = model(false);
-  public $isGuideHidden = model(false);
+  public $isFormCollapsed = linkedSignal(
+    () => this.storage.getItem<boolean>(`${this.panelKey()}:formCollapsed`) ?? false,
+  );
+  public $isGuideHidden = linkedSignal(
+    () => this.storage.getItem<boolean>(`${this.panelKey()}:guideHidden`) ?? true,
+  );
   public $isExplorerPage = computed(() => this.router.url.includes('explorer'));
   public $visibleTimeControls = computed(() => {
     const active = this.$timeControls();
@@ -111,15 +116,6 @@ export class GameFetchPanelComponent {
   });
 
   constructor() {
-    effect(() => {
-      const key = this.panelKey();
-      const collapsed = this.storage.getItem<boolean>(`${key}:formCollapsed`);
-      const guideHidden = this.storage.getItem<boolean>(`${key}:guideHidden`);
-
-      this.$isFormCollapsed.set(collapsed ?? false);
-      this.$isGuideHidden.set(guideHidden ?? true);
-    });
-
     effect(() => {
       const successVersion = this.successVersion();
       if (successVersion > this.lastSuccessVersion) {
