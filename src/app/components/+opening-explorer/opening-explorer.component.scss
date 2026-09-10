@@ -1,17 +1,21 @@
 .explorer {
+  --explorer-board-top: 5.5rem;
+  --explorer-board-chrome: 10rem;
+  // Left "Move history" column width. Grows on very wide screens only.
+  --explorer-nav-w: 17.5rem;
+
   width: 100%;
   box-sizing: border-box;
   padding: 1rem;
   background:
-    radial-gradient(circle at 18% 12%, rgba(74, 222, 128, 0.08) 0%, transparent 34%),
-    radial-gradient(circle at 85% 18%, rgba(255, 183, 131, 0.08) 0%, transparent 30%),
+    radial-gradient(circle at 20% 80%, rgba(74, 222, 128, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(251, 146, 60, 0.03) 0%, transparent 50%),
     linear-gradient(180deg, var(--cr-chess-container-start) 0%, var(--cr-chess-container-end) 100%);
   border-radius: var(--cr-rounded-xl);
+  min-height: 100vh;
 
   @media (min-width: 100rem) {
-    max-width: 100rem;
-    margin: 0 auto;
-    padding: 0 1rem;
+    --explorer-nav-w: 24rem;
   }
 
   &__layout {
@@ -91,7 +95,7 @@
 
   &__nav-col {
     flex: 0 0 auto;
-    width: 17.5rem;
+    width: var(--explorer-nav-w);
 
     cr-move-navigation {
       display: block;
@@ -104,14 +108,24 @@
 
   &__board-col {
     flex: 0 0 auto;
-    width: min(44.5rem, calc(100% - 20.5rem));
+    align-self: flex-start;
+    width: min(
+      54rem,
+      calc(100% - var(--explorer-nav-w) - 3rem),
+      calc(100svh - var(--explorer-board-chrome))
+    );
+
+    position: sticky;
+    top: var(--explorer-board-top);
 
     cr-chess-board {
       display: block;
     }
 
     @media (max-width: 75rem) {
-      width: 100%;
+      position: static;
+      width: min(100%, calc(100svh - var(--explorer-board-chrome)));
+      margin-inline: auto;
     }
   }
 
@@ -170,7 +184,6 @@
   align-items: center;
   padding: 0 0.75rem;
   border-bottom: 2px solid var(--cr-outline-variant);
-  overflow-x: auto;
 
   &__btn {
     flex: 1 0 max-content;
