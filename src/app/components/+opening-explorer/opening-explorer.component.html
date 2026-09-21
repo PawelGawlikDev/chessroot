@@ -61,6 +61,13 @@
             </div>
 
             <div class="board-toolbar">
+              <button
+                class="board-toolbar__btn"
+                [matTooltip]="$soundEnabled() ? 'Mute sounds' : 'Unmute sounds'"
+                (click)="toggleSound()"
+              >
+                <mat-icon>{{ $soundEnabled() ? 'volume_up' : 'volume_off' }}</mat-icon>
+              </button>
               <button class="board-toolbar__btn" (click)="flipBoard()">Flip board</button>
             </div>
           </div>

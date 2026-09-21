@@ -12,6 +12,7 @@ import pkg from '../../package.json';
 import { AcknowledgementsDialogComponent } from './components/dialogs/acknowledgements-dialog/acknowledgements-dialog.component';
 import { ContactDialogComponent } from './components/dialogs/contact-dialog/contact-dialog.component';
 import { KofiBannerComponent } from './components/kofi-banner/kofi-banner.component';
+import { isRouteReactivatable } from './route-reuse-strategy';
 
 @Component({
   selector: 'cr-root',
@@ -79,6 +80,12 @@ export class ChessRoot {
 
   public openContact(): void {
     this.dialog.open(ContactDialogComponent, { width: '28rem' });
+  }
+
+  public onRouteAttach(component: unknown): void {
+    if (isRouteReactivatable(component)) {
+      component.onRouteReactivated();
+    }
   }
 
   public onWindowScroll(): void {

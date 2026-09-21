@@ -83,7 +83,7 @@
 </header>
 
 <main class="app__main">
-  <router-outlet />
+  <router-outlet (attach)="onRouteAttach($event)" />
 </main>
 
 <cr-kofi-banner />

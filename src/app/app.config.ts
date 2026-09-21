@@ -7,7 +7,7 @@ import {
   inject,
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
@@ -18,6 +18,7 @@ import { userDataReducer, explorerReducer, EXPLORER_FEATURE_KEY } from '@state/r
 import { USER_DATA_FEATURE_KEY } from '@state/selectors';
 
 import { routes } from './app.routes';
+import { ChessRootRouteReuseStrategy } from './route-reuse-strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -42,5 +43,6 @@ export const appConfig: ApplicationConfig = {
       return authService.init();
     }),
     provideNativeDateAdapter(),
+    { provide: RouteReuseStrategy, useClass: ChessRootRouteReuseStrategy },
   ],
 };

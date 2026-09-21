@@ -160,8 +160,12 @@
 
 .board-toolbar {
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
 
   &__btn {
+    display: flex;
+    align-items: center;
     background: var(--cr-surface-container-high);
     border: 1px solid var(--cr-outline-variant);
     border-radius: var(--cr-rounded);
@@ -173,6 +177,11 @@
     color: var(--cr-on-surface);
     transition: background 0.15s;
 
+    mat-icon {
+      font-size: 1.15rem;
+      height: 1.15rem;
+      width: 1.15rem;
+    }
     &:hover {
       background: var(--cr-hover-bg);
     }
