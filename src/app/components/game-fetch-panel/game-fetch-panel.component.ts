@@ -71,9 +71,7 @@ export class GameFetchPanelComponent {
   private $toDate = this.store.selectSignal(selectToDate);
   private $timeControls = this.store.selectSignal(selectTimeControls);
 
-  public $isFormCollapsed = linkedSignal(
-    () => this.storage.getItem<boolean>(`${this.panelKey()}:formCollapsed`) ?? false,
-  );
+  public $isFormCollapsed = linkedSignal(() => false);
   public $isGuideHidden = linkedSignal(
     () => this.storage.getItem<boolean>(`${this.panelKey()}:guideHidden`) ?? true,
   );
@@ -148,7 +146,6 @@ export class GameFetchPanelComponent {
       : 0;
 
     this.$isFormCollapsed.set(collapsed);
-    this.storage.setItem(`${this.panelKey()}:formCollapsed`, collapsed);
 
     if (!preserveScrollPosition || previousScrollY <= 0 || controlsTop >= 0) {
       return;

@@ -20,6 +20,7 @@ import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
 import { InsightsDonutComponent } from './components/insights-donut/insights-donut.component';
 import { InsightsSummaryComponent } from './components/insights-summary/insights-summary.component';
 import { Insights, OpeningStat, OpponentStat, TimeControlStat } from './models';
+import { RouteReactivatable } from '../../route-reuse-strategy';
 
 @Component({
   selector: 'cr-tools',
@@ -33,7 +34,7 @@ import { Insights, OpeningStat, OpponentStat, TimeControlStat } from './models';
   templateUrl: './tools.component.html',
   styleUrl: './tools.component.scss',
 })
-export class ToolsComponent implements OnInit {
+export class ToolsComponent implements OnInit, RouteReactivatable {
   private seo = inject(SeoService);
   private lichessService = inject(LichessService);
   private chessComService = inject(ChessComService);
@@ -41,6 +42,14 @@ export class ToolsComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
+    this.updateSeo();
+  }
+
+  public onRouteReactivated(): void {
+    this.updateSeo();
+  }
+
+  private updateSeo(): void {
     this.seo.setSeo(
       {
         title: 'Insights',

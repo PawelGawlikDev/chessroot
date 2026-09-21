@@ -11,3 +11,4 @@ export * from './opening-book.service';
 export * from './opening-manager.service';
 export * from './game-checker.service';
 export * from './local-storage.service';
+export * from './sound.service';

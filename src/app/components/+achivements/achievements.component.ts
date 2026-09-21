@@ -17,6 +17,7 @@ import { LichessService, GameCheckerService, SeoService, ChessComService } from 
 import { selectPlatform, selectFromDate, selectToDate, selectTimeControls } from '@state';
 import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
 
+import { RouteReactivatable } from '../../route-reuse-strategy';
 import { AchievementCategoryComponent } from './components/achievement-category/achievement-category.component';
 
 @Component({
@@ -26,7 +27,7 @@ import { AchievementCategoryComponent } from './components/achievement-category/
   templateUrl: './achievements.component.html',
   styleUrl: './achievements.component.scss',
 })
-export class AchievementsComponent implements OnInit {
+export class AchievementsComponent implements OnInit, RouteReactivatable {
   private seo = inject(SeoService);
   private lichessService = inject(LichessService);
   private chessComService = inject(ChessComService);
@@ -35,6 +36,14 @@ export class AchievementsComponent implements OnInit {
   private store = inject(Store);
 
   public ngOnInit(): void {
+    this.updateSeo();
+  }
+
+  public onRouteReactivated(): void {
+    this.updateSeo();
+  }
+
+  private updateSeo(): void {
     this.seo.setSeo(
       {
         title: 'Achievements',

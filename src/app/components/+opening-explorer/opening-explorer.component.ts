@@ -30,6 +30,7 @@ import {
   OpeningGraphService,
   OpeningBookService,
   OpeningManagerService,
+  SoundService,
 } from '@services';
 import { StockfishAnalysisService, SeoService } from '@services';
 import {
@@ -42,6 +43,8 @@ import {
   ExplorerActions,
 } from '@state';
 import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
+
+import { RouteReactivatable } from '../../route-reuse-strategy';
 
 @Component({
   selector: 'cr-opening-explorer',
@@ -61,7 +64,7 @@ import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
     '(document:keydown)': 'onKeydown($event)',
   },
 })
-export class OpeningExplorerComponent implements OnInit {
+export class OpeningExplorerComponent implements OnInit, RouteReactivatable {
   private seo = inject(SeoService);
   private lichessService = inject(LichessService);
   private chessComService = inject(ChessComService);
@@ -71,6 +74,7 @@ export class OpeningExplorerComponent implements OnInit {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private stockfish = inject(StockfishAnalysisService);
+  private sound = inject(SoundService);
   private cdr = inject(ChangeDetectorRef);
 
   public $username = signal('');
@@ -98,6 +102,7 @@ export class OpeningExplorerComponent implements OnInit {
   public readonly DEPTH_OPTIONS = [8, 12, 16, 18, 20, 24, 30];
   public $bookMoves = this.store.selectSignal(selectBookMoves);
   public $highlightedMove = signal<ExplorerMove | null>(null);
+  public $soundEnabled = this.sound.enabled;
 
   constructor() {
     effect(() => {
@@ -111,6 +116,15 @@ export class OpeningExplorerComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.updateSeo();
+    this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
+  }
+
+  public onRouteReactivated(): void {
+    this.updateSeo();
+  }
+
+  private updateSeo(): void {
     this.seo.setSeo(
       {
         title: 'Opening Explorer',
@@ -119,8 +133,6 @@ export class OpeningExplorerComponent implements OnInit {
       },
       '/explorer',
     );
-
-    this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }
 
   public $progress = computed(() => {
@@ -345,6 +357,7 @@ export class OpeningExplorerComponent implements OnInit {
     const move = chess.move(san, { strict: false });
     if (!move) return;
     this.manager.addPly(chess.fen(), { from: move.from, to: move.to, san: move.san });
+    this.sound.playForSan(move.san);
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }
 
@@ -353,17 +366,20 @@ export class OpeningExplorerComponent implements OnInit {
   }
 
   public onNavigateTo(index: number): void {
-    this.manager.moveTo(index);
+    const ply = this.manager.moveTo(index);
+    if (ply?.move) this.sound.playForSan(ply.move.san);
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }
 
   public onGoForward(): void {
-    this.manager.moveForward();
+    const ply = this.manager.moveForward();
+    if (ply?.move) this.sound.playForSan(ply.move.san);
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }
 
   public onGoBack(): void {
-    this.manager.moveBack();
+    const ply = this.manager.moveBack();
+    if (ply?.move) this.sound.playForSan(ply.move.san);
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }
 
@@ -374,6 +390,10 @@ export class OpeningExplorerComponent implements OnInit {
 
   public onHighlightMove(move: ExplorerMove | null): void {
     this.$highlightedMove.set(move);
+  }
+
+  public toggleSound(): void {
+    this.sound.toggle();
   }
 
   public switchTab(tab: 'moves' | 'book' | 'analysis'): void {
