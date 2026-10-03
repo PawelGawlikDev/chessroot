@@ -5,12 +5,15 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   inject,
+  APP_INITIALIZER,
+  ErrorHandler,
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { provideRouter, RouteReuseStrategy } from '@angular/router';
+import { provideRouter, Router, RouteReuseStrategy } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import * as Sentry from '@sentry/angular';
 
 import { LichessAuthService } from '@services';
 import { ExplorerEffects } from '@state/effects';
@@ -44,5 +47,19 @@ export const appConfig: ApplicationConfig = {
     }),
     provideNativeDateAdapter(),
     { provide: RouteReuseStrategy, useClass: ChessRootRouteReuseStrategy },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler(),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
   ],
 };
