@@ -44,6 +44,18 @@ yarn deploy:dev
 
 Deploys to Cloudflare Workers via Wrangler.
 
+Both deploys report errors to Sentry (`pawe-gawlik/chessroot`) and are tracked as releases. The
+environment comes from `src/assets/deploy.json`, which CI writes before building, so production and
+development stay separate in the Sentry UI:
+
+- `v1.2.3` → `production`, `v1.2.3-dev.0` → `development`
+- local builds without deploy metadata → `production`, or `development` for `yarn start`
+
+Source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before the Workers
+upload, so they are never served publicly. `SENTRY_RELEASE` is the release name (the git tag in CI,
+required for any release build), and `SENTRY_AUTH_TOKEN` (`org:ci` scope) is required in CI. Locally
+the token goes in `.sentryclirc` (gitignored).
+
 ## Tests
 
 ```bash

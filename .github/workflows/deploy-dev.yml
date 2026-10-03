@@ -25,10 +25,17 @@ jobs:
             "deployedAt": "${{ github.event.repository.updated_at }}"
           }
           EOF
-      - run: yarn build
+      - run: yarn build:release
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_RELEASE: ${{ github.ref_name }}
       - uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           command: deploy --env development
+      - run: yarn sentry:release:finalize
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_RELEASE: ${{ github.ref_name }}
       - name: Log deployed commit
         run: echo "Deployed commit ${{ github.sha }} (tag ${{ github.ref_name }}) to development"

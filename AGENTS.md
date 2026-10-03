@@ -46,6 +46,21 @@ This project uses **Yarn 4 (Berry)** with the `node-modules` linker. The version
 | Conventional commit (Commitizen)   | `yarn cz`                                                   |
 | Release (standard-version)         | `yarn release` (also `release:major`, `release:minor`)      |
 | Deploy to Cloudflare Workers       | `yarn deploy` (production), `yarn deploy:dev` (development) |
+| Finalize Sentry release            | `yarn sentry:release:finalize`                              |
+
+### Sentry
+
+Errors are reported to the `pawe-gawlik/chessroot` project. Both deploy pipelines register a Sentry
+release (name from `SENTRY_RELEASE`, which CI sets to the git tag), upload source maps, then finalize the
+release after the Workers deploy.
+
+- Environment reported to Sentry comes from `src/assets/deploy.json` (written by CI before the
+  build): `production` and `development` are separate environments in the Sentry UI.
+- Source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before upload, so
+  they are never served publicly. `public/_headers` must allow the Sentry ingest hosts in
+  `connect-src`.
+- Required CI secret: `SENTRY_AUTH_TOKEN` (scope `org:ci`). Locally it goes in `.sentryclirc`, which
+  is gitignored. Never commit an auth token; the browser DSN in `src/main.ts` is public by design.
 
 ## Repository structure
 

@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "build": "ng build",
-    "build:release": "ng build --configuration production && yarn sentry:sourcemaps && yarn sentry:sourcemaps:clean",
+    "build:release": "ng build --configuration production && yarn sentry:release:new && yarn sentry:sourcemaps:inject && yarn sentry:sourcemaps:upload && yarn sentry:sourcemaps:clean",
     "cz": "cz",
-    "deploy": "yarn build:release && wrangler deploy --env production",
-    "deploy:dev": "ng build && wrangler deploy --env development",
+    "deploy": "yarn build:release && wrangler deploy --env production && yarn sentry:release:finalize",
+    "deploy:dev": "yarn build:release && wrangler deploy --env development && yarn sentry:release:finalize",
     "e2e": "playwright test",
     "e2e:debug": "cross-env E2E=true DEBUG=true playwright test --debug",
     "lint": "yarn eslint . --ext .ts",
@@ -21,7 +21,10 @@
     "test": "ng test",
     "test:coverage": "ng test --coverage",
     "test:ui": "ng test --ui",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org pawe-gawlik --project javascript-angular ./dist/chessroot/browser && sentry-cli sourcemaps upload --org pawe-gawlik --project javascript-angular ./dist/chessroot/browser",
+    "sentry:release:new": "sentry-cli releases new $SENTRY_RELEASE --org pawe-gawlik --project chessroot",
+    "sentry:release:finalize": "sentry-cli releases finalize $SENTRY_RELEASE --org pawe-gawlik --project chessroot",
+    "sentry:sourcemaps:inject": "sentry-cli sourcemaps inject --org pawe-gawlik --project chessroot ./dist/chessroot/browser",
+    "sentry:sourcemaps:upload": "sentry-cli sourcemaps upload --org pawe-gawlik --project chessroot --release $SENTRY_RELEASE ./dist/chessroot/browser",
     "sentry:sourcemaps:clean": "node scripts/delete-sourcemaps.mjs ./dist/chessroot/browser"
   },
   "lint-staged": {

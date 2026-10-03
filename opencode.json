@@ -20,6 +20,11 @@
       "enabled": true,
       "type": "local",
       "command": ["npx", "@playwright/mcp@latest"]
+    },
+    "sentry": {
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp",
+      "oauth": {}
     }
   }
 }
