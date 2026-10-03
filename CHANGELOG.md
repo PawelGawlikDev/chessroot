@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.4-dev.0...v1.6.0-dev.0) (2026-10-03)
+
+### Features
+
+- add sentry to project ([9ea0a45](https://github.com/PawelGawlikDev/chessroot/commit/9ea0a455b3a910ec2f1f35b83c6eb50a9370df96))
+- add sounds to chessboard ([aa7bb4b](https://github.com/PawelGawlikDev/chessroot/commit/aa7bb4b948ceb323aa94eae269b9cafcca546fd9))
+
+### Bug Fixes
+
+- update layout for explorer ([bf5ebbc](https://github.com/PawelGawlikDev/chessroot/commit/bf5ebbc0f3e838cbfbc784cc2691245ab4b3764d))
+
 ### [1.5.4-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.3...v1.5.4-dev.0) (2026-09-04)
 
 ### [1.5.3](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.3-dev.0...v1.5.3) (2026-09-04)
