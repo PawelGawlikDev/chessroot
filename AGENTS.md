@@ -35,6 +35,7 @@ This project uses **Yarn 4 (Berry)** with the `node-modules` linker. The version
 | Install dependencies               | `yarn install`                                              |
 | Dev server (http://localhost:4200) | `yarn start`                                                |
 | Production build (`dist/`)         | `yarn build`                                                |
+| Build + upload maps to Sentry      | `yarn build:release`                                        |
 | Lint (ESLint)                      | `yarn lint`                                                 |
 | Format all files (Prettier)        | `yarn prettier`                                             |
 | Unit tests (Vitest)                | `yarn test`                                                 |

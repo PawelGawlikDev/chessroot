@@ -4,14 +4,14 @@ import { resolve } from 'path';
 export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
-      '@model': resolve(__dirname, 'src/app/model'),
-      '@services': resolve(__dirname, 'src/app/services'),
-      '@utils': resolve(__dirname, 'src/app/utils'),
-      '@achievements': resolve(__dirname, 'src/app/achievements'),
-      '@enums': resolve(__dirname, 'src/app/enums'),
-      '@state': resolve(__dirname, 'src/app/state'),
-      '@components': resolve(__dirname, 'src/app/components'),
-      '@pipes': resolve(__dirname, 'src/app/pipes'),
+      '@model': resolve(import.meta.dirname, 'src/app/model'),
+      '@services': resolve(import.meta.dirname, 'src/app/services'),
+      '@utils': resolve(import.meta.dirname, 'src/app/utils'),
+      '@achievements': resolve(import.meta.dirname, 'src/app/achievements'),
+      '@enums': resolve(import.meta.dirname, 'src/app/enums'),
+      '@state': resolve(import.meta.dirname, 'src/app/state'),
+      '@components': resolve(import.meta.dirname, 'src/app/components'),
+      '@pipes': resolve(import.meta.dirname, 'src/app/pipes'),
     },
   },
   test: {

@@ -1,0 +1,64 @@
+{
+  "skipQuestions": ["scope", "customScope"],
+  "usePreparedCommit": true,
+  "breaklineChar": "|",
+  "upperCaseSubject": false,
+  "subjectLimit": 100,
+  "types": [
+    {
+      "name": "feat",
+      "value": "feat",
+      "description": "A new feature"
+    },
+    {
+      "name": "fix",
+      "value": "fix",
+      "description": "A bug fix"
+    },
+    {
+      "name": "refactor",
+      "value": "refactor",
+      "description": "A code change that neither fixes a bug nor adds a feature"
+    },
+    {
+      "name": "perf",
+      "value": "perf",
+      "description": "A code change that improves performance"
+    },
+    {
+      "name": "docs",
+      "value": "docs",
+      "description": "Documentation only changes"
+    },
+    {
+      "name": "test",
+      "value": "test",
+      "description": "Adding missing tests or correcting existing tests"
+    },
+    {
+      "name": "style",
+      "value": "style",
+      "description": "Changes that do not affect the meaning of the code"
+    },
+    {
+      "name": "build",
+      "value": "build",
+      "description": "Changes that affect the build system or dependencies"
+    },
+    {
+      "name": "ci",
+      "value": "ci",
+      "description": "Changes to CI configuration files and scripts"
+    },
+    {
+      "name": "chore",
+      "value": "chore",
+      "description": "Other changes that do not modify src or test files"
+    },
+    {
+      "name": "revert",
+      "value": "revert",
+      "description": "Reverts a previous commit"
+    }
+  ]
+}

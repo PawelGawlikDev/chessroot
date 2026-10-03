@@ -26,7 +26,9 @@ jobs:
             "deployedAt": "${{ github.event.repository.updated_at }}"
           }
           EOF
-      - run: yarn build
+      - run: yarn build:release
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
