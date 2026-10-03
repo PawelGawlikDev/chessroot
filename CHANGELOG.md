@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.6.0...v1.7.0-dev.0) (2026-10-03)
+
+### Features
+
+- sentry fixup ([381bc86](https://github.com/PawelGawlikDev/chessroot/commit/381bc86cf3bfe88e464668fdf7ac3130095cb25a))
+
 ## [1.6.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.6.0-dev.0...v1.6.0) (2026-10-03)
 
 ## [1.6.0-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.5.4-dev.0...v1.6.0-dev.0) (2026-10-03)
