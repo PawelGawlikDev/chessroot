@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
+import { ACHIEVEMENTS_METADATA, ACHIEVEMENT_CATEGORIES } from '@achievements';
 import { Game } from '@model';
 
 import { GameCheckerService } from '../game-checker.service';
@@ -70,6 +71,15 @@ describe('GameCheckerService', () => {
       const results = service.checkGame(game);
       expect(results instanceof Map).toBe(true);
       expect(results.size).toBeGreaterThan(0);
+      expect(results.has('pawnCheckmate')).toBe(true);
+      expect(results.has('castleKingsideWithCheckmate')).toBe(true);
+      expect(results.has('castleQueensideWithCheckmate')).toBe(true);
+
+      for (const key of [...results.keys(), ...Object.keys(ACHIEVEMENTS_METADATA)]) {
+        expect(key).not.toMatch(/^(alphabet|adoptionMatch):/);
+      }
+      expect(ACHIEVEMENT_CATEGORIES).not.toHaveProperty('alphabet');
+      expect(ACHIEVEMENT_CATEGORIES).not.toHaveProperty('adoption');
     });
 
     it('should handle game without moves property', () => {

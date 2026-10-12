@@ -25,7 +25,7 @@ jobs:
             "deployedAt": "${{ github.event.repository.updated_at }}"
           }
           EOF
-      - run: yarn build:release
+      - run: yarn build:dev:release
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_RELEASE: ${{ github.ref_name }}
