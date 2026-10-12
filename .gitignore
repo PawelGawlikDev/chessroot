@@ -11,6 +11,9 @@
 npm-debug.log
 yarn-error.log
 
+# Yarn local installation state
+/.yarn/install-state.gz
+
 # IDEs and editors
 .idea/
 .project
