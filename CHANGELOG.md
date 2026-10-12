@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.7.0...v1.7.1-dev.0) (2026-10-12)
+
+### Bug Fixes
+
+- add sourcemap to dev env ([a265b48](https://github.com/PawelGawlikDev/chessroot/commit/a265b481afcaf3a266a9d152c659b3846c62bd7c))
+
 ## [1.7.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.7.0-dev.0...v1.7.0) (2026-10-03)
 
 ## [1.7.0-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.6.0...v1.7.0-dev.0) (2026-10-03)
