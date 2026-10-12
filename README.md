@@ -59,7 +59,8 @@ Locally the token goes in `.sentryclirc` (gitignored).
 Development deployments use `yarn build:dev`: a production-optimized build with JavaScript and CSS
 source maps retained for browser debugging. `yarn build:dev:release` also registers the Sentry release
 and injects and uploads source maps, retaining them for deployment. The release is finalized after
-deployment. To inspect the build locally without Sentry credentials, run `yarn build:dev`; local
+deployment, then a Sentry deploy record associates it with the target environment even if no errors
+have been received. To inspect the build locally without Sentry credentials, run `yarn build:dev`; local
 `yarn start` also enables source maps.
 
 ## Tests
