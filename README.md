@@ -51,10 +51,16 @@ development stay separate in the Sentry UI:
 - `v1.2.3` → `production`, `v1.2.3-dev.0` → `development`
 - local builds without deploy metadata → `production`, or `development` for `yarn start`
 
-Source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before the Workers
-upload, so they are never served publicly. `SENTRY_RELEASE` is the release name (the git tag in CI,
-required for any release build), and `SENTRY_AUTH_TOKEN` (`org:ci` scope) is required in CI. Locally
-the token goes in `.sentryclirc` (gitignored).
+Production source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before the
+Workers upload. `SENTRY_RELEASE` is the release name (the git tag in CI, required for both environments'
+release builds), and `SENTRY_AUTH_TOKEN` (`org:ci` scope) is required for both deployment workflows.
+Locally the token goes in `.sentryclirc` (gitignored).
+
+Development deployments use `yarn build:dev`: a production-optimized build with JavaScript and CSS
+source maps retained for browser debugging. `yarn build:dev:release` also registers the Sentry release
+and injects and uploads source maps, retaining them for deployment. The release is finalized after
+deployment. To inspect the build locally without Sentry credentials, run `yarn build:dev`; local
+`yarn start` also enables source maps.
 
 ## Tests
 

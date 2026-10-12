@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Chess } from 'chess.js';
 
-import { TrophyCheckResult, AdoptionMatchTracker } from '@achievements';
+import { TrophyCheckResult } from '@achievements';
 import {
   avoidTheFlagCheckmate,
   checkmateWithTenthSecondLeft,
@@ -18,7 +18,6 @@ import {
   royalFamilyFork,
   smotheredMate,
   smotheredPorkMate,
-  alphabetOpening,
   ohNoMyQueen,
 } from '@achievements';
 import { Game } from '@model';
@@ -32,8 +31,6 @@ import * as pieceStructures from '../achievements/piece-structures';
   providedIn: 'root',
 })
 export class GameCheckerService {
-  private adoptionMatch = new AdoptionMatchTracker();
-
   public checkGame(game: Game): Map<string, TrophyCheckResult> {
     const results = new Map<string, TrophyCheckResult>();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -70,15 +67,6 @@ export class GameCheckerService {
 
     for (const moveNumber of [2, 3, 4]) {
       results.set(`checkmateAtMoveNumber:${moveNumber}`, checkmateAtMoveNumber(moves, moveNumber));
-    }
-
-    this.adoptionMatch.processGame(game);
-    results.set('adoptionMatch:10', this.adoptionMatch.checkForAdoption(game, 10));
-    results.set('adoptionMatch:20', this.adoptionMatch.checkForAdoption(game, 20));
-
-    const words = ['badegg', 'beachcafe', 'beef', 'cabbage', 'chad', 'egg', 'eggegg', 'headache'];
-    for (const word of words) {
-      results.set(`alphabet:${word}`, alphabetOpening(game, word, moves));
     }
 
     const chessJs = new Chess();

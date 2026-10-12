@@ -1,16 +1,7 @@
 export interface AchievementMetadata {
   title: string;
   desc?: string;
-  category:
-    | 'proud'
-    | 'pawn'
-    | 'piece'
-    | 'alphabet'
-    | 'checkmate'
-    | 'funny'
-    | 'speed'
-    | 'adoption'
-    | 'dirty';
+  category: 'proud' | 'pawn' | 'piece' | 'checkmate' | 'funny' | 'speed' | 'dirty';
 }
 
 export const ACHIEVEMENTS_METADATA: Record<string, AchievementMetadata> = {
@@ -271,66 +262,14 @@ export const ACHIEVEMENTS_METADATA: Record<string, AchievementMetadata> = {
     desc: 'Deliver checkmate in 4 moves',
     category: 'checkmate',
   },
-  'alphabet:badegg': {
-    title: 'Bad Egg',
-    desc: 'Win after spelling "badegg" with pawn moves in the opening',
-    category: 'alphabet',
-  },
-  'alphabet:beachcafe': {
-    title: 'BeachCafé',
-    desc: 'Win after spelling "beachcafe" with pawn moves in the opening',
-    category: 'alphabet',
-  },
-  'alphabet:beef': {
-    title: 'Beef',
-    desc: 'Win after spelling "beef" with pawn moves in the opening',
-    category: 'alphabet',
-  },
-  'alphabet:cabbage': {
-    title: 'Cabbage',
-    desc: 'Win after spelling "cabbage" with pawn moves in the opening',
-    category: 'alphabet',
-  },
-  'alphabet:chad': {
-    title: 'Chad',
-    desc: 'Win after spelling "chad" with pawn moves in the opening',
-    category: 'alphabet',
-  },
-  'alphabet:egg': {
-    title: 'Egg',
-    desc: 'Win after spelling "egg" with pawn moves in the opening',
-    category: 'alphabet',
-  },
-  'alphabet:eggegg': {
-    title: 'Double Egg (EggEgg)',
-    desc: 'Win after spelling "eggegg" with pawn moves in the opening',
-    category: 'alphabet',
-  },
-  'alphabet:headache': {
-    title: 'Headache',
-    desc: 'Win after spelling "headache" with pawn moves in the opening',
-    category: 'alphabet',
-  },
-  'adoptionMatch:10': {
-    title: 'Adoption',
-    desc: 'Win 10 consecutive games against the same opponent',
-    category: 'adoption',
-  },
-  'adoptionMatch:20': {
-    title: 'Double Adoption',
-    desc: 'Win 20 consecutive games against the same opponent',
-    category: 'adoption',
-  },
 };
 
 export const ACHIEVEMENT_CATEGORIES: Record<AchievementMetadata['category'], string> = {
   proud: 'Make Eric Proud',
   pawn: 'Pawn Structures',
   piece: 'Piece Structures',
-  alphabet: 'Alphabet Openings',
   checkmate: 'Checkmates',
   funny: "There's a Funny Line",
   speed: 'Speed',
-  adoption: 'Adoption Matches',
   dirty: 'I feel so dirty',
 };

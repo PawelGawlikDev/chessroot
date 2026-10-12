@@ -115,11 +115,9 @@ export class AchievementsComponent implements OnInit, RouteReactivatable {
       'proud',
       'pawn',
       'piece',
-      'alphabet',
       'checkmate',
       'funny',
       'speed',
-      'adoption',
       'dirty',
     ];
 

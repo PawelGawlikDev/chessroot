@@ -56,9 +56,10 @@ release after the Workers deploy.
 
 - Environment reported to Sentry comes from `src/assets/deploy.json` (written by CI before the
   build): `production` and `development` are separate environments in the Sentry UI.
-- Source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before upload, so
-  they are never served publicly. `public/_headers` must allow the Sentry ingest hosts in
-  `connect-src`.
+- Production source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before upload.
+  Development uses `yarn build:dev:release`, uploading and retaining JavaScript and CSS source maps
+  for browser debugging. `yarn build:dev` builds without Sentry credentials for local inspection.
+  `public/_headers` must allow the Sentry ingest hosts in `connect-src`.
 - Required CI secret: `SENTRY_AUTH_TOKEN` (scope `org:ci`). Locally it goes in `.sentryclirc`, which
   is gitignored. Never commit an auth token; the browser DSN in `src/main.ts` is public by design.
 

@@ -66,6 +66,14 @@
               ],
               "outputHashing": "all"
             },
+            "debug": {
+              "sourceMap": {
+                "scripts": true,
+                "styles": true,
+                "hidden": false,
+                "sourcesContent": true
+              }
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,

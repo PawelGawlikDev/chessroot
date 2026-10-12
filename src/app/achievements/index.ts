@@ -1,7 +1,5 @@
 export * from './types';
 export * from './metadata';
-export * from './adoption-match';
-export * from './alphabet-openings';
 export * from './avoid-the-flag-checkmate';
 export * from './block-check-with-checkmate';
 export * from './castle-fork';
