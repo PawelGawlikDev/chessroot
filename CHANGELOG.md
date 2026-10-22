@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.7.1-dev.0...v1.8.0-dev.0) (2026-10-22)
+
+### Features
+
+- update seo for chessroot ([d9b346d](https://github.com/PawelGawlikDev/chessroot/commit/d9b346dccdc43b246346ec18145674298a322408))
+
+### Bug Fixes
+
+- update relase script ([2140c9b](https://github.com/PawelGawlikDev/chessroot/commit/2140c9b04fd000217427592f9f934aa72e6f17a6))
+
 ### [1.7.1-dev.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.7.0...v1.7.1-dev.0) (2026-10-12)
 
 ### Bug Fixes
