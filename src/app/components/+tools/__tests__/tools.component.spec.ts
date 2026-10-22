@@ -141,7 +141,7 @@ describe('ToolsComponent', () => {
     fixture.detectChanges();
 
     expect(seoService.setSeo).toHaveBeenCalledWith(
-      expect.objectContaining({ title: 'Insights' }),
+      expect.objectContaining({ title: 'Chess Game Statistics for Lichess & Chess.com' }),
       '/tools',
     );
   });

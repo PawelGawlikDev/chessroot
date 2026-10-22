@@ -3,12 +3,12 @@
     <div class="hero__main">
       <div class="hero__content">
         <h1 class="hero__title">
-          ChessRoot
-          <img src="/icon.svg" alt="ChessRoot logo" class="hero__logo" />
+          <span>Chess opening tree &amp; game insights</span>
         </h1>
         <p class="hero__subtitle">
-          Turn a pile of games into a clear story: what you play, what works, and which moments are
-          worth remembering.
+          ChessRoot is a free, open-source chess opening explorer and game analysis tool for Lichess
+          and Chess.com games. Explore your repertoire move by move, compare your results, and
+          discover achievements.
         </p>
         <div class="hero__actions">
           <a mat-flat-button color="primary" routerLink="/explorer">
@@ -34,7 +34,7 @@
           <li>Pick the view that matches your goal: openings, insights, or milestones.</li>
         </ol>
 
-        @if (auth.isLoggedIn()) {
+        @if ($hasHydrated() && auth.isLoggedIn()) {
           <div class="hero__login hero__login--ready">
             <mat-icon>check_circle</mat-icon>
             Logged in as <strong>{{ auth.getUsername() }}</strong>
@@ -53,10 +53,10 @@
     <div class="workspace__stack">
       <article class="workspace-card workspace-card--feature">
         <div class="workspace-card__copy">
-          <h2 class="workspace-card__title">Explore your repertoire move by move</h2>
+          <h2 class="workspace-card__title">Explore your personal chess opening tree</h2>
           <p class="workspace-card__desc">
-            Best when you want to answer, "What do I really play from this position, and how does it
-            compare to theory?"
+            Build a move tree from your Lichess or Chess.com games. See what you play from each
+            position, how often you play it, and which results follow.
           </p>
           <a mat-button color="primary" routerLink="/explorer">Open Explorer &rarr;</a>
         </div>
@@ -86,7 +86,7 @@
 
     <div class="workspace__stack">
       <article class="workspace-card">
-        <h2 class="workspace-card__title">See the trends that shape your results</h2>
+        <h2 class="workspace-card__title">Analyze your chess game statistics</h2>
         <p class="workspace-card__desc">
           Use Insights to compare win rates, openings, time controls, and opponents without digging
           through individual games.
@@ -95,7 +95,7 @@
       </article>
 
       <article class="workspace-card">
-        <h2 class="workspace-card__title">Surface the rare wins you would otherwise miss</h2>
+        <h2 class="workspace-card__title">Find chess achievements in your games</h2>
         <p class="workspace-card__desc">
           Achievements scans for memorable mates, tactical tricks, and quirky milestones across your
           archive.

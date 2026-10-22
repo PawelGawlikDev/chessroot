@@ -114,7 +114,7 @@ describe('AchievementsComponent', () => {
     fixture.detectChanges();
 
     expect(seoService.setSeo).toHaveBeenCalledWith(
-      expect.objectContaining({ title: 'Achievements' }),
+      expect.objectContaining({ title: 'Chess Achievements for Lichess & Chess.com' }),
       '/achievements',
     );
   });

@@ -6,7 +6,8 @@
     "outDir": "./out-tsc/app",
     "rootDir": "/",
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "types": ["node"]
   },
   "include": ["src/**/*.ts", "package.json"],
   "exclude": ["src/**/*.spec.ts"]

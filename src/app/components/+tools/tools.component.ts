@@ -21,6 +21,7 @@ import { InsightsDonutComponent } from './components/insights-donut/insights-don
 import { InsightsSummaryComponent } from './components/insights-summary/insights-summary.component';
 import { Insights, OpeningStat, OpponentStat, TimeControlStat } from './models';
 import { RouteReactivatable } from '../../route-reuse-strategy';
+import { SEO_PAGES } from '../../seo-pages';
 
 @Component({
   selector: 'cr-tools',
@@ -50,14 +51,7 @@ export class ToolsComponent implements OnInit, RouteReactivatable {
   }
 
   private updateSeo(): void {
-    this.seo.setSeo(
-      {
-        title: 'Insights',
-        description:
-          'Explore detailed insights from your chess games — win rates, opening statistics, opponent analysis, and time control performance.',
-      },
-      '/tools',
-    );
+    this.seo.setSeo(SEO_PAGES.tools, '/tools');
   }
 
   public $username = signal('');

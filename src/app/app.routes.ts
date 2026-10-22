@@ -1,13 +1,11 @@
 import { Routes } from '@angular/router';
-import { AchievementsComponent } from '@components/+achivements/achievements.component';
 import { LandingComponent } from '@components/+landing/landing.component';
-import { OpeningExplorerComponent } from '@components/+opening-explorer/opening-explorer.component';
-import { ToolsComponent } from '@components/+tools/tools.component';
+import { ToolPage } from '@components/tool-page/tool-page';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'achievements', component: AchievementsComponent },
-  { path: 'tools', component: ToolsComponent },
-  { path: 'explorer', component: OpeningExplorerComponent },
+  { path: 'achievements', component: ToolPage, data: { tool: 'achievements' } },
+  { path: 'tools', component: ToolPage, data: { tool: 'tools' } },
+  { path: 'explorer', component: ToolPage, data: { tool: 'explorer' } },
   { path: '**', redirectTo: '' },
 ];

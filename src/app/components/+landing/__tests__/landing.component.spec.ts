@@ -15,6 +15,7 @@ describe('LandingComponent', () => {
   function createComponent() {
     const fixture = TestBed.createComponent(LandingComponent);
     fixture.detectChanges();
+    fixture.detectChanges();
     return { fixture, component: fixture.componentInstance };
   }
 
@@ -33,7 +34,7 @@ describe('LandingComponent', () => {
   it('should display the hero title', () => {
     const { fixture } = createComponent();
     const el = fixture.nativeElement as HTMLElement;
-    expect(el.querySelector('.hero__title')?.textContent).toContain('ChessRoot');
+    expect(el.querySelector('h1')?.textContent).toContain('Chess opening tree');
   });
 
   it('should display workspace cards', () => {

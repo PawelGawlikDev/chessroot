@@ -1,5 +1,6 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { OAuth2AuthCodePKCE } from '@bity/oauth2-auth-code-pkce';
 import { firstValueFrom } from 'rxjs';
@@ -19,28 +20,32 @@ export class LichessAuthService {
   private router = inject(Router);
   private fetchService = inject(ChessFetchService);
   private http = inject(HttpClient);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  private oauth = new OAuth2AuthCodePKCE({
-    authorizationUrl: `${LICHESS_HOST}/oauth`,
-    tokenUrl: `${LICHESS_HOST}/api/token`,
-    clientId: CLIENT_ID,
-    scopes: [],
-    redirectUrl: window.location.href.split('?')[0],
-    onAccessTokenExpiry: (refreshAccessToken) => refreshAccessToken(),
-    onInvalidGrant: () => {
-      // placeholder - tokens cannot be refreshed
-    },
-  });
+  private oauth = this.isBrowser
+    ? new OAuth2AuthCodePKCE({
+        authorizationUrl: `${LICHESS_HOST}/oauth`,
+        tokenUrl: `${LICHESS_HOST}/api/token`,
+        clientId: CLIENT_ID,
+        scopes: [],
+        redirectUrl: window.location.href.split('?')[0],
+        onAccessTokenExpiry: (refreshAccessToken) => refreshAccessToken(),
+        onInvalidGrant: () => {
+          // placeholder - tokens cannot be refreshed
+        },
+      })
+    : null;
 
   public isLoggedIn(): boolean {
-    return !!localStorage.getItem(STORAGE_KEY_TOKEN);
+    return this.isBrowser && !!localStorage.getItem(STORAGE_KEY_TOKEN);
   }
 
   public getUsername(): string {
-    return localStorage.getItem(STORAGE_KEY_USERNAME) ?? '';
+    return this.isBrowser ? (localStorage.getItem(STORAGE_KEY_USERNAME) ?? '') : '';
   }
 
   public async init(): Promise<void> {
+    if (!this.oauth) return;
     const token = localStorage.getItem(STORAGE_KEY_TOKEN);
     if (token) {
       this.fetchService.addLichessOauthToken(token);
@@ -66,6 +71,7 @@ export class LichessAuthService {
   }
 
   public async login(returnUrl?: string): Promise<void> {
+    if (!this.oauth) return;
     if (returnUrl) {
       sessionStorage.setItem(STORAGE_KEY_RETURN_URL, returnUrl);
     } else {
@@ -75,6 +81,7 @@ export class LichessAuthService {
   }
 
   public async logout(returnUrl?: string): Promise<void> {
+    if (!this.isBrowser) return;
     const token = localStorage.getItem(STORAGE_KEY_TOKEN);
     if (token) {
       try {

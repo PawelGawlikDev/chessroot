@@ -28,6 +28,7 @@ export default tseslint.config(
       'node_modules/**',
       '**/stockfish/**',
       '.angular/**',
+      '.wrangler/**',
       '.pnp.cjs',
       '.pnp.loader.mjs',
       'coverage',

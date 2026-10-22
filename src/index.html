@@ -2,38 +2,62 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>ChessRoot — Chess Opening Explorer & Analysis</title>
+    <title>Free Chess Opening Tree &amp; Game Analysis — ChessRoot</title>
     <base href="/" />
     <meta
       name="description"
-      content="Explore chess openings, analyze positions, and track your achievements with ChessRoot. Free interactive chess tools powered by Lichess and Chess.com data."
+      content="Analyze your Lichess and Chess.com games with ChessRoot, a free, open-source chess opening tree, repertoire explorer, game insights, and achievements."
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://chessroot.org/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://chessroot.org/" />
-    <meta property="og:title" content="ChessRoot — Chess Opening Explorer & Analysis" />
+    <meta property="og:title" content="Free Chess Opening Tree &amp; Game Analysis — ChessRoot" />
+    <meta property="og:site_name" content="ChessRoot" />
     <meta
       property="og:description"
-      content="Explore chess openings, analyze positions, and track your achievements with ChessRoot. Free interactive chess tools."
+      content="Analyze your Lichess and Chess.com games with ChessRoot, a free, open-source chess opening tree, repertoire explorer, game insights, and achievements."
     />
-    <meta property="og:image" content="https://chessroot.app/icon.svg" />
+    <meta property="og:image" content="https://chessroot.org/social-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ChessRoot — chess opening explorer and game analysis" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ChessRoot — Chess Opening Explorer & Analysis" />
+    <meta name="twitter:title" content="Free Chess Opening Tree &amp; Game Analysis — ChessRoot" />
     <meta
       name="twitter:description"
-      content="Explore chess openings, analyze positions, and track your achievements with ChessRoot."
+      content="Analyze your Lichess and Chess.com games with ChessRoot, a free, open-source chess opening tree, repertoire explorer, game insights, and achievements."
     />
-    <meta name="twitter:image" content="https://chessroot.app/icon.svg" />
+    <meta name="twitter:image" content="https://chessroot.org/social-preview.png" />
+    <meta name="twitter:image:alt" content="ChessRoot — chess opening explorer and game analysis" />
 
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "ChessRoot",
-        "url": "https://chessroot.org/",
-        "description": "Explore chess openings, analyze positions, and track your achievements with ChessRoot. Free interactive chess tools powered by Lichess and Chess.com data."
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://chessroot.org/#website",
+            "name": "ChessRoot",
+            "url": "https://chessroot.org/",
+            "inLanguage": "en",
+            "description": "Free, open-source chess opening explorer, game statistics, and achievements for Lichess and Chess.com games."
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://chessroot.org/#application",
+            "name": "ChessRoot",
+            "url": "https://chessroot.org/",
+            "applicationCategory": "GameApplication",
+            "operatingSystem": "Any",
+            "isAccessibleForFree": true,
+            "description": "Build a chess opening tree, compare game statistics, discover achievements, and analyze positions with Stockfish in your browser.",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "sameAs": "https://github.com/PawelGawlikDev/chessroot"
+          }
+        ]
       }
     </script>
 

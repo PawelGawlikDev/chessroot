@@ -18,6 +18,7 @@ import { selectPlatform, selectFromDate, selectToDate, selectTimeControls } from
 import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
 
 import { RouteReactivatable } from '../../route-reuse-strategy';
+import { SEO_PAGES } from '../../seo-pages';
 import { AchievementCategoryComponent } from './components/achievement-category/achievement-category.component';
 
 @Component({
@@ -44,14 +45,7 @@ export class AchievementsComponent implements OnInit, RouteReactivatable {
   }
 
   private updateSeo(): void {
-    this.seo.setSeo(
-      {
-        title: 'Achievements',
-        description:
-          'Track your chess trophies and achievements across Lichess and Chess.com. Discover your proudest games, funny moments, and rare accomplishments.',
-      },
-      '/achievements',
-    );
+    this.seo.setSeo(SEO_PAGES.achievements, '/achievements');
   }
 
   public $username = signal('');

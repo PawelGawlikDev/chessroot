@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://chessroot.app/sitemap.xml
+Sitemap: https://chessroot.org/sitemap.xml

@@ -1,5 +1,6 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
@@ -12,10 +13,30 @@ const routerMock = {
   navigateByUrl: vi.fn(() => Promise.resolve(true)),
 };
 
+describe('LichessAuthService during prerendering', () => {
+  it('does not create OAuth or initialize an account on the server', async () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideHttpClient(),
+        { provide: Router, useValue: routerMock },
+        { provide: PLATFORM_ID, useValue: 'server' },
+      ],
+    });
+    const service = TestBed.inject(LichessAuthService);
+    expect(service['oauth']).toBeNull();
+    expect(service.isLoggedIn()).toBe(false);
+    expect(service.getUsername()).toBe('');
+    await expect(service.init()).resolves.toBeUndefined();
+    await expect(service.login()).resolves.toBeUndefined();
+    await expect(service.logout()).resolves.toBeUndefined();
+  });
+});
+
 describe('LichessAuthService', () => {
   let service: LichessAuthService;
   let httpMock: HttpTestingController;
   let fetchService: ChessFetchService;
+  let oauth: NonNullable<LichessAuthService['oauth']>;
 
   beforeEach(() => {
     routerMock.url = '/current-route';
@@ -33,6 +54,9 @@ describe('LichessAuthService', () => {
     });
 
     service = TestBed.inject(LichessAuthService);
+    const browserOauth = service['oauth'];
+    if (!browserOauth) throw new Error('Expected browser OAuth client');
+    oauth = browserOauth;
     httpMock = TestBed.inject(HttpTestingController);
     fetchService = TestBed.inject(ChessFetchService);
   });
@@ -75,7 +99,7 @@ describe('LichessAuthService', () => {
     it('should restore an existing token from localStorage', async () => {
       localStorage.setItem('lichessToken', 'saved-token');
       const addTokenSpy = vi.spyOn(fetchService, 'addLichessOauthToken');
-      vi.spyOn(service['oauth'], 'isReturningFromAuthServer').mockResolvedValue(false);
+      vi.spyOn(oauth, 'isReturningFromAuthServer').mockResolvedValue(false);
 
       await service.init();
 
@@ -85,8 +109,8 @@ describe('LichessAuthService', () => {
     it('should handle a return from the auth server', async () => {
       sessionStorage.setItem('chessroot_return_url', '/dashboard');
       const addTokenSpy = vi.spyOn(fetchService, 'addLichessOauthToken');
-      vi.spyOn(service['oauth'], 'isReturningFromAuthServer').mockResolvedValue(true);
-      vi.spyOn(service['oauth'], 'getAccessToken').mockResolvedValue({
+      vi.spyOn(oauth, 'isReturningFromAuthServer').mockResolvedValue(true);
+      vi.spyOn(oauth, 'getAccessToken').mockResolvedValue({
         token: { value: 'oauth-token' },
       } as never);
 
@@ -108,7 +132,7 @@ describe('LichessAuthService', () => {
     });
 
     it('should do nothing when not returning from auth server', async () => {
-      vi.spyOn(service['oauth'], 'isReturningFromAuthServer').mockResolvedValue(false);
+      vi.spyOn(oauth, 'isReturningFromAuthServer').mockResolvedValue(false);
 
       await service.init();
 
@@ -117,9 +141,7 @@ describe('LichessAuthService', () => {
     });
 
     it('should swallow oauth errors', async () => {
-      vi.spyOn(service['oauth'], 'isReturningFromAuthServer').mockRejectedValue(
-        new Error('cancelled'),
-      );
+      vi.spyOn(oauth, 'isReturningFromAuthServer').mockRejectedValue(new Error('cancelled'));
 
       await expect(service.init()).resolves.toBeUndefined();
       expect(routerMock.navigateByUrl).not.toHaveBeenCalled();
@@ -128,9 +150,7 @@ describe('LichessAuthService', () => {
 
   describe('login', () => {
     it('should initiate login process', async () => {
-      const spy = vi
-        .spyOn(service['oauth'], 'fetchAuthorizationCode')
-        .mockReturnValue(Promise.resolve());
+      const spy = vi.spyOn(oauth, 'fetchAuthorizationCode').mockReturnValue(Promise.resolve());
 
       await service.login();
 
@@ -138,7 +158,7 @@ describe('LichessAuthService', () => {
     });
 
     it('should store returnUrl in sessionStorage if provided', async () => {
-      vi.spyOn(service['oauth'], 'fetchAuthorizationCode').mockReturnValue(Promise.resolve());
+      vi.spyOn(oauth, 'fetchAuthorizationCode').mockReturnValue(Promise.resolve());
 
       await service.login('/dashboard');
 
@@ -147,7 +167,7 @@ describe('LichessAuthService', () => {
 
     it('should use router.url when returnUrl is not provided', async () => {
       routerMock.url = '/tools';
-      vi.spyOn(service['oauth'], 'fetchAuthorizationCode').mockReturnValue(Promise.resolve());
+      vi.spyOn(oauth, 'fetchAuthorizationCode').mockReturnValue(Promise.resolve());
 
       await service.login();
 
