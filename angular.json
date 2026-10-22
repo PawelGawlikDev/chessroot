@@ -44,7 +44,9 @@
               "@bity/oauth2-auth-code-pkce",
               "@mliebelt/pgn-parser",
               "jszip"
-            ]
+            ],
+            "server": "src/main.server.ts",
+            "outputMode": "static"
           },
           "configurations": {
             "production": {

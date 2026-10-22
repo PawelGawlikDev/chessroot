@@ -9,7 +9,8 @@ import {
   ErrorHandler,
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { provideRouter, Router, RouteReuseStrategy } from '@angular/router';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideRouter, Router, RouteReuseStrategy, withInMemoryScrolling } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
@@ -26,7 +27,7 @@ import { ChessRootRouteReuseStrategy } from './route-reuse-strategy';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled' })),
     provideHttpClient(),
     provideStore({
       [USER_DATA_FEATURE_KEY]: userDataReducer,
@@ -61,5 +62,6 @@ export const appConfig: ApplicationConfig = {
       deps: [Sentry.TraceService],
       multi: true,
     },
+    provideClientHydration(withEventReplay()),
   ],
 };

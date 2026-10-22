@@ -15,6 +15,16 @@ describe('SeoService', () => {
   });
 
   describe('setSeo', () => {
+    it('should omit query parameters and fragments from canonical and social URLs', () => {
+      service.setSeo({ title: 'Explorer', description: 'Desc' }, '/explorer?code=secret#position');
+      expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+        'https://chessroot.org/explorer',
+      );
+      expect(document.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe(
+        'https://chessroot.org/explorer',
+      );
+    });
+
     it('should set the document title with site name suffix', () => {
       service.setSeo({ title: 'My Page', description: 'Desc' }, '/my-page');
       expect(document.title).toBe('My Page — ChessRoot');
@@ -41,7 +51,7 @@ describe('SeoService', () => {
     it('should set og:image to default image when no image provided', () => {
       service.setSeo({ title: 'T', description: 'Desc' }, '/img');
       const meta = document.querySelector('meta[property="og:image"]');
-      expect(meta?.getAttribute('content')).toBe('https://chessroot.app/icon.svg');
+      expect(meta?.getAttribute('content')).toBe('https://chessroot.org/social-preview.png');
     });
 
     it('should set og:image to provided image', () => {
@@ -56,7 +66,7 @@ describe('SeoService', () => {
     it('should set og:url meta tag', () => {
       service.setSeo({ title: 'T', description: 'Desc' }, '/my-page');
       const meta = document.querySelector('meta[property="og:url"]');
-      expect(meta?.getAttribute('content')).toBe('https://chessroot.app/my-page');
+      expect(meta?.getAttribute('content')).toBe('https://chessroot.org/my-page');
     });
 
     it('should set og:type meta tag to website', () => {
@@ -92,7 +102,7 @@ describe('SeoService', () => {
     it('should set twitter:image meta tag with default image', () => {
       service.setSeo({ title: 'T', description: 'Desc' }, '/t');
       const meta = document.querySelector('meta[name="twitter:image"]');
-      expect(meta?.getAttribute('content')).toBe('https://chessroot.app/icon.svg');
+      expect(meta?.getAttribute('content')).toBe('https://chessroot.org/social-preview.png');
     });
 
     it('should create canonical link element if it does not exist', () => {
@@ -103,7 +113,7 @@ describe('SeoService', () => {
       service.setSeo({ title: 'T', description: 'Desc' }, '/canonical');
       const link = document.querySelector('link[rel="canonical"]');
       expect(link).toBeTruthy();
-      expect(link?.getAttribute('href')).toBe('https://chessroot.app/canonical');
+      expect(link?.getAttribute('href')).toBe('https://chessroot.org/canonical');
     });
 
     it('should update existing canonical link element', () => {
@@ -112,7 +122,7 @@ describe('SeoService', () => {
 
       const links = document.querySelectorAll('link[rel="canonical"]');
       expect(links.length).toBe(1);
-      expect(links[0].getAttribute('href')).toBe('https://chessroot.app/second');
+      expect(links[0].getAttribute('href')).toBe('https://chessroot.org/second');
     });
   });
 });

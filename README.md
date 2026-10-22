@@ -32,6 +32,32 @@ yarn build
 
 Build artifacts are stored in `dist/`. Production builds are optimized by default.
 
+### Search engines and AI search
+
+Public pages (`/`, `/explorer`, `/tools`, `/achievements`) are prerendered by Angular at build time.
+The homepage content, navigation links, and page-specific metadata are available without JavaScript.
+Interactive tools load in browser-only deferred blocks; account state and games are never prerendered.
+Deployment still serves static files from `dist/chessroot/browser` and does not require a Node SSR server.
+
+- Page metadata: `src/app/seo-pages.ts`; canonical URLs use `https://chessroot.org`.
+- Crawler discovery: `public/robots.txt` and `public/sitemap.xml`.
+- Share image: `public/social-preview.png`; regenerate with `yarn node scripts/generate-social-preview.mjs`.
+- Cloudflare drops trailing slashes to match canonicals and preserves real 404 responses for unknown URLs.
+
+After deploying:
+
+1. Verify `chessroot.org` in Google Search Console and submit `https://chessroot.org/sitemap.xml`.
+2. Use URL Inspection on all four URLs; check rendered content and Google's selected canonical.
+3. If the former `.app` domain is still under your control, configure a permanent domain redirect to
+   `https://chessroot.org`, preserving paths and query strings. This requires domain/CDN account access.
+4. Review Cloudflare bot/WAF rules and crawl logs: public search crawlers should not receive challenges.
+   Robots.txt already permits crawling; account-level rules can still block it.
+5. Check indexing and impressions over time. Share useful tutorials with relevant chess communities
+   rather than manufacturing reviews or backlinks. Indexing and AI citations are not guaranteed.
+
+Google's AI Overviews and AI Mode use the same SEO fundamentals as Search; no special AI file or
+invented ratings are needed. See [Google's AI search guidance](https://developers.google.com/search/docs/appearance/ai-features).
+
 ## Deploy
 
 ```bash

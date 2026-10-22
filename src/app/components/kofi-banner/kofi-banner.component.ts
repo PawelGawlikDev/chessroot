@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect, OnInit } from '@angular/core';
+import { Component, inject, signal, effect, afterNextRender } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -13,7 +13,7 @@ const KOFI_BANNER_DISMISSED_KEY = 'chess-kofi-banner-dismissed';
   templateUrl: './kofi-banner.component.html',
   styleUrl: './kofi-banner.component.scss',
 })
-export class KofiBannerComponent implements OnInit {
+export class KofiBannerComponent {
   private storage = inject(LocalStorageService);
 
   public visible = signal(false);
@@ -21,16 +21,15 @@ export class KofiBannerComponent implements OnInit {
   private dismissed = signal(false);
 
   constructor() {
+    afterNextRender(() => {
+      const wasDismissed = this.storage.getItem<boolean>(KOFI_BANNER_DISMISSED_KEY);
+      this.visible.set(!wasDismissed);
+    });
     effect(() => {
       if (this.dismissed()) {
         this.visible.set(false);
       }
     });
-  }
-
-  public ngOnInit(): void {
-    const wasDismissed = this.storage.getItem<boolean>(KOFI_BANNER_DISMISSED_KEY);
-    this.visible.set(!wasDismissed);
   }
 
   public dismiss(): void {

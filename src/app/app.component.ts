@@ -1,4 +1,4 @@
-import { Component, signal, effect, inject } from '@angular/core';
+import { Component, signal, effect, inject, afterNextRender, Injector } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
@@ -39,12 +39,14 @@ import { isRouteReactivatable } from './route-reuse-strategy';
 })
 export class ChessRoot {
   public $isDarkTheme = signal(true);
+  public $hasHydrated = signal(false);
   public $isHeaderHidden = signal(false);
   public auth = inject(LichessAuthService);
   public router = inject(Router);
   private iconRegistry = inject(MatIconRegistry);
   private dialog = inject(MatDialog);
   private storage = inject(LocalStorageService);
+  private injector = inject(Injector);
   private lastScrollY = 0;
   private lastTouchY: number | null = null;
   private lastScrollIntent: 'up' | 'down' | null = null;
@@ -55,18 +57,21 @@ export class ChessRoot {
 
   constructor() {
     this.iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
-    const saved = this.storage.getItem<string>('chess-theme');
-    if (saved) {
-      this.$isDarkTheme.set(saved === 'dark');
-    } else {
-      this.$isDarkTheme.set(window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-
-    effect(() => {
-      const isDark = this.$isDarkTheme();
-      document.documentElement.classList.toggle('dark-theme', isDark);
-      document.documentElement.classList.toggle('light-theme', !isDark);
-      this.storage.setItem('chess-theme', isDark ? 'dark' : 'light');
+    afterNextRender(() => {
+      this.$hasHydrated.set(true);
+      const saved = this.storage.getItem<string>('chess-theme');
+      this.$isDarkTheme.set(
+        saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches,
+      );
+      effect(
+        () => {
+          const isDark = this.$isDarkTheme();
+          document.documentElement.classList.toggle('dark-theme', isDark);
+          document.documentElement.classList.toggle('light-theme', !isDark);
+          this.storage.setItem('chess-theme', isDark ? 'dark' : 'light');
+        },
+        { injector: this.injector },
+      );
     });
   }
 

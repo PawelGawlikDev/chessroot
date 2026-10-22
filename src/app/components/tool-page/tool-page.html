@@ -1,0 +1,15 @@
+@defer (on immediate) {
+  @switch (tool) {
+    @case ('explorer') {
+      <cr-opening-explorer />
+    }
+    @case ('tools') {
+      <cr-tools />
+    }
+    @case ('achievements') {
+      <cr-achievements />
+    }
+  }
+} @error {
+  <p role="alert">The interactive tool could not load. Reload this page to try again.</p>
+}

@@ -45,6 +45,7 @@ import {
 import { mapGameToTimeControlKey, timeControlsToPerfType } from '@utils';
 
 import { RouteReactivatable } from '../../route-reuse-strategy';
+import { SEO_PAGES } from '../../seo-pages';
 
 @Component({
   selector: 'cr-opening-explorer',
@@ -125,14 +126,7 @@ export class OpeningExplorerComponent implements OnInit, RouteReactivatable {
   }
 
   private updateSeo(): void {
-    this.seo.setSeo(
-      {
-        title: 'Opening Explorer',
-        description:
-          'Explore chess openings with an interactive board. Analyze your games side-by-side with master-level opening book moves from Lichess.',
-      },
-      '/explorer',
-    );
+    this.seo.setSeo(SEO_PAGES.explorer, '/explorer');
   }
 
   public $progress = computed(() => {

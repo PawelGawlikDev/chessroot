@@ -184,7 +184,7 @@ describe('OpeningExplorerComponent', () => {
     fixture.detectChanges();
 
     expect(seoService.setSeo).toHaveBeenCalledWith(
-      expect.objectContaining({ title: 'Opening Explorer' }),
+      expect.objectContaining({ title: 'Chess Opening Tree & Repertoire Explorer' }),
       '/explorer',
     );
     expect(dispatchSpy).toHaveBeenCalled();

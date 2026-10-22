@@ -39,7 +39,8 @@
   &__title {
     font-size: var(--cr-display-lg-size);
     font-weight: var(--cr-display-lg-weight);
-    line-height: var(--cr-display-lg-line);
+    line-height: 1.2;
+    text-wrap: balance;
     letter-spacing: var(--cr-display-lg-letter);
     margin: 0 0 0.75rem;
     display: flex;

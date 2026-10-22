@@ -1,13 +1,13 @@
 <header class="app__header" [class.app__header--hidden]="$isHeaderHidden()">
   <mat-toolbar color="primary" class="app__toolbar">
-    <button mat-button routerLink="/" class="app__brand" aria-label="Go to home page">
+    <a mat-button routerLink="/" class="app__brand" aria-label="ChessRoot home">
       <span class="app__brand-title">ChessRoot</span>
-    </button>
+    </a>
 
     <span class="app__spacer"></span>
 
     <div class="app__actions">
-      @if (auth.isLoggedIn()) {
+      @if ($hasHydrated() && auth.isLoggedIn()) {
         <button
           mat-button
           [matMenuTriggerFor]="userMenu"
