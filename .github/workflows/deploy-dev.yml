@@ -29,5 +29,9 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           command: deploy --env development
+      - name: Register Sentry release
+        run: yarn sentry:release "$GITHUB_REF_NAME"
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Log deployed commit
         run: echo "Deployed commit ${{ github.sha }} (tag ${{ github.ref_name }}) to development"
