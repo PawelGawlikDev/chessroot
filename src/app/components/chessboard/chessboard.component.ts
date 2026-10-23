@@ -45,11 +45,12 @@ export class ChessBoardComponent {
       lastMove: (this.lastMove() ?? undefined) as [Key, Key] | undefined,
       movable: {
         free: false,
-        color: this.interactive() ? 'both' : undefined,
+        color: this.interactive() ? this.turnColor() : undefined,
         dests: this.interactive() ? toDests(new Chess(this.fen())) : undefined,
         showDests: this.interactive(),
       },
       draggable: { enabled: this.interactive(), showGhost: true },
+      premovable: { enabled: false },
       selectable: { enabled: this.interactive() },
       events: {
         move: (orig, dest) => {
@@ -100,10 +101,12 @@ export class ChessBoardComponent {
         turnColor: this.turnColor(),
         lastMove: (this.lastMove() ?? undefined) as [Key, Key] | undefined,
         movable: {
+          color: this.interactive() ? this.turnColor() : undefined,
           dests: this.interactive() ? toDests(chess) : undefined,
           showDests: this.interactive(),
         },
         draggable: { enabled: this.interactive() },
+        premovable: { enabled: false },
         selectable: { enabled: this.interactive() },
         drawable: { autoShapes: shapes },
         animation: { enabled: true, duration: 400 },

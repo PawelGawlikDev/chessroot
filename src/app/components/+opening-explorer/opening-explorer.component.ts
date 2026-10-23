@@ -7,6 +7,9 @@ import {
   computed,
   OnInit,
   effect,
+  viewChild,
+  ElementRef,
+  afterRenderEffect,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -63,6 +66,7 @@ import { SEO_PAGES } from '../../seo-pages';
   styleUrl: './opening-explorer.component.scss',
   host: {
     '(document:keydown)': 'onKeydown($event)',
+    '(document:pointerdown)': 'onPointerdown($event)',
   },
 })
 export class OpeningExplorerComponent implements OnInit, RouteReactivatable {
@@ -104,8 +108,22 @@ export class OpeningExplorerComponent implements OnInit, RouteReactivatable {
   public $bookMoves = this.store.selectSignal(selectBookMoves);
   public $highlightedMove = signal<ExplorerMove | null>(null);
   public $soundEnabled = this.sound.enabled;
+  public $boardHeight = signal<number | null>(null);
+  private boardSection = viewChild<ElementRef<HTMLElement>>('boardSection');
 
   constructor() {
+    afterRenderEffect((onCleanup) => {
+      const board = this.boardSection()?.nativeElement;
+      if (!board) return;
+      const updateHeight = () => {
+        const height = board.getBoundingClientRect().height;
+        if (height > 0) this.$boardHeight.set(height);
+      };
+      updateHeight();
+      const observer = new ResizeObserver(updateHeight);
+      observer.observe(board);
+      onCleanup(() => observer.disconnect());
+    });
     effect(() => {
       const fen = this.$fen();
       const ready = this.stockfish.$ready();
@@ -140,13 +158,12 @@ export class OpeningExplorerComponent implements OnInit, RouteReactivatable {
   });
 
   public $fen = computed(() => this.manager.fen());
-  public $plys = computed(() => {
-    this.$currentIndex();
-    const mgr = this.manager as unknown as {
-      plys: { fen: string; move: { from: string; to: string; san: string } | null }[];
-    };
-    return mgr.plys;
-  });
+  public $plys = this.manager.line;
+  public $moveNodes = this.manager.nodes;
+  public $activeNodeId = this.manager.currentId;
+  public $continuations = this.manager.continuations;
+  public $pickerOpen = signal(false);
+  public $selectedContinuation = signal(0);
   public $currentIndex = computed(() => this.manager.currentIndex());
   public $orientation = signal<'white' | 'black'>('white');
 
@@ -264,6 +281,7 @@ export class OpeningExplorerComponent implements OnInit, RouteReactivatable {
     this.graph.clear();
     this.bookService.clearCache();
     this.manager.reset();
+    this.$pickerOpen.set(false);
     this.$highlightedMove.set(null);
 
     try {
@@ -347,6 +365,7 @@ export class OpeningExplorerComponent implements OnInit, RouteReactivatable {
   }
 
   public onBoardMove(san: string): void {
+    this.$pickerOpen.set(false);
     const chess = new Chess(this.$fen());
     const move = chess.move(san, { strict: false });
     if (!move) return;
@@ -360,26 +379,68 @@ export class OpeningExplorerComponent implements OnInit, RouteReactivatable {
   }
 
   public onNavigateTo(index: number): void {
+    this.$pickerOpen.set(false);
     const ply = this.manager.moveTo(index);
     if (ply?.move) this.sound.playForSan(ply.move.san);
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }
 
   public onGoForward(): void {
+    if (this.$pickerOpen()) {
+      this.onChooseContinuation(this.$selectedContinuation());
+      return;
+    }
+    if (this.$continuations().length > 1) {
+      this.$selectedContinuation.set(0);
+      this.$pickerOpen.set(true);
+      return;
+    }
     const ply = this.manager.moveForward();
     if (ply?.move) this.sound.playForSan(ply.move.san);
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }
 
   public onGoBack(): void {
+    this.$pickerOpen.set(false);
     const ply = this.manager.moveBack();
     if (ply?.move) this.sound.playForSan(ply.move.san);
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
   }
 
   public onReset(): void {
-    this.manager.reset();
+    this.$pickerOpen.set(false);
+    this.manager.moveToNode(0);
     this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
+  }
+
+  public onNavigateNode(id: number): void {
+    this.$pickerOpen.set(false);
+    const node = this.manager.moveToNode(id);
+    if (node?.move) this.sound.playForSan(node.move.san);
+    this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
+  }
+
+  public onChooseContinuation(index: number): void {
+    const node = this.$continuations()[index];
+    if (node) this.onNavigateNode(node.id);
+  }
+
+  public onRemoveNode(id: number): void {
+    this.$pickerOpen.set(false);
+    if (this.manager.removeNode(id)) {
+      this.$highlightedMove.set(null);
+      this.store.dispatch(ExplorerActions.fetchBook({ fen: this.$fen() }));
+    }
+  }
+
+  public onPromoteNode(id: number): void {
+    this.$pickerOpen.set(false);
+    this.manager.promoteNode(id);
+  }
+
+  public onGoEnd(): void {
+    const end = this.manager.line().at(-1);
+    if (end) this.onNavigateNode(end.id);
   }
 
   public onHighlightMove(move: ExplorerMove | null): void {
@@ -468,12 +529,52 @@ export class OpeningExplorerComponent implements OnInit, RouteReactivatable {
   }
 
   public onKeydown(event: KeyboardEvent): void {
-    if (event.key === 'ArrowLeft') {
+    const target = event.target instanceof Element ? event.target : null;
+    if (
+      event.defaultPrevented ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey ||
+      target?.closest(
+        'input, textarea, select, [contenteditable], [role="dialog"], [role="slider"], [role="menu"]',
+      ) ||
+      this.dialog.openDialogs.length
+    )
+      return;
+    if (this.$pickerOpen() && ['ArrowUp', 'ArrowDown'].includes(event.key)) {
+      event.preventDefault();
+      const count = this.$continuations().length;
+      this.$selectedContinuation.update(
+        (i) => (i + (event.key === 'ArrowDown' ? 1 : -1) + count) % count,
+      );
+    } else if (event.key === 'Escape') {
+      this.$pickerOpen.set(false);
+    } else if (
+      event.key === 'Enter' &&
+      this.$pickerOpen() &&
+      (!target?.closest('button') || target.closest('.continuations__choice'))
+    ) {
+      event.preventDefault();
+      this.onChooseContinuation(this.$selectedContinuation());
+    } else if (event.key === 'Home') {
+      event.preventDefault();
+      this.onReset();
+    } else if (event.key === 'End') {
+      event.preventDefault();
+      this.onGoEnd();
+    } else if (event.key === 'ArrowLeft') {
       event.preventDefault();
       this.onGoBack();
     } else if (event.key === 'ArrowRight') {
       event.preventDefault();
-      this.onGoForward();
+      if (!event.repeat) this.onGoForward();
+    }
+  }
+
+  public onPointerdown(event: PointerEvent): void {
+    if (event.target instanceof Element && !event.target.closest('cr-move-navigation')) {
+      this.$pickerOpen.set(false);
     }
   }
 }

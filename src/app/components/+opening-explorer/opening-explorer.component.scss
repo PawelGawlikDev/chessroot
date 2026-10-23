@@ -97,12 +97,24 @@
     flex: 0 0 auto;
     width: var(--explorer-nav-w);
 
-    cr-move-navigation {
-      display: block;
-    }
-
     @media (max-width: 75rem) {
       width: 100%;
+    }
+  }
+
+  &__section--moves {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-height: var(--explorer-board-height, calc(100svh - var(--explorer-board-chrome)));
+    overflow: hidden;
+
+    > .explorer__section-header {
+      flex-shrink: 0;
+    }
+    cr-move-navigation {
+      flex: 1 1 auto;
+      min-height: 0;
     }
   }
 

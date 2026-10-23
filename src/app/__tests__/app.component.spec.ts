@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { provideRouter } from '@angular/router';
 
 import { LichessAuthService } from '@services';
@@ -76,6 +77,28 @@ describe('ChessRoot', () => {
   it('should create the component', () => {
     const { component } = createComponent();
     expect(component).toBeTruthy();
+  });
+
+  it('should not add an affiliate footer below the routed workspace', () => {
+    const { fixture } = createComponent();
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('footer')).toBeNull();
+    expect(el.querySelector('main a[href*="ref_id="]')).toBeNull();
+  });
+
+  it('shows a header affiliate icon with a disclosure tooltip', () => {
+    const { fixture } = createComponent();
+    const element = fixture.debugElement.query((entry) =>
+      entry.nativeElement?.classList?.contains('app__affiliate-btn'),
+    );
+    const link = element.nativeElement as HTMLAnchorElement;
+    expect(link.href).toBe('https://www.chess.com/membership?ref_id=78564684');
+    expect(link.target).toBe('_blank');
+    expect(link.relList.contains('sponsored')).toBe(true);
+    expect(link.relList.contains('noopener')).toBe(true);
+    expect(link.getAttribute('aria-label')).toContain('affiliate link');
+    expect(element.injector.get(MatTooltip).message).toContain('may earn a commission');
+    expect(link.querySelector('img')?.getAttribute('ngSrc')).toBe('/assets/chesscom.svg');
   });
 
   it('should toggle the theme signal between dark and light', () => {

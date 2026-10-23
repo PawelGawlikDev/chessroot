@@ -32,9 +32,6 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
-# Generated deploy metadata
-/src/assets/deploy.json
-
 # Miscellaneous
 /.angular/cache
 /.wrangler/
@@ -53,7 +50,14 @@ Thumbs.db
 /test-results/
 /playwright-report/
 /playwright/.cache/
-.env*.local
+# Local credentials (keep only intentionally sanitized examples in Git).
+.env
+.env.*
+!.env.example
+!.env.sample
+.dev.vars*
+!.dev.vars.example
+!.dev.vars.sample
 
 
 # Sentry Config File

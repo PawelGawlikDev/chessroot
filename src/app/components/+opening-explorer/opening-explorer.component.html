@@ -28,16 +28,26 @@
   ></cr-game-fetch-panel>
 
   <div class="explorer__layout">
-    <div class="explorer__row">
+    <div class="explorer__row" [style.--explorer-board-height.px]="$boardHeight()">
       <div class="explorer__nav-col">
         <section class="explorer__section explorer__section--moves">
           <div class="explorer__section-header">
-            <h3 class="explorer__section-title">Move history</h3>
-            <span class="explorer__section-copy">Step through your loaded line</span>
+            <h3 class="explorer__section-title">Moves &amp; variations</h3>
+            <span class="explorer__section-copy">Try another move from any position to branch</span>
           </div>
           <cr-move-navigation
             [plys]="$plys()"
             [currentIndex]="$currentIndex()"
+            [nodes]="$moveNodes()"
+            [activeNodeId]="$activeNodeId()"
+            [continuations]="$continuations()"
+            [pickerOpen]="$pickerOpen()"
+            [selectedContinuation]="$selectedContinuation()"
+            (navigateNode)="onNavigateNode($event)"
+            (removeNode)="onRemoveNode($event)"
+            (promoteNode)="onPromoteNode($event)"
+            (chooseContinuation)="onChooseContinuation($event)"
+            (goEnd)="onGoEnd()"
             (goForward)="onGoForward()"
             (goBack)="onGoBack()"
             (reset)="onReset()"
@@ -47,7 +57,7 @@
       </div>
 
       <div class="explorer__board-col">
-        <section class="explorer__section explorer__section--board">
+        <section #boardSection class="explorer__section explorer__section--board">
           <div class="explorer__board-header">
             <div class="explorer__board-copy">
               <h3 class="explorer__section-title">Board</h3>

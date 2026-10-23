@@ -22,6 +22,9 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "define": {
+              "SENTRY_ENVIRONMENT": "'production'"
+            },
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
@@ -69,6 +72,9 @@
               "outputHashing": "all"
             },
             "debug": {
+              "define": {
+                "SENTRY_ENVIRONMENT": "'development'"
+              },
               "sourceMap": {
                 "scripts": true,
                 "styles": true,
@@ -77,6 +83,9 @@
               }
             },
             "development": {
+              "define": {
+                "SENTRY_ENVIRONMENT": "'development'"
+              },
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true

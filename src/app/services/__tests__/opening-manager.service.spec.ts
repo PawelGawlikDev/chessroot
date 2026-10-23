@@ -161,7 +161,85 @@ describe('OpeningManagerService', () => {
     });
   });
 
-  describe('addPly truncation', () => {
+  describe('editing the tree', () => {
+    function play(san: string): number {
+      const chess = new Chess(service.fen());
+      const move = chess.move(san);
+      service.addPly(chess.fen(), move);
+      return service.currentId();
+    }
+
+    it('removes the selected subtree and returns to its parent', () => {
+      const e4 = play('e4');
+      const e5 = play('e5');
+      play('Nf3');
+      service.moveToNode(e4);
+      const c5 = play('c5');
+      play('Nc3');
+      expect(service.removeNode(c5)).toBe(true);
+      expect(service.currentId()).toBe(e4);
+      expect(service.continuations().map((n) => n.id)).toEqual([e5]);
+      expect(service.nodes().map((n) => n.move?.san)).toEqual([undefined, 'e4', 'e5', 'Nf3']);
+    });
+
+    it('leaves an unrelated active branch unchanged when deleting', () => {
+      const e4 = play('e4');
+      const e5 = play('e5');
+      service.moveToNode(e4);
+      const c5 = play('c5');
+      const fen = service.fen();
+      service.removeNode(e5);
+      expect(service.currentId()).toBe(c5);
+      expect(service.fen()).toBe(fen);
+    });
+
+    it('promotes a nested variation all the way to the main line without losing moves', () => {
+      const e4 = play('e4');
+      const e5 = play('e5');
+      const nf3 = play('Nf3');
+      service.moveToNode(e4);
+      play('c5');
+      const nc3 = play('Nc3');
+      play('d6');
+      service.moveToNode(nc3);
+      const e6 = play('e6');
+      const fen = service.fen();
+      const ids = service.nodes().map((n) => n.id);
+      expect(service.promoteNode(e6)).toBe(true);
+      expect(service.fen()).toBe(fen);
+      expect(service.currentId()).toBe(e6);
+      service.moveToNode(0);
+      expect(service.line().map((n) => n.move?.san)).toEqual([undefined, 'e4', 'c5', 'Nc3', 'e6']);
+      expect(
+        service
+          .nodes()
+          .map((n) => n.id)
+          .sort(),
+      ).toEqual(ids.sort());
+      service.moveToNode(e5);
+      expect(service.line().at(-1)?.id).toBe(nf3);
+    });
+
+    it('promotes an alternative first move and handles repeated promotion', () => {
+      const e4 = play('e4');
+      service.moveToNode(0);
+      const d4 = play('d4');
+      service.promoteNode(d4);
+      service.promoteNode(d4);
+      service.moveToNode(0);
+      expect(service.continuations().map((n) => n.id)).toEqual([d4, e4]);
+    });
+
+    it('cannot remove or promote the root or an unknown node', () => {
+      for (const id of [0, -1, 999]) {
+        expect(service.removeNode(id)).toBe(false);
+        expect(service.promoteNode(id)).toBe(false);
+      }
+      expect(service.nodes()).toHaveLength(1);
+    });
+  });
+
+  describe('variations', () => {
     it('should reuse existing ply when moving to same SAN', () => {
       const e4Fen = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1';
       service.addPly(e4Fen, { from: 'e2', to: 'e4', san: 'e4' });
@@ -172,7 +250,7 @@ describe('OpeningManagerService', () => {
       expect(service.currentIndex()).toBe(1);
     });
 
-    it('should truncate future plys when adding a different move after moveBack', () => {
+    it('should preserve future plies when adding a different move after moveBack', () => {
       const e4Fen = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1';
       const d4Fen = 'rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1';
 
@@ -184,8 +262,56 @@ describe('OpeningManagerService', () => {
       expect(service.currentIndex()).toBe(1);
       expect(service.fen()).toBe(d4Fen);
 
-      // Moving forward should not go to the old e4 ply anymore
+      // The new variation is a leaf; the original continuation remains at its parent.
       expect(service.canGoForward()).toBe(false);
+      service.moveTo(0);
+      expect(service.continuations().map((node) => node.move?.san)).toEqual(['e4', 'd4']);
+      service.moveForward();
+      expect(service.fen()).toBe(e4Fen);
+    });
+
+    it('should retain nested branches and navigate between nodes at the same ply', () => {
+      const play = (san: string) => {
+        const chess = new Chess(service.fen());
+        const move = chess.move(san);
+        service.addPly(chess.fen(), move);
+        return service.currentId();
+      };
+      play('e4');
+      const e5 = play('e5');
+      const nf3 = play('Nf3');
+      service.moveBack();
+      const bc4 = play('Bc4');
+      service.moveBack();
+      expect(service.continuations().map((node) => node.id)).toEqual([nf3, bc4]);
+      service.moveBack();
+      const c5 = play('c5');
+      const nc3 = play('Nc3');
+      service.moveToNode(nf3);
+      expect(service.line().map((node) => node.move?.san)).toEqual([undefined, 'e4', 'e5', 'Nf3']);
+      service.moveToNode(nc3);
+      expect(service.line().map((node) => node.move?.san)).toEqual([undefined, 'e4', 'c5', 'Nc3']);
+      service.moveBack();
+      expect(service.currentId()).toBe(c5);
+      service.moveToNode(e5);
+      play('Nf3');
+      expect(service.currentId()).toBe(nf3);
+      expect(service.nodes()).toHaveLength(7);
+    });
+
+    it('should reject unknown node IDs without changing the position', () => {
+      expect(service.moveToNode(999)).toBeNull();
+      expect(service.currentId()).toBe(0);
+    });
+
+    it('should clear the tree only on reset', () => {
+      service.addPly('fen', { from: 'e2', to: 'e4', san: 'e4' });
+      const id = service.currentId();
+      service.moveToNode(0);
+      expect(service.nodes()).toHaveLength(2);
+      service.reset();
+      expect(service.nodes()).toHaveLength(1);
+      expect(service.moveToNode(id)).toBeNull();
     });
   });
 });

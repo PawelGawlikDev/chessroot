@@ -5,12 +5,11 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   inject,
-  APP_INITIALIZER,
   ErrorHandler,
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideRouter, Router, RouteReuseStrategy, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, RouteReuseStrategy, withInMemoryScrolling } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
@@ -51,16 +50,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: ErrorHandler,
       useValue: Sentry.createErrorHandler(),
-    },
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
     },
     provideClientHydration(withEventReplay()),
   ],

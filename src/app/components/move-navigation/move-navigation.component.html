@@ -1,4 +1,4 @@
-<div class="nav">
+<div class="nav" aria-label="Move navigation">
   <button
     class="nav__btn"
     (click)="goBack.emit()"
@@ -20,14 +20,106 @@
   <button
     class="nav__btn nav__btn--reset"
     (click)="reset.emit()"
-    title="Reset to start"
-    aria-label="Reset to start"
+    title="Go to starting position (Home)"
+    aria-label="Go to starting position"
   >
     <span class="nav__btn-icon">↺</span>
     <span class="nav__btn-label">Start</span>
   </button>
 </div>
-@if ($pgnList().length > 0) {
+@if (nodes().length) {
+  <div #moveList class="move-tree" aria-label="Game moves and variations">
+    @if ($rows().length === 0) {
+      <p class="move-tree__empty">
+        Play a move to start. Return to any position and try another move to create a variation.
+      </p>
+    } @else {
+      @for (row of $rows(); track row.key) {
+        @if (row.ancestors.slice(0, -1).every(isExpanded)) {
+          <div
+            class="move-tree__line"
+            [class.move-tree__line--variation]="row.depth > 0"
+            [style.margin-left.px]="row.depth > 0 ? (row.depth > 5 ? 5 : row.depth) * 8 : 0"
+          >
+            @if (row.depth > 0 && row.ancestors.at(-1) === row.key) {
+              <button
+                type="button"
+                class="move-tree__toggle"
+                [attr.aria-expanded]="!isFolded(row.key)"
+                (click)="toggleLine(row.key)"
+              >
+                {{ isFolded(row.key) ? 'Expand' : 'Collapse' }} {{ moveLabel(row.moves[0]) }} line
+              </button>
+            }
+            @if (!row.ancestors.some(isCollapsed)) {
+              <div
+                [class.move-tree__pair]="row.depth === 0"
+                [class.move-tree__variation]="row.depth > 0"
+              >
+                @if (row.depth === 0) {
+                  <span class="moves-list__move-number">{{
+                    moveLabel(row.moves[0]).split(' ')[0]
+                  }}</span>
+                  @if (row.moves[0].ply % 2 === 0) {
+                    <span></span>
+                  }
+                }
+                @for (move of row.moves; track move.id; let first = $first) {
+                  <button
+                    type="button"
+                    class="moves-list__ply"
+                    [class.moves-list__ply--active]="move.id === activeNodeId()"
+                    [attr.aria-current]="move.id === activeNodeId() ? 'step' : null"
+                    [attr.aria-label]="moveLabel(move)"
+                    [matContextMenuTriggerFor]="moveMenu"
+                    [matContextMenuTriggerData]="{ node: move }"
+                    (click)="navigateNode.emit(move.id)"
+                  >
+                    @if (row.depth > 0 && (first || move.ply % 2 === 1)) {
+                      <span class="move-tree__number">{{ moveLabel(move).split(' ')[0] }}</span>
+                    }
+                    {{ move.move?.san }}
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        }
+      }
+    }
+  </div>
+  @if (pickerOpen()) {
+    <section class="continuations" aria-label="Choose a continuation">
+      <p class="continuations__title">Choose a continuation</p>
+      @for (node of continuations(); track node.id; let i = $index) {
+        <button
+          type="button"
+          class="continuations__choice"
+          [class.continuations__choice--selected]="i === selectedContinuation()"
+          [attr.aria-pressed]="i === selectedContinuation()"
+          (click)="chooseContinuation.emit(i)"
+        >
+          <strong>{{ moveLabel(node) }}</strong>
+          <span class="continuations__preview">{{ preview(node) }}</span>
+          @if (i === 0) {
+            <small>Main</small>
+          }
+        </button>
+      }
+      <p class="continuations__help">↑ ↓ select · → confirm · Esc close</p>
+    </section>
+  }
+  @if ($rows().length) {
+    <button
+      type="button"
+      class="move-tree__end"
+      [disabled]="!$canGoForward()"
+      (click)="goEnd.emit()"
+    >
+      End of line
+    </button>
+  }
+} @else if ($pgnList().length > 0) {
   <div class="moves-list">
     @for (entry of $pgnList(); track entry.moveNumber; let i = $index) {
       <span class="moves-list__move-number">{{ entry.moveNumber }}.</span>
@@ -48,3 +140,20 @@
     }
   </div>
 }
+
+<mat-menu #moveMenu="matMenu">
+  <ng-template matMenuContent let-node="node">
+    <button
+      mat-menu-item
+      [disabled]="$mainLineIds().has(node.id)"
+      (click)="promoteNode.emit(node.id)"
+    >
+      <mat-icon>vertical_align_top</mat-icon>
+      <span>Promote to main line</span>
+    </button>
+    <button mat-menu-item (click)="removeNode.emit(node.id)">
+      <mat-icon>delete_outline</mat-icon>
+      <span>Delete from here</span>
+    </button>
+  </ng-template>
+</mat-menu>
