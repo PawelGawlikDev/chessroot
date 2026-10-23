@@ -84,8 +84,11 @@ Both deploys report errors and automatic Release Health sessions to Sentry (`paw
 - `yarn start` → Sentry disabled, so local testing does not affect release health
 
 The environment is compiled into the bundle through `angular.json`; no runtime metadata request is
-needed. Sentry creates releases automatically from incoming SDK data. Manual release creation,
-finalization, and deployment registration are not required for Release Health.
+needed. After each successful CI deployment, `yarn sentry:release "$GITHUB_REF_NAME"` creates and
+finalizes the matching release in one command. This makes it visible immediately, without waiting
+for an error event to auto-create it. Healthy sessions and Debug ID-only source-map uploads should
+not be relied on to create a visible release entry. No separate finalize or deployment-record step
+is needed. After a manual deployment, run `yarn sentry:release vX.Y.Z` with the deployed version.
 
 Crash-free session metrics populate after deployment and real traffic, not during the build. The SDK
 tracks sessions automatically; with SDK v11 a session continues across SPA route changes. To identify
@@ -94,8 +97,8 @@ user ID after login and `Sentry.setUser(null)` after logout. User identification
 enabled by this setup.
 
 Production source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before the
-Workers upload. `SENTRY_AUTH_TOKEN` (`org:ci` scope) is required for source-map uploads in both deployment
-workflows. Locally the token goes in `.sentryclirc` (gitignored).
+Workers upload. `SENTRY_AUTH_TOKEN` (`org:ci` scope) is required for source-map uploads and release
+registration in both deployment workflows. Locally the token goes in `.sentryclirc` (gitignored).
 
 Development deployments use `yarn build:dev`: a production-optimized build with JavaScript and CSS
 source maps retained for browser debugging. `yarn build:dev:release` also injects and uploads source

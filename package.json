@@ -23,6 +23,7 @@
     "test": "ng test",
     "test:coverage": "ng test --coverage",
     "test:ui": "ng test --ui",
+    "sentry:release": "sentry-cli releases new --finalize --org pawe-gawlik --project chessroot",
     "sentry:sourcemaps:inject": "sentry-cli sourcemaps inject --org pawe-gawlik --project chessroot ./dist/chessroot/browser",
     "sentry:sourcemaps:upload": "sentry-cli sourcemaps upload --org pawe-gawlik --project chessroot ./dist/chessroot/browser",
     "sentry:sourcemaps:clean": "node scripts/delete-sourcemaps.mjs ./dist/chessroot/browser"

@@ -51,8 +51,11 @@ This project uses **Yarn 4 (Berry)** with the `node-modules` linker. The version
 
 Errors and automatic Release Health sessions are reported to the `pawe-gawlik/chessroot` project.
 `src/main.ts` sets `release` to `v` + `package.json` version at SDK initialization; keep it aligned with
-the deployed git tag. Sentry creates releases automatically from SDK data. No manual release creation,
-finalization, deployment registration, or `SENTRY_RELEASE` variable is needed.
+the deployed git tag. After successful CI deployment, `yarn sentry:release "$GITHUB_REF_NAME"` creates
+and finalizes the matching release in one command so it appears before any error events. Do not rely
+on healthy sessions or Debug ID uploads to create a visible release. No separate finalize/deployment
+registration command or `SENTRY_RELEASE` variable is needed. For manual deploys, run
+`yarn sentry:release vX.Y.Z` with the deployed version afterward.
 
 - Environment is compiled through `angular.json`'s `SENTRY_ENVIRONMENT` define: `production` by default,
   `development` for debug/development builds. `yarn start` disables reporting through `isDevMode()`.
