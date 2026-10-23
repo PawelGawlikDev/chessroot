@@ -1,9 +1,11 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, signal, effect, inject, afterNextRender, Injector } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { LichessAuthService, LocalStorageService } from '@services';
@@ -24,6 +26,8 @@ import { isRouteReactivatable } from './route-reuse-strategy';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
+    MatTooltipModule,
+    NgOptimizedImage,
     KofiBannerComponent,
   ],
   templateUrl: './app.component.html',

@@ -46,16 +46,16 @@ This project uses **Yarn 4 (Berry)** with the `node-modules` linker. The version
 | Conventional commit (Commitizen)   | `yarn cz`                                                   |
 | Release (standard-version)         | `yarn release` (also `release:major`, `release:minor`)      |
 | Deploy to Cloudflare Workers       | `yarn deploy` (production), `yarn deploy:dev` (development) |
-| Finalize Sentry release            | `yarn sentry:release:finalize`                              |
 
 ### Sentry
 
-Errors are reported to the `pawe-gawlik/chessroot` project. Both deploy pipelines register a Sentry
-release (name from `SENTRY_RELEASE`, which CI sets to the git tag), upload source maps, then finalize the
-release after the Workers deploy.
+Errors and automatic Release Health sessions are reported to the `pawe-gawlik/chessroot` project.
+`src/main.ts` sets `release` to `v` + `package.json` version at SDK initialization; keep it aligned with
+the deployed git tag. Sentry creates releases automatically from SDK data. No manual release creation,
+finalization, deployment registration, or `SENTRY_RELEASE` variable is needed.
 
-- Environment reported to Sentry comes from `src/assets/deploy.json` (written by CI before the
-  build): `production` and `development` are separate environments in the Sentry UI.
+- Environment is compiled through `angular.json`'s `SENTRY_ENVIRONMENT` define: `production` by default,
+  `development` for debug/development builds. `yarn start` disables reporting through `isDevMode()`.
 - Production source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before upload.
   Development uses `yarn build:dev:release`, uploading and retaining JavaScript and CSS source maps
   for browser debugging. `yarn build:dev` builds without Sentry credentials for local inspection.
@@ -90,7 +90,10 @@ e2e/                -- Playwright end-to-end tests
 
 ## CI
 
-GitHub Actions runs on pull requests: `yarn install --frozen-lockfile` → `yarn lint` → `yarn test` on Node 22.
+GitHub Actions CI runs on owner pushes to `master` or manual dispatch, not external pull requests:
+`yarn install --frozen-lockfile` → `yarn lint` → `yarn test` on Node 22. All jobs check both `github.actor`
+and `github.triggering_actor` against `PawelGawlikDev`. Production deployments use the protected
+`production` environment and require owner approval. See `SECURITY.md` before changing these controls.
 
 ## Working in this repo (for agents)
 

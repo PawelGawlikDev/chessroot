@@ -70,24 +70,38 @@ yarn deploy:dev
 
 Deploys to Cloudflare Workers via Wrangler.
 
-Both deploys report errors to Sentry (`pawe-gawlik/chessroot`) and are tracked as releases. The
-environment comes from `src/assets/deploy.json`, which CI writes before building, so production and
-development stay separate in the Sentry UI:
+GitHub Actions jobs are restricted to `PawelGawlikDev` (including reruns). CI runs on owner pushes to
+`master` or manual dispatch; external PRs do not trigger CI. Tagged production deployments additionally
+require the owner's approval in the protected `production` environment. See [SECURITY.md](SECURITY.md)
+for the live tag/environment protections and the remaining Sentry/Cloudflare dashboard checks.
 
-- `v1.2.3` → `production`, `v1.2.3-dev.0` → `development`
-- local builds without deploy metadata → `production`, or `development` for `yarn start`
+Both deploys report errors and automatic Release Health sessions to Sentry (`pawe-gawlik/chessroot`).
+`src/main.ts` sets the release to `v` + the version in `package.json` before sessions start (for example,
+`v1.8.0`). Keep the package version aligned with the deployed git tag.
+
+- `yarn build` / `yarn deploy` → `production`
+- `yarn build:dev` / `yarn deploy:dev` → `development`
+- `yarn start` → Sentry disabled, so local testing does not affect release health
+
+The environment is compiled into the bundle through `angular.json`; no runtime metadata request is
+needed. Sentry creates releases automatically from incoming SDK data. Manual release creation,
+finalization, and deployment registration are not required for Release Health.
+
+Crash-free session metrics populate after deployment and real traffic, not during the build. The SDK
+tracks sessions automatically; with SDK v11 a session continues across SPA route changes. To identify
+users across sessions for Crash Free Users, call `Sentry.setUser({ id })` with an appropriate stable
+user ID after login and `Sentry.setUser(null)` after logout. User identification is optional and is not
+enabled by this setup.
 
 Production source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before the
-Workers upload. `SENTRY_RELEASE` is the release name (the git tag in CI, required for both environments'
-release builds), and `SENTRY_AUTH_TOKEN` (`org:ci` scope) is required for both deployment workflows.
-Locally the token goes in `.sentryclirc` (gitignored).
+Workers upload. `SENTRY_AUTH_TOKEN` (`org:ci` scope) is required for source-map uploads in both deployment
+workflows. Locally the token goes in `.sentryclirc` (gitignored).
 
 Development deployments use `yarn build:dev`: a production-optimized build with JavaScript and CSS
-source maps retained for browser debugging. `yarn build:dev:release` also registers the Sentry release
-and injects and uploads source maps, retaining them for deployment. The release is finalized after
-deployment, then a Sentry deploy record associates it with the target environment even if no errors
-have been received. To inspect the build locally without Sentry credentials, run `yarn build:dev`; local
-`yarn start` also enables source maps.
+source maps retained for browser debugging. `yarn build:dev:release` also injects and uploads source
+maps, retaining them for deployment. Debug IDs link errors to the uploaded maps without a
+`SENTRY_RELEASE` environment variable. To inspect the build locally without Sentry credentials, run
+`yarn build:dev`; local `yarn start` also enables source maps.
 
 ## Tests
 

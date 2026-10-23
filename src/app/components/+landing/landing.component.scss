@@ -30,6 +30,25 @@
     );
   }
 
+  &__affiliate {
+    margin-top: var(--cr-stack-md);
+
+    a {
+      min-height: 2.75rem;
+      max-width: 100%;
+      height: auto;
+      white-space: normal;
+      text-align: left;
+    }
+
+    p {
+      margin: var(--cr-stack-sm) 0 0;
+      color: var(--cr-on-surface-variant);
+      font-size: var(--cr-body-md-size);
+      line-height: 1.5;
+    }
+  }
+
   &__content {
     display: flex;
     flex-direction: column;

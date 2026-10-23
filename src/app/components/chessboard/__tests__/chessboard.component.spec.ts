@@ -1,8 +1,13 @@
 import { Component, input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Chess } from 'chess.js';
+import { Chessground } from 'chessground';
 
 import { ChessBoardComponent } from '../chessboard.component';
+
+vi.mock('chessground', () => ({
+  Chessground: vi.fn(() => ({ set: vi.fn(), destroy: vi.fn() })),
+}));
 
 @Component({
   selector: 'ngx-chessground',
@@ -40,6 +45,56 @@ describe('ChessBoardComponent', () => {
   it('should create', () => {
     const { component } = createComponent();
     expect(component).toBeTruthy();
+  });
+
+  it('should only allow the side to move to drag or select pieces', () => {
+    const { component } = createComponent({ interactive: true });
+    component.runFn()(document.createElement('div'));
+    expect(vi.mocked(Chessground).mock.lastCall?.[1]).toMatchObject({
+      turnColor: 'white',
+      movable: { color: 'white', free: false },
+      premovable: { enabled: false },
+    });
+  });
+
+  it('should update the movable color after moves and history navigation', () => {
+    const { fixture, component } = createComponent({ interactive: true });
+    const api = component.runFn()(document.createElement('div'));
+    const chess = new Chess();
+    chess.move('e4');
+    fixture.componentRef.setInput('fen', chess.fen());
+    fixture.componentRef.setInput('turnColor', 'black');
+    fixture.detectChanges();
+    expect(api.set).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        turnColor: 'black',
+        movable: expect.objectContaining({ color: 'black' }),
+        premovable: { enabled: false },
+      }),
+    );
+    fixture.componentRef.setInput('fen', new Chess().fen());
+    fixture.componentRef.setInput('turnColor', 'white');
+    fixture.detectChanges();
+    expect(api.set).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        turnColor: 'white',
+        movable: expect.objectContaining({ color: 'white' }),
+      }),
+    );
+  });
+
+  it('should disable movement when the board becomes non-interactive', () => {
+    const { fixture, component } = createComponent({ interactive: true });
+    const api = component.runFn()(document.createElement('div'));
+    fixture.componentRef.setInput('interactive', false);
+    fixture.detectChanges();
+    expect(api.set).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        movable: expect.objectContaining({ color: undefined }),
+        draggable: { enabled: false },
+        selectable: { enabled: false },
+      }),
+    );
   });
 
   it('should accept fen input', () => {

@@ -41,6 +41,12 @@ export interface NavigatorPly {
   move: { from: string; to: string; san: string } | null;
 }
 
+export interface NavigatorNode extends NavigatorPly {
+  id: number;
+  parentId: number | null;
+  ply: number;
+}
+
 export interface BookApiMove {
   san: string;
   white: number;

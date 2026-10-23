@@ -7,6 +7,18 @@
     <span class="app__spacer"></span>
 
     <div class="app__actions">
+      <a
+        mat-button
+        class="app__affiliate-btn"
+        href="https://www.chess.com/membership?ref_id=78564684"
+        target="_blank"
+        rel="sponsored noopener noreferrer"
+        aria-label="Chess.com Premium — affiliate link (opens in a new tab)"
+        matTooltip="Affiliate link: ChessRoot may earn a commission if you purchase a Chess.com Premium membership."
+        matTooltipPosition="below"
+      >
+        <img ngSrc="/assets/chesscom.svg" width="24" height="24" alt="" />
+      </a>
       @if ($hasHydrated() && auth.isLoggedIn()) {
         <button
           mat-button

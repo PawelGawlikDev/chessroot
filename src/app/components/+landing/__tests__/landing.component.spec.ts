@@ -53,6 +53,24 @@ describe('LandingComponent', () => {
     expect(supportLink?.textContent).toContain('Open Ko-fi');
   });
 
+  it('shows the disclosed Chess.com affiliate link near the homepage actions', () => {
+    const { fixture } = createComponent();
+    const promotion = (fixture.nativeElement as HTMLElement).querySelector('.hero__affiliate');
+    const link = promotion?.querySelector('a');
+    const url = new URL(link!.href);
+
+    expect(url.origin).toBe('https://www.chess.com');
+    expect(url.pathname).toBe('/membership');
+    expect(url.searchParams.get('ref_id')).toBe('78564684');
+    expect(link?.target).toBe('_blank');
+    expect(link?.relList.contains('sponsored')).toBe(true);
+    expect(link?.relList.contains('noopener')).toBe(true);
+    expect(link?.getAttribute('aria-label')).toContain('opens in a new tab');
+    const disclosure = promotion?.querySelector('#affiliate-disclosure');
+    expect(disclosure?.textContent).toContain('may earn a commission');
+    expect(link?.getAttribute('aria-describedby')).toBe(disclosure?.id);
+  });
+
   it('should have navigation links to explorer, insights, achievements', () => {
     const { fixture } = createComponent();
     const el = fixture.nativeElement as HTMLElement;

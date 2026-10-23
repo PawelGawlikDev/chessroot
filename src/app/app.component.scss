@@ -126,7 +126,8 @@
   }
 
   &__theme-btn,
-  &__more-btn {
+  &__more-btn,
+  &__affiliate-btn {
     min-width: 2.75rem;
     padding: 0;
     display: flex;
@@ -136,6 +137,15 @@
 
     .mat-icon {
       margin: 0 !important;
+    }
+  }
+
+  &__affiliate-btn {
+    width: 2.75rem;
+    height: 2.75rem;
+
+    img {
+      display: block;
     }
   }
 

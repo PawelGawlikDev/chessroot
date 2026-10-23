@@ -1,8 +1,13 @@
 name: CI
 
 on:
-  pull_request:
+  # External pull requests must not start Actions. The owner can run CI manually.
+  push:
     branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -10,9 +15,12 @@ concurrency:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'PawelGawlikDev' && github.triggering_actor == 'PawelGawlikDev' }}
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -21,9 +29,12 @@ jobs:
       - run: yarn lint
 
   test:
+    if: ${{ github.actor == 'PawelGawlikDev' && github.triggering_actor == 'PawelGawlikDev' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v6
         with:
           node-version: 22

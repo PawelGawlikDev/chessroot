@@ -97,7 +97,7 @@ describe('OpeningExplorerComponent', () => {
     updateConfig: ReturnType<typeof vi.fn>;
   };
   let seoService: { setSeo: ReturnType<typeof vi.fn> };
-  let dialog: { open: ReturnType<typeof vi.fn> };
+  let dialog: { open: ReturnType<typeof vi.fn>; openDialogs: unknown[] };
   let stockfish: {
     $enabled: ReturnType<typeof signal<boolean>>;
     $ready: ReturnType<typeof signal<boolean>>;
@@ -127,7 +127,7 @@ describe('OpeningExplorerComponent', () => {
       updateConfig: vi.fn(),
     };
     seoService = { setSeo: vi.fn() };
-    dialog = { open: vi.fn() };
+    dialog = { open: vi.fn(), openDialogs: [] };
     stockfish = {
       $enabled: signal(false),
       $ready: signal(false),
@@ -194,6 +194,64 @@ describe('OpeningExplorerComponent', () => {
     component.onBoardMove('e4');
 
     expect(component.$lastMove()).toEqual(['e2', 'e4']);
+  });
+
+  it('updates the board and closes continuation choices when editing the tree', () => {
+    component.onBoardMove('e4');
+    component.onBoardMove('e5');
+    component.onGoBack();
+    component.onBoardMove('c5');
+    const c5 = manager.currentId();
+    component.onPromoteNode(c5);
+    component.onReset();
+    expect(manager.line().at(-1)?.move?.san).toBe('c5');
+    component.onNavigateNode(c5);
+    component.onBoardMove('Nf3');
+    component.$pickerOpen.set(true);
+    component.onRemoveNode(c5);
+    expect(component.$pickerOpen()).toBe(false);
+    expect(component.$lastMove()).toEqual(['e2', 'e4']);
+    expect(manager.continuations().map((n) => n.move?.san)).toEqual(['e5']);
+  });
+
+  it('should choose branches with keyboard navigation and preserve history at Start', () => {
+    component.onBoardMove('e4');
+    component.onBoardMove('e5');
+    const mainFen = component.$fen();
+    component.onGoBack();
+    component.onBoardMove('c5');
+    const variationFen = component.$fen();
+    component.onGoBack();
+    component.onGoForward();
+    expect(component.$pickerOpen()).toBe(true);
+    component.onKeydown(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    component.onKeydown(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+    expect(component.$fen()).toBe(variationFen);
+    expect(component.$lastMove()).toEqual(['c7', 'c5']);
+    component.onGoBack();
+    component.onGoForward();
+    component.onChooseContinuation(0);
+    expect(component.$fen()).toBe(mainFen);
+    component.onReset();
+    expect(component.$currentIndex()).toBe(0);
+    expect(manager.nodes()).toHaveLength(4);
+  });
+
+  it('should not intercept navigation keys in forms or dialogs', () => {
+    component.onBoardMove('e4');
+    const input = document.createElement('input');
+    const event = new KeyboardEvent('keydown', {
+      key: 'ArrowLeft',
+      bubbles: true,
+      cancelable: true,
+    });
+    input.addEventListener('keydown', (key) => component.onKeydown(key));
+    input.dispatchEvent(event);
+    expect(component.$currentIndex()).toBe(1);
+    expect(event.defaultPrevented).toBe(false);
+    dialog.openDialogs.push({});
+    component.onKeydown(new KeyboardEvent('keydown', { key: 'Home' }));
+    expect(component.$currentIndex()).toBe(1);
   });
 
   it('should transform store book moves into board-aware moves', async () => {
