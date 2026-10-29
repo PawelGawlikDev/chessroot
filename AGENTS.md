@@ -35,7 +35,7 @@ This project uses **Yarn 4 (Berry)** with the `node-modules` linker. The version
 | Install dependencies               | `yarn install`                                              |
 | Dev server (http://localhost:4200) | `yarn start`                                                |
 | Production build (`dist/`)         | `yarn build`                                                |
-| Build + upload maps to Sentry      | `yarn build:release`                                        |
+| Build + upload maps to Sentry      | `yarn build:release` (prod), `yarn build:dev:release` (dev) |
 | Lint (ESLint)                      | `yarn lint`                                                 |
 | Format all files (Prettier)        | `yarn prettier`                                             |
 | Unit tests (Vitest)                | `yarn test`                                                 |
@@ -44,27 +44,37 @@ This project uses **Yarn 4 (Berry)** with the `node-modules` linker. The version
 | E2E tests (Playwright)             | `yarn e2e`                                                  |
 | E2E with debugger                  | `yarn e2e:debug`                                            |
 | Conventional commit (Commitizen)   | `yarn cz`                                                   |
-| Release (standard-version)         | `yarn release` (also `release:major`, `release:minor`)      |
+| Release (standard-version)         | `yarn release` (normally run by the Release workflow)       |
+| Promote release to production      | Run the **Deploy Production** workflow with the release tag |
 | Deploy to Cloudflare Workers       | `yarn deploy` (production), `yarn deploy:dev` (development) |
 
 ### Sentry
 
 Errors and automatic Release Health sessions are reported to the `pawe-gawlik/chessroot` project.
-`src/main.ts` sets `release` to `v` + `package.json` version at SDK initialization; keep it aligned with
-the deployed git tag. After successful CI deployment, `yarn sentry:release "$GITHUB_REF_NAME"` creates
-and finalizes the matching release in one command so it appears before any error events. Do not rely
-on healthy sessions or Debug ID uploads to create a visible release. No separate finalize/deployment
-registration command or `SENTRY_RELEASE` variable is needed. For manual deploys, run
-`yarn sentry:release vX.Y.Z` with the deployed version afterward.
+CI passes the release tag to the build as `SENTRY_RELEASE`, so `src/main.ts` reports exactly the
+deployed tag (for example `v1.10.0`); local builds fall back to `v` + the `package.json` version.
+After successful CI deployment, `yarn sentry:release <tag>` creates and finalizes the matching release
+in one command so it appears before any error events. Do not rely on healthy sessions or Debug ID
+uploads to create a visible release. No separate finalize/deployment registration command is needed.
+For manual deploys, run `yarn sentry:release vX.Y.Z` with the deployed version afterward.
+
+Release flow: merging to `master` runs the **Release** workflow, which bumps the version, commits,
+tags `vX.Y.Z`, and pushes; the tag push deploys development. The workflow uses the `RELEASE_TOKEN`
+secret (owner PAT with `contents: write`) because `GITHUB_TOKEN` pushes do not trigger other workflows
+or bypass the owner-only tag ruleset. Manual `yarn release` remains available. Production is promoted
+manually from the same tag through the **Deploy Production** workflow (`workflow_dispatch`), which
+checks out the tag and verifies that the development deployment for that commit succeeded.
 
 - Environment is compiled through `angular.json`'s `SENTRY_ENVIRONMENT` define: `production` by default,
-  `development` for debug/development builds. `yarn start` disables reporting through `isDevMode()`.
-- Production source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before upload.
-  Development uses `yarn build:dev:release`, uploading and retaining JavaScript and CSS source maps
-  for browser debugging. `yarn build:dev` builds without Sentry credentials for local inspection.
+  `development` for development builds. `yarn start` disables reporting through `isDevMode()`.
+- Both environments upload Debug ID artifact bundles. Production removes the `.map` files from `dist/`
+  before the Workers upload (`yarn build:release`); development retains them for browser debugging
+  (`yarn build:dev:release`). `yarn build:dev` builds without Sentry credentials for local inspection.
   `public/_headers` must allow the Sentry ingest hosts in `connect-src`.
 - Required CI secret: `SENTRY_AUTH_TOKEN` (scope `org:ci`). Locally it goes in `.sentryclirc`, which
   is gitignored. Never commit an auth token; the browser DSN in `src/main.ts` is public by design.
+- Required CI secret: `RELEASE_TOKEN` (owner PAT with `contents: write`) for the **Release** workflow
+  to push the release commit and tag. Do not reuse the Sentry token for this.
 
 ## Repository structure
 
@@ -94,9 +104,11 @@ e2e/                -- Playwright end-to-end tests
 ## CI
 
 GitHub Actions CI runs on owner pushes to `master` or manual dispatch, not external pull requests:
-`yarn install --frozen-lockfile` → `yarn lint` → `yarn test` on Node 22. All jobs check both `github.actor`
-and `github.triggering_actor` against `PawelGawlikDev`. Production deployments use the protected
-`production` environment and require owner approval. See `SECURITY.md` before changing these controls.
+`yarn install --frozen-lockfile` → `yarn lint` → `yarn test` on Node 22. A push to `master` also starts
+the **Release** workflow, which bumps/tags/pushes and lets the tag deploy development. All jobs check
+both `github.actor` and `github.triggering_actor` against `PawelGawlikDev`. Production deployments use
+the protected `production` environment and require owner approval. See `SECURITY.md` before changing
+these controls.
 
 ## Working in this repo (for agents)
 

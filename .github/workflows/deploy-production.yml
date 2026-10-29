@@ -1,37 +1,61 @@
 name: Deploy Production
 
 on:
-  push:
-    tags:
-      - v*.*.*
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag already deployed to development (for example v1.10.0). Leave empty when running from the tag ref.'
+        required: false
+        type: string
 
 permissions:
   contents: read
+  actions: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
 
 jobs:
   deploy:
-    if: ${{ github.actor == 'PawelGawlikDev' && github.triggering_actor == 'PawelGawlikDev' && !contains(github.ref_name, '-') }}
+    if: ${{ github.actor == 'PawelGawlikDev' && github.triggering_actor == 'PawelGawlikDev' }}
     environment: production
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v6
         with:
+          ref: ${{ inputs.tag || github.ref_name }}
           persist-credentials: false
       - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: yarn
       - run: yarn install --immutable
+      - name: Verify release tag
+        run: node scripts/check-release-version.mjs "${{ inputs.tag || github.ref_name }}" --stable
+      - name: Verify development deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(git rev-parse HEAD)
+          conclusion=$(gh api \
+            "repos/${{ github.repository }}/actions/workflows/deploy-dev.yml/runs?head_sha=$sha&per_page=1" \
+            --jq '.workflow_runs[0].conclusion')
+          if [ "$conclusion" != "success" ]; then
+            echo "Development deployment for $sha is '$conclusion', expected 'success'." >&2
+            exit 1
+          fi
       - run: yarn build:release
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_RELEASE: ${{ inputs.tag || github.ref_name }}
       - uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           command: deploy --env production
       - name: Register Sentry release
-        run: yarn sentry:release "$GITHUB_REF_NAME"
+        run: yarn sentry:release "${{ inputs.tag || github.ref_name }}"
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Log deployed commit
-        run: echo "Deployed commit ${{ github.sha }} (tag ${{ github.ref_name }}) to production"
+        run: echo "Deployed commit ${{ github.sha }} (tag ${{ inputs.tag || github.ref_name }}) to production"
