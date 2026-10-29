@@ -60,7 +60,7 @@ Adding an achievement: create the detector file → export it from `achievements
 
 ## Deploy & release
 
-`yarn deploy` / `yarn deploy:dev` run `ng build` then `wrangler deploy` to the `production` / `development` Worker env. CI does not deploy on push to `master`; deploys are triggered by version tags (`v*.*.*` → production, `v*.*.*-*` → dev) via `.github/workflows/`. `yarn release` / `release:dev` use `standard-version` (config in `.versionrc.json`) to bump, changelog, tag, and push. PR CI runs `yarn lint` and `yarn test` on Node 22.
+`yarn deploy` / `yarn deploy:dev` run `ng build` then `wrangler deploy` to the `production` / `development` Worker env. CI does not deploy on push to `master`. Merging to `master` runs `.github/workflows/release.yml`, which uses `standard-version` (config in `.versionrc.json`) to bump, changelog, tag (`vX.Y.Z`), and push with the `RELEASE_TOKEN` owner PAT; the tag push deploys development via `.github/workflows/deploy-dev.yml`. Production is promoted manually from the same tag through the **Deploy Production** `workflow_dispatch`, which checks out the tag and requires the development deployment for that commit to have succeeded. PR CI runs `yarn lint` and `yarn test` on Node 22.
 
 ## Conventions worth knowing
 

@@ -3,10 +3,14 @@ name: Deploy Dev
 on:
   push:
     tags:
-      - 'v*.*.*-*'
+      - 'v*.*.*'
 
 permissions:
   contents: read
+
+concurrency:
+  group: deploy-development
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -22,9 +26,12 @@ jobs:
           node-version: 22
           cache: yarn
       - run: yarn install --immutable
+      - name: Verify release tag
+        run: node scripts/check-release-version.mjs "$GITHUB_REF_NAME"
       - run: yarn build:dev:release
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_RELEASE: ${{ github.ref_name }}
       - uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

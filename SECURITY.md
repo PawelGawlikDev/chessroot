@@ -26,13 +26,19 @@ You should receive a response within 48 hours. If not, please follow up.
 - Workflows only execute jobs when both the event actor and rerun actor are `PawelGawlikDev`.
   CI runs on pushes to `master` or manual dispatch, not external pull requests. GitHub can still record
   a skipped workflow run for an unauthorized event; this does not execute its jobs.
-- Workflow tokens are read-only, and checkout does not persist credentials in the working tree.
+- Workflow tokens are read-only, and checkout does not persist credentials in the working tree. The
+  **Release** workflow additionally uses a repository-scoped `RELEASE_TOKEN` PAT for its push.
 - The live `Release tags - owner-admin only` ruleset restricts creation, updates, and deletion of
   `v*` tags to repository admins. Currently `PawelGawlikDev` is the only collaborator/admin; review
   this restriction before granting another account admin access.
 - The live `production` environment requires approval from `PawelGawlikDev`, disallows admin bypass,
-  and permits deployments only from `v*` tags. Self-approval is allowed for this solo-maintained project.
-  The `development` environment also permits only `v*` tags.
+  and permits deployments from `master` and from `v*` tags. Production is promoted through manual
+  `workflow_dispatch`; the workflow checks out the requested `v*` release tag, verifies that it matches
+  `package.json`, and confirms that the development deployment for the same commit succeeded. Running
+  it from `master` with the tag input (`gh workflow run deploy-production.yml -f tag=vX.Y.Z`) and from
+  the tag ref (`gh workflow run deploy-production.yml --ref vX.Y.Z`) are both supported.
+  Self-approval is allowed for this solo-maintained project. The `development` environment permits
+  only `v*` tags.
 - GitHub requires approval for all external fork contributors. Do not approve untrusted workflows.
   The workflow-file changes must be pushed before their job guards and environment references apply.
 
@@ -47,6 +53,12 @@ You should receive a response within 48 hours. If not, please follow up.
 - Use a Cloudflare API token scoped to the deployment account and only the permissions needed by
   the Workers deployment. Do not use a Global API Key or an all-accounts token. GitHub secrets cannot
   be read back to audit an existing token; review its permissions in the Cloudflare dashboard.
+- `RELEASE_TOKEN` is an owner-owned PAT used only by the **Release** workflow to push the version
+  commit and `v*` tag. Use a fine-grained token scoped to this repository with only `contents: write`;
+  do not reuse the Sentry or Cloudflare tokens. Its pushes are attributed to the owner so they pass
+  the owner-only tag ruleset and can trigger the development deployment workflow. `GITHUB_TOKEN`
+  cannot do this because its pushes do not trigger other workflows and are not covered by the
+  admin-only tag ruleset.
 
 ### Account-level follow-up
 

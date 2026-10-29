@@ -71,17 +71,6 @@
               ],
               "outputHashing": "all"
             },
-            "debug": {
-              "define": {
-                "SENTRY_ENVIRONMENT": "'development'"
-              },
-              "sourceMap": {
-                "scripts": true,
-                "styles": true,
-                "hidden": false,
-                "sourcesContent": true
-              }
-            },
             "development": {
               "define": {
                 "SENTRY_ENVIRONMENT": "'development'"

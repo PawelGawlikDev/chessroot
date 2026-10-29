@@ -60,6 +60,40 @@ invented ratings are needed. See [Google's AI search guidance](https://developer
 
 ## Deploy
 
+A release is versioned once and promoted from development to production. The git tag is the single
+source of truth for the version.
+
+Merging to `master` starts the **Release** workflow automatically. It:
+
+1. bumps the version and updates `CHANGELOG.md` with `standard-version`,
+2. commits the release and creates the `vX.Y.Z` tag,
+3. pushes the commit and tag back to `master`.
+
+The tag push then triggers **Deploy Dev**, so every merge to `master` goes live on development. The
+release commit itself is skipped by the workflow guard, so it does not create a second release.
+
+When the version is ready for production, run the **Deploy Production** workflow manually
+(`workflow_dispatch`) and enter the tag, for example `v1.10.0`. Production therefore never runs ahead
+of development, and both environments report the same version.
+
+The production workflow checks out the requested tag, verifies that the tag matches the `package.json`
+version, and requires the development deployment for the same commit to have succeeded. It also waits
+for approval in the protected `production` environment.
+
+The **Release** workflow needs a `RELEASE_TOKEN` secret: a fine-grained token with `contents: write`
+(or a classic token with the `repo` scope) owned by `PawelGawlikDev`. `GITHUB_TOKEN` cannot be used
+because its pushes do not trigger other workflows and do not bypass the owner-only tag ruleset.
+
+Manual releases remain possible:
+
+```bash
+yarn release
+```
+
+The release workflow skips the resulting release commit, but its tag push still deploys development.
+
+Local deploys remain available for emergencies:
+
 ```bash
 # Production
 yarn deploy
@@ -71,20 +105,30 @@ yarn deploy:dev
 Deploys to Cloudflare Workers via Wrangler.
 
 GitHub Actions jobs are restricted to `PawelGawlikDev` (including reruns). CI runs on owner pushes to
-`master` or manual dispatch; external PRs do not trigger CI. Tagged production deployments additionally
-require the owner's approval in the protected `production` environment. See [SECURITY.md](SECURITY.md)
-for the live tag/environment protections and the remaining Sentry/Cloudflare dashboard checks.
+`master` or manual dispatch; external PRs do not trigger CI. Production deployments run through manual
+dispatch and additionally require the owner's approval in the protected `production` environment. When
+using the tag input from `master`, the environment must allow the `master` branch; the workflow checks
+out and verifies the requested tag itself. To keep the environment restricted to `v*` tags, start the
+workflow from the tag ref instead:
+
+```bash
+gh workflow run deploy-production.yml --ref v1.10.0
+```
+
+See [SECURITY.md](SECURITY.md) for the live tag/environment protections and the remaining
+Sentry/Cloudflare dashboard checks.
 
 Both deploys report errors and automatic Release Health sessions to Sentry (`pawe-gawlik/chessroot`).
-`src/main.ts` sets the release to `v` + the version in `package.json` before sessions start (for example,
-`v1.8.0`). Keep the package version aligned with the deployed git tag.
+CI passes the git tag into the build as `SENTRY_RELEASE`, so the app reports exactly the released
+version (`v1.10.0`) even if `package.json` drifts; local builds fall back to `v` + the `package.json`
+version.
 
 - `yarn build` / `yarn deploy` → `production`
 - `yarn build:dev` / `yarn deploy:dev` → `development`
 - `yarn start` → Sentry disabled, so local testing does not affect release health
 
 The environment is compiled into the bundle through `angular.json`; no runtime metadata request is
-needed. After each successful CI deployment, `yarn sentry:release "$GITHUB_REF_NAME"` creates and
+needed. After each successful CI deployment, `yarn sentry:release` with the deployed tag creates and
 finalizes the matching release in one command. This makes it visible immediately, without waiting
 for an error event to auto-create it. Healthy sessions and Debug ID-only source-map uploads should
 not be relied on to create a visible release entry. No separate finalize or deployment-record step
@@ -96,15 +140,13 @@ users across sessions for Crash Free Users, call `Sentry.setUser({ id })` with a
 user ID after login and `Sentry.setUser(null)` after logout. User identification is optional and is not
 enabled by this setup.
 
-Production source maps are uploaded as Debug ID artifact bundles and deleted from `dist/` before the
-Workers upload. `SENTRY_AUTH_TOKEN` (`org:ci` scope) is required for source-map uploads and release
-registration in both deployment workflows. Locally the token goes in `.sentryclirc` (gitignored).
-
-Development deployments use `yarn build:dev`: a production-optimized build with JavaScript and CSS
-source maps retained for browser debugging. `yarn build:dev:release` also injects and uploads source
-maps, retaining them for deployment. Debug IDs link errors to the uploaded maps without a
-`SENTRY_RELEASE` environment variable. To inspect the build locally without Sentry credentials, run
-`yarn build:dev`; local `yarn start` also enables source maps.
+Both environments build with JavaScript source maps and upload them to Sentry as Debug ID artifact
+bundles. Development keeps the `.map` files in the deployed bundle for browser debugging;
+`yarn build:release` removes them from `dist/` before the production Workers upload.
+`SENTRY_AUTH_TOKEN` (`org:ci` scope) is required for source-map uploads and release registration in
+both deployment workflows. Locally the token goes in `.sentryclirc` (gitignored). Debug IDs link
+errors to the uploaded maps without a `SENTRY_RELEASE` environment variable. To inspect the build
+locally without Sentry credentials, run `yarn build:dev`; local `yarn start` also enables source maps.
 
 ## Tests
 

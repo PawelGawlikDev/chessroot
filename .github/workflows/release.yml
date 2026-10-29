@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  lint:
+    # The release commit pushed by this workflow must not trigger another release.
+    if: ${{ github.actor == 'PawelGawlikDev' && github.triggering_actor == 'PawelGawlikDev' && !startsWith(github.event.head_commit.message, 'chore(release):') }}
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: yarn
+      - run: yarn install --immutable
+      - run: yarn lint
+
+  test:
+    if: ${{ github.actor == 'PawelGawlikDev' && github.triggering_actor == 'PawelGawlikDev' && !startsWith(github.event.head_commit.message, 'chore(release):') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: yarn
+      - run: yarn install --immutable
+      - run: yarn test
+
+  release:
+    needs: [lint, test]
+    if: ${{ github.actor == 'PawelGawlikDev' && github.triggering_actor == 'PawelGawlikDev' && !startsWith(github.event.head_commit.message, 'chore(release):') }}
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: yarn
+      - run: yarn install --immutable
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Bump version and create tag
+        run: yarn exec standard-version
+      - name: Push release commit and tag
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          git push \
+            "https://x-access-token:${RELEASE_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:master --follow-tags
+      - name: Log release
+        run: echo "Released $(git describe --tags --abbrev=0); the tag triggers the development deployment"
