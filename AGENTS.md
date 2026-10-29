@@ -103,12 +103,12 @@ e2e/                -- Playwright end-to-end tests
 
 ## CI
 
-GitHub Actions CI runs on owner pushes to `master` or manual dispatch, not external pull requests:
-`yarn install --frozen-lockfile` → `yarn lint` → `yarn test` on Node 22. A push to `master` also starts
-the **Release** workflow, which bumps/tags/pushes and lets the tag deploy development. All jobs check
-both `github.actor` and `github.triggering_actor` against `PawelGawlikDev`. Production deployments use
-the protected `production` environment and require owner approval. See `SECURITY.md` before changing
-these controls.
+The **PR checks** workflow runs lint and tests on every pull request, including external PRs, on Node
+22 with read-only permissions and no deployment secrets. Owner pushes to `master` start **Release**,
+which bumps/tags/pushes without repeating checks; the tag deploys development. Production runs lint
+and tests again on the selected tag before building and deploying. Release and deployment jobs check
+both `github.actor` and `github.triggering_actor` against `PawelGawlikDev`. Production uses the protected
+`production` environment and requires owner approval. See `SECURITY.md` before changing these controls.
 
 ## Working in this repo (for agents)
 

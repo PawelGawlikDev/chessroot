@@ -23,9 +23,11 @@ You should receive a response within 48 hours. If not, please follow up.
 
 ## Repository and deployment controls
 
-- Workflows only execute jobs when both the event actor and rerun actor are `PawelGawlikDev`.
-  CI runs on pushes to `master` or manual dispatch, not external pull requests. GitHub can still record
-  a skipped workflow run for an unauthorized event; this does not execute its jobs.
+- Release and deployment jobs only execute when both the event actor and rerun actor are
+  `PawelGawlikDev`. **PR checks** runs lint and tests for every pull request, including forks, using
+  `pull_request` (not `pull_request_target`), read-only permissions, and no deployment secrets.
+  **Release** runs on owner pushes to `master` without repeating checks. Production runs lint and
+  tests on the selected release tag before building and deploying.
 - Workflow tokens are read-only, and checkout does not persist credentials in the working tree. The
   **Release** workflow additionally uses a repository-scoped `RELEASE_TOKEN` PAT for its push.
 - The live `Release tags - owner-admin only` ruleset restricts creation, updates, and deletion of
