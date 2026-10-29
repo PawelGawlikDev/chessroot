@@ -45,6 +45,8 @@ jobs:
             echo "Development deployment for $sha is '$conclusion', expected 'success'." >&2
             exit 1
           fi
+      - run: yarn lint
+      - run: yarn test --watch=false
       - run: yarn build:release
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}

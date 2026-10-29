@@ -9,13 +9,14 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { Chess } from 'chess.js';
-import { Chessground } from 'chessground';
 import type { Api } from 'chessground/api';
 import type { Config } from 'chessground/config';
 import type { DrawShape } from 'chessground/draw';
 import type { Key } from 'chessground/types';
 import { NgxChessgroundComponent } from 'ngx-chessground';
 import { toDests } from 'ngx-chessground';
+
+import { CHESSGROUND_FACTORY } from './chessground-factory';
 
 @Component({
   selector: 'cr-chess-board',
@@ -36,6 +37,7 @@ export class ChessBoardComponent {
 
   private groundApi = signal<Api | null>(null);
   private destroyRef = inject(DestroyRef);
+  private createGround = inject(CHESSGROUND_FACTORY);
 
   public runFn = signal<(el: HTMLElement) => Api>((el) => {
     const config: Config = {
@@ -75,7 +77,7 @@ export class ChessBoardComponent {
       animation: { enabled: true, duration: 400 },
       coordinates: true,
     };
-    const api = Chessground(el, config);
+    const api = this.createGround(el, config);
     this.groundApi.set(api);
     return api;
   });

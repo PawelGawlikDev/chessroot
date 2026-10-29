@@ -104,12 +104,14 @@ yarn deploy:dev
 
 Deploys to Cloudflare Workers via Wrangler.
 
-GitHub Actions jobs are restricted to `PawelGawlikDev` (including reruns). CI runs on owner pushes to
-`master` or manual dispatch; external PRs do not trigger CI. Production deployments run through manual
-dispatch and additionally require the owner's approval in the protected `production` environment. When
-using the tag input from `master`, the environment must allow the `master` branch; the workflow checks
-out and verifies the requested tag itself. To keep the environment restricted to `v*` tags, start the
-workflow from the tag ref instead:
+The **PR checks** workflow runs lint and tests on every pull request, including external PRs, with a
+read-only token and no deployment secrets. The **Release** workflow runs on owner pushes to `master`
+without repeating lint or tests. Release and deployment jobs remain owner-only, including reruns.
+Production runs lint and tests again on the selected tag before building and deploying through manual dispatch and
+additionally require the owner's approval in the protected `production` environment. When using the tag
+input from `master`, the environment must allow the `master` branch; the workflow checks out and verifies
+the requested tag itself. To keep the environment restricted to `v*` tags, start the workflow from the
+tag ref instead:
 
 ```bash
 gh workflow run deploy-production.yml --ref v1.10.0

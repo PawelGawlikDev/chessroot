@@ -1,13 +1,14 @@
 import { Component, input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Chess } from 'chess.js';
-import { Chessground } from 'chessground';
+import type { Api } from 'chessground/api';
 
 import { ChessBoardComponent } from '../chessboard.component';
+import { CHESSGROUND_FACTORY, type ChessgroundFactory } from '../chessground-factory';
 
-vi.mock('chessground', () => ({
-  Chessground: vi.fn(() => ({ set: vi.fn(), destroy: vi.fn() })),
-}));
+const createGround = vi.fn<ChessgroundFactory>(
+  () => ({ set: vi.fn(), destroy: vi.fn() }) as unknown as Api,
+);
 
 @Component({
   selector: 'ngx-chessground',
@@ -37,8 +38,10 @@ describe('ChessBoardComponent', () => {
   }
 
   beforeEach(() => {
+    createGround.mockClear();
     TestBed.configureTestingModule({
       imports: [ChessBoardComponent, MockNgxChessgroundComponent],
+      providers: [{ provide: CHESSGROUND_FACTORY, useValue: createGround }],
     });
   });
 
@@ -50,7 +53,7 @@ describe('ChessBoardComponent', () => {
   it('should only allow the side to move to drag or select pieces', () => {
     const { component } = createComponent({ interactive: true });
     component.runFn()(document.createElement('div'));
-    expect(vi.mocked(Chessground).mock.lastCall?.[1]).toMatchObject({
+    expect(createGround.mock.lastCall?.[1]).toMatchObject({
       turnColor: 'white',
       movable: { color: 'white', free: false },
       premovable: { enabled: false },
