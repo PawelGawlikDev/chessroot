@@ -78,13 +78,19 @@
     line-height: 1.4;
   }
 
+  &__section--board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   &__board-copy {
+    flex: 1;
     display: flex;
     gap: 1rem;
     min-width: 0;
   }
 
   &__opening-name {
+    min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -119,6 +125,7 @@
   }
 
   &__board-col {
+    min-width: 0;
     flex: 0 0 auto;
     align-self: flex-start;
     width: min(
@@ -171,6 +178,7 @@
 }
 
 .board-toolbar {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
