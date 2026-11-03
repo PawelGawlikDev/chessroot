@@ -205,6 +205,20 @@
     line-height: 1.6;
   }
 
+  &__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    a {
+      min-width: 0;
+      height: auto;
+      min-height: 2.75rem;
+      white-space: normal;
+    }
+  }
+
   &__bullets {
     margin: 0;
     padding-left: 1.1rem;

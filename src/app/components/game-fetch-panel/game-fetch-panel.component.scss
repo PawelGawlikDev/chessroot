@@ -73,7 +73,7 @@
     font-size: var(--cr-body-md-size);
     font-weight: 600;
     color: var(--cr-on-primary);
-    background: linear-gradient(135deg, var(--cr-primary) 0%, var(--cr-primary-container) 100%);
+    background: var(--cr-primary);
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(74, 222, 128, 0.2);
     transition:
