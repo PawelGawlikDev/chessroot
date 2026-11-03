@@ -50,7 +50,7 @@ describe('LandingComponent', () => {
       (link) => link.getAttribute('href') === 'https://ko-fi.com/N0F523L5OT',
     );
 
-    expect(supportLink?.textContent).toContain('Open Ko-fi');
+    expect(supportLink?.textContent?.trim()).toBe('Ko-fi →');
   });
 
   it('shows the disclosed Chess.com affiliate link near the homepage actions', () => {
@@ -67,6 +67,30 @@ describe('LandingComponent', () => {
     expect(link?.relList.contains('noopener')).toBe(true);
     expect(link?.getAttribute('aria-label')).toContain('opens in a new tab');
     const disclosure = promotion?.querySelector('#affiliate-disclosure');
+    expect(disclosure?.textContent).toContain('may earn a commission');
+    expect(link?.getAttribute('aria-describedby')).toBe(disclosure?.id);
+  });
+
+  it('shows the disclosed Chess.com referral link in the support card', () => {
+    const { fixture } = createComponent();
+    const supportCard = (fixture.nativeElement as HTMLElement).querySelector(
+      '.workspace-card--support',
+    );
+    const link = supportCard?.querySelector<HTMLAnchorElement>('a[href*="chess.com/membership"]');
+
+    expect(link).toBeTruthy();
+    const url = new URL(link!.href);
+    expect(url.origin).toBe('https://www.chess.com');
+    expect(url.pathname).toBe('/membership');
+    expect(url.searchParams.get('ref_id')).toBe('78564684');
+    expect(link?.textContent?.trim()).toBe('Chess.com Premium →');
+    expect(link?.target).toBe('_blank');
+    expect(link?.relList.contains('sponsored')).toBe(true);
+    expect(link?.relList.contains('noopener')).toBe(true);
+    expect(link?.relList.contains('noreferrer')).toBe(true);
+    expect(link?.getAttribute('aria-label')).toContain('opens in a new tab');
+
+    const disclosure = supportCard?.querySelector('#support-affiliate-disclosure');
     expect(disclosure?.textContent).toContain('may earn a commission');
     expect(link?.getAttribute('aria-describedby')).toBe(disclosure?.id);
   });
