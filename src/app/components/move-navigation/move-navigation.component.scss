@@ -68,7 +68,6 @@
     cursor: pointer;
     padding: 0.15rem 0.35rem;
     border-radius: var(--cr-rounded);
-    transition: background 0.15s;
 
     &:hover {
       background: var(--cr-surface-container-high);
@@ -77,7 +76,6 @@
     &--active {
       background: var(--mat-sys-primary);
       color: var(--mat-sys-on-primary);
-      font-weight: 700;
 
       &:hover {
         background: var(--mat-sys-primary);
@@ -95,6 +93,7 @@ button:focus-visible {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  scrollbar-gutter: stable;
   padding: 0.75rem 0.25rem;
   font-size: var(--cr-body-md-size);
   font-variant-numeric: tabular-nums;
