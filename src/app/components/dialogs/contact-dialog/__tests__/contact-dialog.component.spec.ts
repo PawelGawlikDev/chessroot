@@ -13,11 +13,6 @@ describe('ContactDialogComponent', () => {
     TestBed.configureTestingModule({ imports: [ContactDialogComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   it('should have 4 contacts', () => {
     const { component } = createComponent();
     expect(component.contacts.length).toBe(4);

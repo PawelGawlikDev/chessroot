@@ -36,11 +36,6 @@ describe('AchievementCategoryComponent', () => {
     TestBed.configureTestingModule({ imports: [AchievementCategoryComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent(mockCategory);
-    expect(component).toBeTruthy();
-  });
-
   it('should display category title', () => {
     const { fixture } = createComponent(mockCategory);
     const el = fixture.nativeElement as HTMLElement;

@@ -45,11 +45,6 @@ describe('ChessBoardComponent', () => {
     });
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   it('should only allow the side to move to drag or select pieces', () => {
     const { component } = createComponent({ interactive: true });
     component.runFn()(document.createElement('div'));

@@ -40,11 +40,6 @@ describe('AchievementCardComponent', () => {
     TestBed.configureTestingModule({ imports: [AchievementCardComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent(mockAchievement);
-    expect(component).toBeTruthy();
-  });
-
   it('should display achievement title', () => {
     const { fixture } = createComponent(mockAchievement);
     const el = fixture.nativeElement as HTMLElement;

@@ -59,5 +59,10 @@ jobs:
         run: yarn sentry:release "${{ inputs.tag || github.ref_name }}"
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      - name: Register Sentry production deployment
+        run: yarn sentry-cli releases deploys --org pawe-gawlik --project chessroot "$SENTRY_RELEASE" new --env production
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_RELEASE: ${{ inputs.tag || github.ref_name }}
       - name: Log deployed commit
         run: echo "Deployed commit ${{ github.sha }} (tag ${{ inputs.tag || github.ref_name }}) to production"

@@ -63,11 +63,6 @@ describe('GameFetchPanelComponent', () => {
     localStorage.clear();
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   it('should display the title', () => {
     const { fixture } = createComponent({ title: 'Achievements' });
     const el = fixture.nativeElement as HTMLElement;

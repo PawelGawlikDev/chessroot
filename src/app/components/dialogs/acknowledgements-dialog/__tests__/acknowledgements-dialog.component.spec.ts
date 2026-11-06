@@ -13,11 +13,6 @@ describe('AcknowledgementsDialogComponent', () => {
     TestBed.configureTestingModule({ imports: [AcknowledgementsDialogComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   it('should have 9 acknowledgements', () => {
     const { component } = createComponent();
     expect(component.acknowledgements.length).toBe(9);

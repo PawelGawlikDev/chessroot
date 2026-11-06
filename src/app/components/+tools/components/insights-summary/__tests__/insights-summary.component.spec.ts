@@ -17,11 +17,6 @@ describe('InsightsSummaryComponent', () => {
     TestBed.configureTestingModule({ imports: [InsightsSummaryComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   it('should display total games', () => {
     const { fixture } = createComponent({ totalGames: 500 });
     const el = fixture.nativeElement as HTMLElement;

@@ -29,11 +29,6 @@ describe('BookSettingsDialogComponent', () => {
     });
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   it('should initialize config from injected data', () => {
     const { component } = createComponent({
       bookType: 'masters',
