@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/PawelGawlikDev/chessroot/compare/v1.9.3...v1.10.0) (2026-11-06)
+
+### Features
+
+- add dev link in more options ([a480de1](https://github.com/PawelGawlikDev/chessroot/commit/a480de1079609919edd7747620eba9c8eb3c7025))
+
 ### [1.9.3](https://github.com/PawelGawlikDev/chessroot/compare/v1.9.2...v1.9.3) (2026-11-03)
 
 ### Bug Fixes
