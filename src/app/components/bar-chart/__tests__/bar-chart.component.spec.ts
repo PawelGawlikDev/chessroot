@@ -21,11 +21,6 @@ describe('BarChartComponent', () => {
     TestBed.configureTestingModule({ imports: [BarChartComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent('Test', []);
-    expect(component).toBeTruthy();
-  });
-
   it('should display the title', () => {
     const { fixture } = createComponent('Openings', mockRows);
     const el = fixture.nativeElement as HTMLElement;

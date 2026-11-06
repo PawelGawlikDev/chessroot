@@ -29,11 +29,6 @@ describe('InsightsDonutComponent', () => {
     TestBed.configureTestingModule({ imports: [InsightsDonutComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   it('should compute white win rate', () => {
     const { component } = createComponent({ whiteGames: 50, whiteWins: 25 });
     expect(component.$whiteWinRate()).toBe(50);

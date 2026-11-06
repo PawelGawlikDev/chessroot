@@ -26,11 +26,6 @@ describe('LandingComponent', () => {
     });
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   it('should display the hero title', () => {
     const { fixture } = createComponent();
     const el = fixture.nativeElement as HTMLElement;

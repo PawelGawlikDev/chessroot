@@ -72,11 +72,6 @@ describe('MovesTableComponent', () => {
     TestBed.configureTestingModule({ imports: [MovesTableComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   describe('simplify', () => {
     it('should format millions as M', () => {
       const { component } = createComponent();

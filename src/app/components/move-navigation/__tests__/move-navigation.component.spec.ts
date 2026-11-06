@@ -25,11 +25,6 @@ describe('MoveNavigationComponent', () => {
     TestBed.configureTestingModule({ imports: [MoveNavigationComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent(mockPlys, 0);
-    expect(component).toBeTruthy();
-  });
-
   describe('computed signals', () => {
     it('should compute canGoForward correctly', () => {
       const { component } = createComponent(mockPlys, 0);

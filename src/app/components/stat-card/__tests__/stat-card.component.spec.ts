@@ -15,11 +15,6 @@ describe('StatCardComponent', () => {
     TestBed.configureTestingModule({ imports: [StatCardComponent] });
   });
 
-  it('should create', () => {
-    const { component } = createComponent(42, 'Games');
-    expect(component).toBeTruthy();
-  });
-
   it('should display the value input', () => {
     const { fixture } = createComponent(99, 'Wins');
     const el = fixture.nativeElement as HTMLElement;

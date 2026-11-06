@@ -37,11 +37,6 @@ describe('UserDataFormComponent', () => {
   });
 
   describe('initial state', () => {
-    it('should create the component', () => {
-      const { component } = createComponent();
-      expect(component).toBeTruthy();
-    });
-
     it('should have empty username control', () => {
       const { component } = createComponent();
       expect(component.userDataForm.controls.username.value).toBe('');

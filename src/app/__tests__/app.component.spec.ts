@@ -74,11 +74,6 @@ describe('ChessRoot', () => {
     document.documentElement.classList.remove('dark-theme', 'light-theme');
   });
 
-  it('should create the component', () => {
-    const { component } = createComponent();
-    expect(component).toBeTruthy();
-  });
-
   it('should not add an affiliate footer below the routed workspace', () => {
     const { fixture } = createComponent();
     const el = fixture.nativeElement as HTMLElement;

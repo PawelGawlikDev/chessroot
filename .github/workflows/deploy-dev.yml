@@ -40,5 +40,9 @@ jobs:
         run: yarn sentry:release "$GITHUB_REF_NAME"
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      - name: Register Sentry development deployment
+        run: yarn sentry-cli releases deploys --org pawe-gawlik --project chessroot "$GITHUB_REF_NAME" new --env development
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Log deployed commit
         run: echo "Deployed commit ${{ github.sha }} (tag ${{ github.ref_name }}) to development"

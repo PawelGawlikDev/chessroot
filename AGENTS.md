@@ -54,9 +54,11 @@ Errors and automatic Release Health sessions are reported to the `pawe-gawlik/ch
 CI passes the release tag to the build as `SENTRY_RELEASE`, so `src/main.ts` reports exactly the
 deployed tag (for example `v1.10.0`); local builds fall back to `v` + the `package.json` version.
 After successful CI deployment, `yarn sentry:release <tag>` creates and finalizes the matching release
-in one command so it appears before any error events. Do not rely on healthy sessions or Debug ID
-uploads to create a visible release. No separate finalize/deployment registration command is needed.
-For manual deploys, run `yarn sentry:release vX.Y.Z` with the deployed version afterward.
+in one command so it appears before any error events. Each pipeline then registers a Sentry deployment
+for the same tag in its respective environment (`development` or `production`). Do not rely on healthy
+sessions or Debug ID uploads to create a visible release or associate it with an environment.
+For manual deploys, run `yarn sentry:release vX.Y.Z` with the deployed version afterward, followed by
+`yarn sentry-cli releases deploys --org pawe-gawlik --project chessroot vX.Y.Z new --env <environment>`.
 
 Release flow: merging to `master` runs the **Release** workflow, which bumps the version, commits,
 tags `vX.Y.Z`, and pushes; the tag push deploys development. The workflow uses the `RELEASE_TOKEN`
